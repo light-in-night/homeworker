@@ -12,7 +12,7 @@ public class SQLConnectionFactoryTest {
     @Test
     public void getConnection() {
         try {
-            assertNotNull(SQLConnectionFactory.getConnection());
+            assertNotNull(new SQLConnectionFactory().getConnection());
         } catch (SQLException e) {
             e.printStackTrace();
         }
