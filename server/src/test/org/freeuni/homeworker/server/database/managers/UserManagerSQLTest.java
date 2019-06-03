@@ -1,23 +1,20 @@
 package org.freeuni.homeworker.server.database.managers;
 
-import javafx.beans.binding.BooleanExpression;
 import org.freeuni.homeworker.server.database.managers.user.BooleanWraper;
 import org.freeuni.homeworker.server.database.managers.user.MockUserConnection;
 import org.freeuni.homeworker.server.database.managers.user.MockUserPrepearedStatement;
 import org.freeuni.homeworker.server.database.managers.user.MockUserResultSet;
-import org.freeuni.homeworker.server.database.source.SQLConnectionFactory;
+import org.freeuni.homeworker.server.database.managers.users.UserManagerSQL;
+import org.freeuni.homeworker.server.database.source.ConnectionPoolFactory;
 import org.freeuni.homeworker.server.model.user.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 
 public class UserManagerSQLTest {
@@ -35,14 +32,14 @@ public class UserManagerSQLTest {
     @Before
     public void setUp() {
         connection  = new MockUserConnection();
-        userManagerSQL = new UserManagerSQL(Collections.<Connection>singletonList(connection));
+        userManagerSQL = new UserManagerSQL(ConnectionPoolFactory.buildConnectionPool(Collections.<Connection>singletonList(connection)));
         validUser = new User(1L, "Guga", "Tkesheladze", "Male", "email", "password");
         invalidUser = new User(1L, "Guga", "Tkesheladze", "Male", "email", null);
     }
 
     @Test(expected = IllegalStateException.class)
     public void UserManagerSQLConstructorTest1() {
-        new UserManagerSQL(new ArrayList<Connection>());
+        new UserManagerSQL(ConnectionPoolFactory.buildConnectionPool(new ArrayList<Connection>()));
     }
 
 
@@ -53,11 +50,7 @@ public class UserManagerSQLTest {
 
     @Test
     public void UserManagerSQLTest3() {
-        try {
-            new UserManagerSQL(SQLConnectionFactory.getConnectionList(20));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        new UserManagerSQL(ConnectionPoolFactory.buildConnectionPool(20));
     }
 
     @Test

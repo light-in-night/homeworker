@@ -12,7 +12,7 @@
 </head>
 <body>
     <h1>Get Json from your name, can you believe it?</h1>
-    <form action="/server_war/service" method="get">
+    <form action="/service" method="get">
         <label>First Name</label> <input type="text" name="firstName"> <br>
         <label>Last Name</label>  <input type="text" name="lastName"> <br>
         <input type="submit" name="Gachite!">

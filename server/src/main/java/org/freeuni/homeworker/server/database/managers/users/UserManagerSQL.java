@@ -1,6 +1,7 @@
-package org.freeuni.homeworker.server.database.managers;
+package org.freeuni.homeworker.server.database.managers.users;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.freeuni.homeworker.server.database.source.ConnectionPool;
 import org.freeuni.homeworker.server.model.user.User;
 import org.freeuni.homeworker.server.model.user.UserFactory;
 import org.slf4j.Logger;
@@ -10,15 +11,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 /*
  * This class is implementation of
  * @code UserManager interface
  */
-@SuppressWarnings("WeakerAccess")
 public class UserManagerSQL implements UserManager {
 
 	private static Logger log = LoggerFactory.getLogger(UserManagerSQL.class);
@@ -32,15 +29,14 @@ public class UserManagerSQL implements UserManager {
 	@SuppressWarnings("SqlResolve")
 	private static final String FIND_USER_BY_EMAIL = "SELECT id, first_name, last_name, gender, email, password FROM users WHERE email = ?"; // query literal used for querying users by email
 
-	// blocking queue this will serve as a connection pool for this class its max size will be number of connections that will be passed to it in constructor
-	private BlockingQueue<Connection> availableConnections;
+	// connection pool
+	private ConnectionPool connectionPool;
 
-	public UserManagerSQL(List<Connection> connections) {
-		if (connections != null && connections.size() > 0) { // assert that number of connections passed is more than zero if thats not so this class has no function.
-			availableConnections = new ArrayBlockingQueue<>(connections.size()); //initialize new pool
-			availableConnections.addAll(connections); // use add all because there is no constraint with queue capacity it is exactly the size of the list passed
+	public UserManagerSQL(ConnectionPool connectionPool) {
+		if (connectionPool != null) {
+			this.connectionPool = connectionPool;
 		} else {
-			throw new IllegalStateException("At least one connection should be passed to UserManagerSQL"); // throw new exception to say that illegal state was detected
+			throw new IllegalStateException("Illegal state during creation of UserManagerSQL class.");
 		}
 	}
 
@@ -52,7 +48,7 @@ public class UserManagerSQL implements UserManager {
     		Connection connection;
 
     		try {
-				connection = availableConnections.take(); // try to acquire connection
+				connection = connectionPool.acquireConnection(); // try to acquire connection
 			} catch (InterruptedException e) {
     			log.info("Thread was interrupted.", e);  // if thread is interrupted return false
 				return false;
@@ -61,18 +57,18 @@ public class UserManagerSQL implements UserManager {
     		try {
 				PreparedStatement insertStatement = connection.prepareStatement(ADD_USER);
 				insertStatement.setString(1, user.getFirstName());
-				insertStatement.setString(2, user.getLastName());
+				insertStatement.setString(2, user.getLastName()); // insert new row
 				insertStatement.setString(3, user.getGender());
 				insertStatement.setString(4, user.getEmail());
 				insertStatement.setString(5, user.getPassword());
 				insertStatement.executeUpdate();
 			} catch (SQLException e) {
 				log.info("Sql exception was cached.", e);
-				availableConnections.add(connection);
+				connectionPool.putBackConnection(connection); // put back  connection if there is an exception
 				return false;
 			}
 
-    		availableConnections.add(connection);
+    		connectionPool.putBackConnection(connection); // return connection to pool
     		return true;
 		}  else {
     		log.info("Received user was not a valid one.");
@@ -85,7 +81,7 @@ public class UserManagerSQL implements UserManager {
 		Connection connection;
 
 		try {
-			connection = availableConnections.take();
+			connection = connectionPool.acquireConnection();
 		} catch (InterruptedException e) {
 			log.info("Thread was interrupted.", e);
 			return null;
@@ -98,12 +94,12 @@ public class UserManagerSQL implements UserManager {
 			preparedStatement.setLong(1, id);
 			resultSet = preparedStatement.executeQuery();
 		} catch (SQLException e) {
-			log.info("Sql exception was cached.", e);
-			availableConnections.add(connection);
+			log.info("Sql exception was caught.", e);
+			connectionPool.putBackConnection(connection);
 			return null;
 		}
 
-		availableConnections.add(connection);
+		connectionPool.putBackConnection(connection);
 		return UserFactory.fromResultSet(resultSet);
 	}
 
@@ -112,7 +108,7 @@ public class UserManagerSQL implements UserManager {
 		Connection connection;
 
 		try {
-			connection = availableConnections.take();
+			connection = connectionPool.acquireConnection();
 		} catch (InterruptedException e) {
 			log.info("Thread was interrupted.", e);
 			return null;
@@ -126,11 +122,11 @@ public class UserManagerSQL implements UserManager {
 			resultSet = preparedStatement.executeQuery();
 		} catch (SQLException e) {
 			log.info("Sql exception was cached.", e);
-			availableConnections.add(connection);
+			connectionPool.putBackConnection(connection);
 			return null;
 		}
 
-		availableConnections.add(connection);
+		connectionPool.putBackConnection(connection);
 		return UserFactory.fromResultSet(resultSet);
 	}
 }
