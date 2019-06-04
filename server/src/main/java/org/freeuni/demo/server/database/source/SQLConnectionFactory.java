@@ -7,8 +7,8 @@ import java.sql.SQLException;
 public class SQLConnectionFactory {
 
     public static Connection getConnection() throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:mysql://" + MyDBInfo.MYSQL_DATABASE_SERVER, MyDBInfo.MYSQL_USERNAME, MyDBInfo.MYSQL_PASSWORD);
-        connection.createStatement().executeQuery("USE " + MyDBInfo.MYSQL_DATABASE_NAME);
-        return connection;
+      Connection connection = DriverManager.getConnection("jdbc:mysql://" + MyDBInfo.MYSQL_DATABASE_SERVER, MyDBInfo.MYSQL_USERNAME, MyDBInfo.MYSQL_PASSWORD);
+      connection.createStatement().executeQuery("USE " + MyDBInfo.MYSQL_DATABASE_NAME);
+      return connection;
     }
 }

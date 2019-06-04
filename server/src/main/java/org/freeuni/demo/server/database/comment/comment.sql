@@ -5,13 +5,14 @@ DROP TABLE IF EXISTS comment;
 
 CREATE TABLE comment (
     id BIGINT primary key,
+    userId BIGINT,
     postId BIGINT,
     commentText varchar(369)
 );
 
 INSERT INTO comment VALUES
-(1,1,"good"),
-(2,1,"like"),
-(3,1,"shit"),
-(4,2,"nice"),
-(5,2,"fuck you");
+(1,1,1,"good"),
+(2,1,2,"like"),
+(3,1,3,"shit"),
+(4,2,1,"nice"),
+(5,2,2,"fuck you");

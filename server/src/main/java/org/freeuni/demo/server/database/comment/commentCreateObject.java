@@ -8,6 +8,9 @@ public class commentCreateObject implements Serializable {
     @JsonProperty("id")
     private long id;
 
+    @JsonProperty("userId")
+    private long userId;
+
     @JsonProperty("postId")
     private long postId;
 
@@ -16,11 +19,15 @@ public class commentCreateObject implements Serializable {
 
     public void commentCreate(long id, long postId, String text){
         this.id = id;
+        this.userId = userId;
         this.postId = postId;
         this.text = text;
     }
     public long getid() {
         return id;
+    }
+    public long getUserID() {
+        return userId;
     }
     public long getPostID() {
         return postId;

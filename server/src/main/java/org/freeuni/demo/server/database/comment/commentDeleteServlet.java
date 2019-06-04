@@ -10,14 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "commentCreateServlet")
-public class commentCreateServlet extends HttpServlet  {
+@WebServlet(name = "commentDeleteServlet")
+public class commentDeleteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String JSONObject = request.getParameter("json");
             ObjectMapper objectMapper = new ObjectMapper();
             commentCreateObject commentCreateObject = objectMapper.readValue(JSONObject, commentCreateObject.class);
-            new commentManagerSQL().addComment(commentCreateObject.getid(),commentCreateObject.getUserID(),commentCreateObject.getPostID(),commentCreateObject.getCommentText());
+            new commentManagerSQL().deleteComment(commentCreateObject.getid());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -27,7 +27,3 @@ public class commentCreateServlet extends HttpServlet  {
         doGet(request, response);
     }
 }
-
-
-
-
