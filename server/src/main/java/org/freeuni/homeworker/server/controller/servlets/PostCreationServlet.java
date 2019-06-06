@@ -22,7 +22,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "PostCreationServlet", urlPatterns = "/createpost")
+
+@SuppressWarnings("RedundantThrows")
+@WebServlet(name = "PostMakingServlet", urlPatterns = {"/secure/createPost"})
 public class PostCreationServlet extends HttpServlet {
 
     /**

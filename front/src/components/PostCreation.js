@@ -24,8 +24,8 @@ class PostCreation extends Component{
         fetch('http://localhost:80/getcategory')
         .then(response => response.json())
         .then(response => {
-            // console.log("current state is " + this.state);
-            // console.log("response is " + response);
+            console.log("current state is " + this.state);
+            console.log("response is " + response);
             this.setState({categories : response.categories})
         })
         .catch(e => console.log(e))
@@ -45,7 +45,6 @@ class PostCreation extends Component{
     handleContentChange = (e) => {
         this.setState({contents: e.target.value});
     };
-
 
     render() {
         return (

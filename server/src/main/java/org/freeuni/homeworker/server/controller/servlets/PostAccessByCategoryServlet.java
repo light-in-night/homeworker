@@ -28,7 +28,6 @@ public class PostAccessByCategoryServlet extends HttpServlet {
      * example : {
      *      STATUS : "OK",
      *      ERROR_MESSAGE : "",
-     *
      *      posts : [{
      *          "id" : 1234,
      *          "userId" : 123,

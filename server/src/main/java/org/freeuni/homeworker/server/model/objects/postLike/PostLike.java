@@ -1,8 +1,6 @@
 package org.freeuni.homeworker.server.model.objects.postLike;
 
 
-
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

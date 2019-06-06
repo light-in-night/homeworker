@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/register")
+@WebServlet(name = "UserRegistrationServlet", urlPatterns = {"/register"})
 public class UserRegistrationServlet extends HttpServlet {
 
 

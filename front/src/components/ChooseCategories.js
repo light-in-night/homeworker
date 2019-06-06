@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {ButtonGroup, ToggleButton} from 'react-bootstrap';
+import {ButtonGroup, ToggleButton, ListGroup} from 'react-bootstrap';
 import CategoryItem from "./CategoryItem";
 import '../App.css';
 
@@ -20,18 +20,23 @@ class ChooseCategories extends Component {
 
     render() {
         return (
-            <div classname="category-box">
+            // <div classname="category-box">
                 <div>
+                <ListGroup >
                 {this.state.categories.map((category) => {
                    return (
-                    <div className="category-item" onClick={(e) => this.addCategoryToSelected(e, category)}>
-                        <p>{category.categoryName}</p>
-                        <p>{category.description}}</p>
-                    </div>
+                        <ListGroup.Item action href={"#choose" + category.categoryName}>
+                           {category.categoryName}
+                        </ListGroup.Item>
+                    // <div className="category-item" onClick={(e) => this.addCategoryToSelected(e, category)}>
+                    //     <p>{category.categoryName}</p>
+                    //     <p>{category.description}}</p>
+                    // </div>
                    )
                 })}
+                </ListGroup>
                 </div>
-            </div>
+            // </div>
         );
     }
 }

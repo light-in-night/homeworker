@@ -13,8 +13,12 @@ class Login extends Component {
 
     login = (e) => {
         e.preventDefault();
-        if(!this.validateUser()){
-            console.error("Fields are invalid.")
+        if(this.validateUser() === false){
+            
+            return;
+        }
+        if(this.state.password !== this.state.repeatedPassword){
+            //Inform That Password Mismatch
             return;
         }
 
@@ -31,12 +35,13 @@ class Login extends Component {
     };
     
     validateUser = () => {
-        let valid = this.state.firstName !== "";
-        valid = valid && this.state.email !== "";  
-        valid = valid && this.state.password !== "";
+        this.state.email = this.state.email.trim();
+        this.state.password = this.state.password.trim();
+        let valid = this.state.email.length > 0 &&
+        this.state.password.length >= 0;
         return valid;
     }
-
+    
     handleEmailChange = (e) => {
         this.setState({email: e.target.value});
     };
@@ -44,11 +49,15 @@ class Login extends Component {
         this.setState({password: e.target.value});
     };
     
+
     render() {
         return (
             <div id="loginBody">
             <form>
             <ul className="loginFormList">
+                <li>
+                    <h3 className="loginHeader">Enter Yout Account Infiromation Here</h3>
+                </li>
                 <li>
                     <label htmlFor="email">Email</label>
                     <input type="email" id="email" placeholder="Enter Your Email Here" onChange={this.handleEmailChange}/>
