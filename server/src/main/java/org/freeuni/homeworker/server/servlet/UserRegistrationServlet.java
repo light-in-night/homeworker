@@ -47,6 +47,12 @@ public class UserRegistrationServlet extends HttpServlet {
 				response.setStatus(ResponseStatus.ERROR.name());
 				response.setMessage("Error occurred during user addition. See server log for info.");
 			}
+			resp.setHeader("Access-Control-Allow-Origin", "*");
+			resp.setHeader("Access-Control-Allow-Credentials", "true");
+			resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+			resp.setHeader("Access-Control-Max-Age", "3600");
+			resp.setHeader("Access-Control-Allow-Headers", "Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+			resp.setHeader("Content-Type", "application/json");
 			resp.getWriter().write(objectMapper.writeValueAsString(response));
 		} catch (IOException e) {
 			log.error("Error occurred during reading json value from the string.", e);
