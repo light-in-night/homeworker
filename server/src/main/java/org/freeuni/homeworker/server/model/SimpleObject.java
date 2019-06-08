@@ -1,7 +1,7 @@
-package org.freeuni.demo.server.model;
+package org.freeuni.homeworker.server.model;
 
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
