@@ -22,8 +22,8 @@ public class ServletInitListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
 		ServletContext servletContext = servletContextEvent.getServletContext(); //acquire servlet context after initialization
 		ObjectMapper objectMapper = new ObjectMapper(); // get object mapper which is thread safe object so can be used
-		servletContext.setAttribute(Constants.OBJECT_MAPPER, objectMapper); // put mapper into servlet context
-		servletContext.setAttribute(Constants.USER_MANAGER, new UserManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_USER_MANAGER)));
+		servletContext.setAttribute(ContextKeys.OBJECT_MAPPER, objectMapper); // put mapper into servlet context
+		servletContext.setAttribute(ContextKeys.USER_MANAGER, new UserManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_USER_MANAGER)));
 	}
 
 	@Override

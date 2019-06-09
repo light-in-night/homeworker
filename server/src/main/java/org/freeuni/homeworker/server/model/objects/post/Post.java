@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.sql.Timestamp;
 
 
-@JsonInclude(JsonInclude.Include.NON_NULL) // annotation to include null values when converted to json
+@JsonInclude(JsonInclude.Include.NON_NULL) // annotation to (not) include null values when converted to json
 public class Post {
 
     @JsonProperty("id")
@@ -21,8 +21,8 @@ public class Post {
     @JsonProperty("rating")
     private long rating;
 
-    @JsonProperty("creationtimestamp")
-    private Timestamp creationtimestamp;
+    @JsonProperty("creationTimestamp")
+    private Timestamp creationTimestamp;
 
     @JsonProperty("category")
     private String category;
@@ -70,12 +70,12 @@ public class Post {
                 '}';
     }
 
-    public Timestamp getCreationtimestamp() {
-        return creationtimestamp;
+    public Timestamp getCreationTimestamp() {
+        return creationTimestamp;
     }
 
-    public void setCreationtimestamp(Timestamp creationtimestamp) {
-        this.creationtimestamp = creationtimestamp;
+    public void setCreationTimestamp(Timestamp creationTimestamp) {
+        this.creationTimestamp = creationTimestamp;
     }
 
     public long getRating() {

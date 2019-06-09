@@ -49,6 +49,10 @@ public class UserManagerSQL implements UserManager {
 
     		try {
 				connection = connectionPool.acquireConnection(); // try to acquire connection
+				if (connection == null) {
+					log.info("Server is stopped can't persist more data.");
+					return false;
+				}
 			} catch (InterruptedException e) {
     			log.info("Thread was interrupted.", e);  // if thread is interrupted return false
 				return false;
@@ -83,6 +87,10 @@ public class UserManagerSQL implements UserManager {
 
 		try {
 			connection = connectionPool.acquireConnection();
+			if (connection == null) {
+				log.info("Server is stopped can't persist more data.");
+				return null;
+			}
 		} catch (InterruptedException e) {
 			log.info("Thread was interrupted.", e);
 			return null;
@@ -110,6 +118,10 @@ public class UserManagerSQL implements UserManager {
 
 		try {
 			connection = connectionPool.acquireConnection();
+			if (connection == null) {
+				log.info("Server is stopped can't get more data.");
+				return null;
+			}
 		} catch (InterruptedException e) {
 			log.info("Thread was interrupted.", e);
 			return null;
@@ -129,5 +141,10 @@ public class UserManagerSQL implements UserManager {
 
 		connectionPool.putBackConnection(connection);
 		return UserFactory.fromResultSet(resultSet);
+	}
+
+	@Override
+	public void destroyManager() {
+		connectionPool.destroy();
 	}
 }

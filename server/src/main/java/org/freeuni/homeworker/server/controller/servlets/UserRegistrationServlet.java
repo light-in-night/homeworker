@@ -1,7 +1,7 @@
 package org.freeuni.homeworker.server.controller.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.freeuni.homeworker.server.controller.listeners.Constants;
+import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.users.UserManager;
 import org.freeuni.homeworker.server.model.objects.response.Response;
 import org.freeuni.homeworker.server.model.objects.response.ResponseStatus;
@@ -39,10 +39,10 @@ public class UserRegistrationServlet extends HttpServlet {
 			log.error("Error occurred during reading request.", e);
 		}
 
-		ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(Constants.OBJECT_MAPPER);
+		ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
 		try {
 			User user = objectMapper.readValue(stringBuilder.toString(), User.class);
-			UserManager userManager = (UserManager) getServletContext().getAttribute(Constants.USER_MANAGER);
+			UserManager userManager = (UserManager) getServletContext().getAttribute(ContextKeys.USER_MANAGER);
 			Response response = new Response();
 			if (userManager.addUser(user)) {
 				response.setStatus(ResponseStatus.OK.name());

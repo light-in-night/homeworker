@@ -1,6 +1,6 @@
 package org.freeuni.homeworker.server.controller.listeners;
 
-public interface Constants {
+public interface ContextKeys {
 
 	String OBJECT_MAPPER = "objectMapper";
 

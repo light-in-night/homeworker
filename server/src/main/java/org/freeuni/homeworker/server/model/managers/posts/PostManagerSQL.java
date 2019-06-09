@@ -1,13 +1,17 @@
 package org.freeuni.homeworker.server.model.managers.posts;
 
+import org.freeuni.homeworker.server.controller.servlets.UserRegistrationServlet;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 import org.freeuni.homeworker.server.model.objects.post.PostFactory;
 import org.freeuni.homeworker.server.model.source.ConnectionPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.List;
 
 public class PostManagerSQL implements PostManager {
+
     private static final String ADD_POST =
             "INSERT INTO posts (userId_FK, content) \n" +
                     "VALUES \n" +
@@ -33,6 +37,9 @@ public class PostManagerSQL implements PostManager {
 
     private final ConnectionPool connectionPool;
 
+    private static Logger log = LoggerFactory.getLogger(UserRegistrationServlet.class);
+
+
     public PostManagerSQL(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
@@ -48,6 +55,10 @@ public class PostManagerSQL implements PostManager {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
+            if (connection == null) {
+                log.info("Server is stopped can't persist more data.");
+                return;
+            }
             PreparedStatement preparedStatement = connection.prepareStatement(ADD_POST);
             preparedStatement.setLong(1, post.getUser_id());
             preparedStatement.setString(2, post.getContents());
@@ -71,6 +82,10 @@ public class PostManagerSQL implements PostManager {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
+            if (connection == null) {
+                log.info("Server is stopped can't get more data.");
+                return null;
+            }
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID);
             preparedStatement.setLong(1, post_id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -97,6 +112,10 @@ public class PostManagerSQL implements PostManager {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
+            if (connection == null) {
+                log.info("Server is stopped can't persist more data.");
+                return null;
+            }
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_USER_ID);
             preparedStatement.setLong(1, user_id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -124,6 +143,10 @@ public class PostManagerSQL implements PostManager {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
+            if (connection == null) {
+                log.info("Server is stopped can't persist more data.");
+                return null;
+            }
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BETWEEN_TIMES);
             preparedStatement.setTimestamp(1, start);
             preparedStatement.setTimestamp(2, end);
@@ -144,6 +167,10 @@ public class PostManagerSQL implements PostManager {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
+            if (connection == null) {
+                log.info("Server is stopped can't persist more data.");
+                return;
+            }
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID);
             preparedStatement.setLong(1, post_id);
             preparedStatement.setString(1, correctedContains);
@@ -162,6 +189,10 @@ public class PostManagerSQL implements PostManager {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
+            if (connection == null) {
+                log.info("Server is stopped can't persist more data.");
+                return;
+            }
             PreparedStatement preparedStatement = connection
                     .prepareStatement(UPDATE_RATING);
             preparedStatement.setLong(1, diff);
@@ -174,5 +205,10 @@ public class PostManagerSQL implements PostManager {
                 connectionPool.putBackConnection(connection);
             }
         }
+    }
+
+    @Override
+    public void destroyManager() {
+        connectionPool.destroy();
     }
 }

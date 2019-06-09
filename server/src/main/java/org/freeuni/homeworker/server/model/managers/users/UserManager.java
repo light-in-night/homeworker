@@ -1,12 +1,13 @@
 package org.freeuni.homeworker.server.model.managers.users;
 
+import org.freeuni.homeworker.server.model.managers.AbstractManager;
 import org.freeuni.homeworker.server.model.objects.user.User;
 
 /*
  * This interface is to manage users it is responsible for
  * saving and reading users form the database of choice.
  */
-public interface UserManager {
+public interface UserManager extends AbstractManager {
 
     boolean addUser(User user); // simple add user method
 

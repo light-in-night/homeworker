@@ -13,7 +13,7 @@ public class PostFactory {
             post.setId(resultSet.getLong("id"));
             post.setUserId(resultSet.getLong("userId_FK"));
             post.setContents(resultSet.getString("content"));
-            post.setCreationtimestamp(resultSet.getTimestamp("creationtimestamp"));
+            post.setCreationTimestamp(resultSet.getTimestamp("creationtimestamp"));
             post.setCategory(resultSet.getString("category"));
             return post;
         } catch (SQLException e) {
