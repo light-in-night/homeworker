@@ -6,7 +6,7 @@ import org.freeuni.homeworker.server.database.managers.user.MockUserPrepearedSta
 import org.freeuni.homeworker.server.database.managers.user.MockUserResultSet;
 import org.freeuni.homeworker.server.database.managers.users.UserManagerSQL;
 import org.freeuni.homeworker.server.database.source.ConnectionPoolFactory;
-import org.freeuni.homeworker.server.model.user.User;
+import org.freeuni.homeworker.server.model.objects.user.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

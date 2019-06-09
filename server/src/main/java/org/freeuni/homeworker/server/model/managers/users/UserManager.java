@@ -1,6 +1,6 @@
 package org.freeuni.homeworker.server.database.managers.users;
 
-import org.freeuni.homeworker.server.model.user.User;
+import org.freeuni.homeworker.server.model.objects.user.User;
 
 /*
  * This interface is to manage users it is responsible for
