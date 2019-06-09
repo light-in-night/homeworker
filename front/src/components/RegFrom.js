@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 class RegFrom extends Component {
     state = {
@@ -10,16 +9,11 @@ class RegFrom extends Component {
     };
     register = (e) => {
         e.preventDefault();
-        let headers = ({
-            'Access-Control-Allow-Origin' : '*',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Credentials' : 'true',
-            'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS, DELETE',
-            'Access-Control-Max-Age' : '3600',
-            'Access-Control-Allow-Headers' : 'Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-        });
         let request = JSON.stringify(this.state);
-        axios.post("http://localhost/register", request, {headers: headers}).then((response) => {
+        fetch('http://localhost/register', {
+            method: 'POST',
+            body: request
+        }).then((response) => {
             console.log(response);
         })
     };

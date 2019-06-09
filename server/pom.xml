@@ -71,9 +71,9 @@
             <version>2.9.8</version>
         </dependency>
         <dependency>
-            <groupId>com.thetransactioncompany</groupId>
-            <artifactId>cors-filter</artifactId>
-            <version>2.6</version>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-servlet-api</artifactId>
+            <version>9.0.21</version>
         </dependency>
     </dependencies>
 
