@@ -19,10 +19,14 @@ import java.io.IOException;
 @WebServlet("/register")
 public class UserRegistrationServlet extends HttpServlet {
 
+
 	private static Logger log = LoggerFactory.getLogger(UserRegistrationServlet.class);
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+		resp.setHeader("Content-Type", "application/json");
+		resp.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+		resp.setHeader("Access-Control-Allow-Methods", "POST");
 		StringBuilder stringBuilder = new StringBuilder();
 		String line;
 		BufferedReader bufferedReader;

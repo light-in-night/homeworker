@@ -72,6 +72,7 @@ public class UserManagerSQL implements UserManager {
     		return true;
 		}  else {
     		log.info("Received user was not a valid one.");
+    		log.info(user.toString());
     		return false;
 		}
 	}
