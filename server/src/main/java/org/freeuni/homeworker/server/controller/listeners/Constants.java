@@ -1,4 +1,4 @@
-package org.freeuni.homeworker.server;
+package org.freeuni.homeworker.server.controller.listeners;
 
 public interface Constants {
 

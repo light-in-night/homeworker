@@ -1,9 +1,8 @@
-package org.freeuni.homeworker.server;
+package org.freeuni.homeworker.server.controller.listeners;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.freeuni.homeworker.server.database.managers.users.UserManagerSQL;
-import org.freeuni.homeworker.server.database.source.ConnectionPool;
-import org.freeuni.homeworker.server.database.source.ConnectionPoolFactory;
+import org.freeuni.homeworker.server.model.managers.users.UserManagerSQL;
+import org.freeuni.homeworker.server.model.source.ConnectionPoolFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

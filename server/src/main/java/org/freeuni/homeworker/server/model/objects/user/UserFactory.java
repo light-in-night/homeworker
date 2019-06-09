@@ -1,4 +1,4 @@
-package org.freeuni.homeworker.server.model.user;
+package org.freeuni.homeworker.server.model.objects.user;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

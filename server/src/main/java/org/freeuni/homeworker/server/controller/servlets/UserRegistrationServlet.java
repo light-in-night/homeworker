@@ -1,11 +1,11 @@
-package org.freeuni.homeworker.server.servlet;
+package org.freeuni.homeworker.server.controller.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.freeuni.homeworker.server.Constants;
-import org.freeuni.homeworker.server.database.managers.users.UserManager;
-import org.freeuni.homeworker.server.model.Response;
-import org.freeuni.homeworker.server.model.ResponseStatus;
-import org.freeuni.homeworker.server.model.user.User;
+import org.freeuni.homeworker.server.controller.listeners.Constants;
+import org.freeuni.homeworker.server.model.managers.users.UserManager;
+import org.freeuni.homeworker.server.model.objects.response.Response;
+import org.freeuni.homeworker.server.model.objects.response.ResponseStatus;
+import org.freeuni.homeworker.server.model.objects.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

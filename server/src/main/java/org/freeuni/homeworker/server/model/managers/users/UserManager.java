@@ -1,4 +1,4 @@
-package org.freeuni.homeworker.server.database.managers.users;
+package org.freeuni.homeworker.server.model.managers.users;
 
 import org.freeuni.homeworker.server.model.objects.user.User;
 

@@ -1,4 +1,4 @@
-package org.freeuni.homeworker.server.database.managers.user;
+package org.freeuni.homeworker.server.model.managers.user;
 
 import java.sql.Array;
 import java.sql.Blob;

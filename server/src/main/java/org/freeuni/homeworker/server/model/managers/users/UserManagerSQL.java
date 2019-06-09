@@ -1,7 +1,7 @@
-package org.freeuni.homeworker.server.database.managers.users;
+package org.freeuni.homeworker.server.model.managers.users;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.freeuni.homeworker.server.database.source.ConnectionPool;
+import org.freeuni.homeworker.server.model.source.ConnectionPool;
 import org.freeuni.homeworker.server.model.objects.user.User;
 import org.freeuni.homeworker.server.model.objects.user.UserFactory;
 import org.slf4j.Logger;

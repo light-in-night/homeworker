@@ -1,4 +1,4 @@
-package org.freeuni.homeworker.server.model;
+package org.freeuni.homeworker.server.model.objects.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

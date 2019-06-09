@@ -1,12 +1,11 @@
-package org.freeuni.homeworker.server.database.managers;
+package org.freeuni.homeworker.server.model.managers.users;
 
-import org.freeuni.homeworker.server.database.managers.user.BooleanWraper;
-import org.freeuni.homeworker.server.database.managers.user.MockUserConnection;
-import org.freeuni.homeworker.server.database.managers.user.MockUserPrepearedStatement;
-import org.freeuni.homeworker.server.database.managers.user.MockUserResultSet;
-import org.freeuni.homeworker.server.database.managers.users.UserManagerSQL;
-import org.freeuni.homeworker.server.database.source.ConnectionPoolFactory;
+import org.freeuni.homeworker.server.model.managers.user.BooleanWraper;
+import org.freeuni.homeworker.server.model.managers.user.MockUserConnection;
+import org.freeuni.homeworker.server.model.managers.user.MockUserPrepearedStatement;
+import org.freeuni.homeworker.server.model.managers.user.MockUserResultSet;
 import org.freeuni.homeworker.server.model.objects.user.User;
+import org.freeuni.homeworker.server.model.source.ConnectionPoolFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
