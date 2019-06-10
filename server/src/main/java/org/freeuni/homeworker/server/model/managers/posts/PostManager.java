@@ -11,6 +11,7 @@ import java.util.List;
  * database.
  */
 public interface PostManager extends AbstractManager {
+
     void addPost(Post post);
 
     Post getPostById(long post_id);
@@ -22,4 +23,5 @@ public interface PostManager extends AbstractManager {
     void updatePostContents(long post_id, String correctedContains);
 
     void updatePostRating(long post_id, long diff);
+
 }
