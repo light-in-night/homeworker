@@ -24,14 +24,13 @@ public class UserAccessServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
         response.setHeader("Access-Control-Allow-Methods", "GET");
-        //hread.currentThread().setContextClassLoader(UserManagerSQL.class.getClassLoader());
 
         Object obj = request.getServletContext().getAttribute(ContextKeys.USER_MANAGER);
         System.out.println(obj.getClass().getClassLoader());
         System.out.println(UserManager.class.getClassLoader());
         UserManagerSQL userManager = (UserManagerSQL) obj;
 
-        //TODO: FUCKING JAVA BUG, CANNOT CAST A CLASS TO ITS INTERFACE. I FUCKING HATE IT!
+        //TODO: HELP ! CANNOT CAST A CLASS TO ITS INTERFACE. STUPID JAVA. 
 
         List<User> userList = new ArrayList<>();
         userList.add(new User(0,"Givi","Racxa","pansexual","givi@gmail","lels"));
