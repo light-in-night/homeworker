@@ -28,6 +28,9 @@ public class UserAccessServlet extends HttpServlet {
         Object obj = request.getServletContext().getAttribute(ContextKeys.USER_MANAGER);
         System.out.println(obj.getClass().getClassLoader());
         System.out.println(UserManager.class.getClassLoader());
+        
+        // THIS LINE.
+        
         UserManagerSQL userManager = (UserManagerSQL) obj;
 
         //TODO: HELP ! CANNOT CAST A CLASS TO ITS INTERFACE. STUPID JAVA. 
