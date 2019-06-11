@@ -60,7 +60,7 @@ public class PostManagerSQL implements PostManager {
                 return;
             }
             PreparedStatement preparedStatement = connection.prepareStatement(ADD_POST);
-            preparedStatement.setLong(1, post.getUser_id());
+            preparedStatement.setLong(1, post.getUserId());
             preparedStatement.setString(2, post.getContents());
         } catch (InterruptedException | SQLException e) {
             e.printStackTrace();
