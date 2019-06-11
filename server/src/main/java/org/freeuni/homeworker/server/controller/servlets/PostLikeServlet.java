@@ -49,26 +49,26 @@ public class PostLikeServlet extends HttpServlet {
             PostLikeManager likeModuleManager = (PostLikeManager) request.getServletContext().getAttribute(ContextKeys.POST_LIKE_MANAGER);
             if(postLikeObject.isLiked()){
                 if(likeModuleManager.like(postLikeObject)) {
-                    resp.setMessage("Post liked");
+                    resp.setMessage("Request Executed Without Fail");
                     resp.setStatus(ResponseStatus.OK.name());
                 } else{
-                    resp.setMessage("Post Was Already Liked");
+                    resp.setMessage("Error During Adding Post Like");
                     resp.setStatus(ResponseStatus.ERROR.name());
                 }
             } else {
                 if(likeModuleManager.unLike(postLikeObject)){
                     resp.setStatus(ResponseStatus.OK.name());
-                    resp.setMessage("Post Disliked");
+                    resp.setMessage("Request Executed Without Fail");
                 }else{
                     resp.setStatus(ResponseStatus.ERROR.name());
-                    resp.setMessage("Post Was Not Liked");
+                    resp.setMessage("Error During Post Dislike");
                 }
             }
             ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-            response.getWriter().write(objectMapper.writeValueAsString(response));
+            response.getWriter().write(objectMapper.writeValueAsString(resp));
         } catch (IOException e) {
             e.printStackTrace();
-            log.error("Error Occurred, IOEception");
+            log.error("Error Occurred, IO Exception, Caused By Either Database Connection, Or Bad JSON");
         }
     }
 
