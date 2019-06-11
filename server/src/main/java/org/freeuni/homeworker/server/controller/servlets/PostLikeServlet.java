@@ -5,6 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.postLikes.PostLikeManager;
 import org.freeuni.homeworker.server.model.objects.postLike.PostLike;
+import org.freeuni.homeworker.server.model.objects.response.Response;
+import org.freeuni.homeworker.server.model.objects.response.ResponseStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,33 +19,56 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 
-@WebServlet("/PostLikeServlet")
+@WebServlet("/postLikeServlet")
 public class PostLikeServlet extends HttpServlet {
+
+    private static Logger log = LoggerFactory.getLogger(UserRegistrationServlet.class);
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST");
         String jSonObject = getJSonStringFromRequest(request);
-        executeRequest(request, jSonObject);
+        executeRequest(request, response, jSonObject);
     }
 
     /**
      * Executes Given Request
      *
      * @param request
+     * @param response
      * @param jSonObject JSon String
      * @throws IOException
      */
-    private void executeRequest(HttpServletRequest request, String jSonObject) {
+    private void executeRequest(HttpServletRequest request, HttpServletResponse response, String jSonObject) {
+        Response resp = new Response();
         try {
             PostLike postLikeObject = new ObjectMapper().readValue(jSonObject, PostLike.class);
             PostLikeManager likeModuleManager = (PostLikeManager) request.getServletContext().getAttribute(ContextKeys.POST_LIKE_MANAGER);
             if(postLikeObject.isLiked()){
-                likeModuleManager.like(postLikeObject);
+                if(likeModuleManager.like(postLikeObject)) {
+                    resp.setMessage("Post liked");
+                    resp.setStatus(ResponseStatus.OK.name());
+                } else{
+                    resp.setMessage("Post Was Already Liked");
+                    resp.setStatus(ResponseStatus.ERROR.name());
+                }
             } else {
-                likeModuleManager.unLike(postLikeObject);
+                if(likeModuleManager.unLike(postLikeObject)){
+                    resp.setStatus(ResponseStatus.OK.name());
+                    resp.setMessage("Post Disliked");
+                }else{
+                    resp.setStatus(ResponseStatus.ERROR.name());
+                    resp.setMessage("Post Was Not Liked");
+                }
             }
+            ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+            response.getWriter().write(objectMapper.writeValueAsString(response));
         } catch (IOException e) {
             e.printStackTrace();
+            log.error("Error Occurred, IOEception");
         }
     }
 
