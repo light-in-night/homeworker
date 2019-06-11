@@ -11,23 +11,24 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /*
  * This class is implementation of
  * @code UserManager interface
  */
+@SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection"})
 public class UserManagerSQL implements UserManager {
 
 	private static Logger log = LoggerFactory.getLogger(UserManagerSQL.class);
 
-	@SuppressWarnings("SqlResolve")
 	private static final String ADD_USER = "INSERT INTO users (first_name, last_name, gender, email, password) VALUES (?,?,?,?,?)"; // query literal used for adding new user into the  database.
 
-	@SuppressWarnings("SqlResolve")
 	private static final String FIND_USER_BY_ID = "SELECT id, first_name, last_name, gender, email, password FROM users WHERE id = ?"; // query literal used for querying users by id
 
-	@SuppressWarnings("SqlResolve")
 	private static final String FIND_USER_BY_EMAIL = "SELECT id, first_name, last_name, gender, email, password FROM users WHERE email = ?"; // query literal used for querying users by email
+
+	private static final String GET_ALL_USERS = "SELECT id, first_name, last_name, gender, email, password FROM users";
 
 	// connection pool
 	private ConnectionPool connectionPool;
@@ -141,6 +142,36 @@ public class UserManagerSQL implements UserManager {
 
 		connectionPool.putBackConnection(connection);
 		return UserFactory.fromResultSet(resultSet);
+	}
+
+	@Override
+	public List<User> getUsers() {
+		Connection connection;
+
+		try {
+			connection = connectionPool.acquireConnection();
+			if (connection == null) {
+				log.info("Server is stopped can't get more data.");
+				return null;
+			}
+		} catch (InterruptedException e) {
+			log.info("Thread was interrupted.", e);
+			return null;
+		}
+
+		ResultSet resultSet;
+
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_USERS);
+			resultSet = preparedStatement.executeQuery();
+		} catch (SQLException e) {
+			log.info("Sql exception was cached.", e);
+			connectionPool.putBackConnection(connection);
+			return null;
+		}
+
+		connectionPool.putBackConnection(connection);
+		return UserFactory.usersFromResultSet(resultSet);
 	}
 
 	@Override

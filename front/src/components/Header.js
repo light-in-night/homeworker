@@ -4,7 +4,21 @@ import '../App.css';
 class Header extends Component {
     render() {
         return (
-            <h1 className={'header'}>Header</h1>
+            <header>
+
+                <div className={'container'}>
+
+                    <h1 className={'brand'}>Homeworker</h1>
+                    <nav>
+                        <ul>
+                            <li><a href={'#'}>Home</a></li>
+                            <li><a href={'#'}>User</a></li>
+                        </ul>
+                    </nav>
+
+                </div>
+
+            </header>
         );
     }
 }
