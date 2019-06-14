@@ -1,0 +1,12 @@
+
+USE homeworker;
+
+DROP PostLike
+
+
+CREATE TABLE PostLike(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    userID BIGINT NOT NULL,
+    postID BIGINT NOT NULL,
+    liked BOOLEAN NOT NULL
+);

@@ -8,4 +8,6 @@ public interface ContextKeys {
 
 	String POST_MANAGER = "postManager";
 
+	String POST_LIKE_MANAGER = "postLikeManager";
+
 }
