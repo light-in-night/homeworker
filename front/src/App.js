@@ -1,16 +1,31 @@
-import React from 'react'
-// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import React, {Component} from 'react'
 import Header from './components/Header'
-import RegForm from './components/RegFrom'
+import CategoryBox from './components/CategoryBox'
 import './App.css'
 
-function App() {
-    return (
-        <div className="App">
-            <Header/>
-            <RegForm/>
-        </div>
-    );
+class App extends Component {
+
+    categories = () => {
+        return [
+            {
+                name: 'Category 1',
+                numberOfPosts: '500'
+            },
+            {
+                name: 'Category 2',
+                numberOfPosts: '500'
+            }
+            ]
+    };
+
+    render() {
+        return (
+            <div className="App">
+                <Header/>
+                <CategoryBox categories={this.categories()}/>
+            </div>
+        );
+    }
 }
 
 export default App;
