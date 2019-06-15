@@ -1,6 +1,7 @@
 package org.freeuni.homeworker.server.controller.listeners;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.freeuni.homeworker.server.model.managers.postEdit.postEditManager;
 import org.freeuni.homeworker.server.model.managers.postLikes.PostLikeManager;
 import org.freeuni.homeworker.server.model.managers.postLikes.PostLikeManagerSQL;
 import org.freeuni.homeworker.server.model.managers.posts.PostManagerSQL;
@@ -22,6 +23,7 @@ public class ServletInitListener implements ServletContextListener {
 	private static final int NUMBER_OF_CONNECTION_IN_POST_MANAGER = 10;
 
 	private static final int NUMBER_OF_CONNECTIONS_IN_POST_LIKE_DAO = 20;
+	private static final int NUMBER_OF_CONNECTIONS_IN_POST_EDIT_MANAGER = 10 ;
 
 	private static Logger log = LoggerFactory.getLogger(ServletInitListener.class);
 
@@ -33,6 +35,8 @@ public class ServletInitListener implements ServletContextListener {
 		servletContext.setAttribute(ContextKeys.USER_MANAGER, new UserManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_USER_MANAGER)));
 		servletContext.setAttribute(ContextKeys.POST_MANAGER, new PostManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTION_IN_POST_MANAGER)));
 		servletContext.setAttribute(ContextKeys.POST_LIKE_MANAGER, new PostLikeManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_POST_LIKE_DAO)));
+		servletContext.setAttribute(ContextKeys.POST_EDIT_MANAGER , new postEditManager(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_POST_EDIT_MANAGER)));
+
 	}
 
 	@Override
