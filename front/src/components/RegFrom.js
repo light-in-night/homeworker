@@ -29,15 +29,34 @@ class RegFrom extends Component {
     handlePasswordChange = (e) => {
         this.setState({password: e.target.value});
     };
+    
     render() {
         return (
-            <form action="post" name={"registrationForm"}>
-                <label htmlFor="firstName">First Name:</label><input type="text" title="First Name" name="firstName" id="firstName" onChange={this.handleFirstNameChange}/><br/>
-                <label htmlFor="lastName">Last Name:</label><input type="text" title="LastName" name="lastName" id="lastName" onChange={this.handleLastNameChange}/><br/>
-                <label htmlFor="email">Email:</label><input type="email" title="Email" name="email" id="email" onChange={this.handleEmailChange}/><br/>
-                <label htmlFor="password">Password:</label><input type="password" title="Password" name="password" id="password" onChange={this.handlePasswordChange}/><br/>
-                <input type="submit" name="Register" onClick={this.register}/>
+            <div>
+            <form>
+            <ul className="regFormOuter">
+                <li>
+                    <label for="first-name">First Name</label>
+                    <input type="text" id="first-name" placeholder="Enter your first name here" onChange={this.handleFirstNameChange}/>
+                </li>
+                <li>
+                    <label for="last-name">Last Name</label>
+                    <input type="text" id="last-name" placeholder="Enter your last name here" onChange={this.handleLastNameChange}/>
+                </li>
+                <li>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email here" onChange={this.handleEmailChange}/>
+                </li>
+                <li>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password here" onChange={this.handlePasswordChange}/>
+                </li>
+                <li>
+                <button type="submit" onClick={this.register}>Register</button>
+                </li>
+            </ul>
             </form>
+            </div>
         );
     }
 }
