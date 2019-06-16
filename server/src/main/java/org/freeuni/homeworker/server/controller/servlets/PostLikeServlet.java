@@ -44,8 +44,10 @@ public class PostLikeServlet extends HttpServlet {
      */
     private void executeRequest(HttpServletRequest request, HttpServletResponse response, String jSonObject) {
         Response resp = new Response();
+
         try {
             PostLike postLikeObject = new ObjectMapper().readValue(jSonObject, PostLike.class);
+            assertJsonWasOK(postLikeObject); // If Fails, Method Stops Here
             PostLikeManager likeModuleManager = (PostLikeManager) request.getServletContext().getAttribute(ContextKeys.POST_LIKE_MANAGER);
             if(postLikeObject.isLiked()){
                 if(likeModuleManager.like(postLikeObject)) {
@@ -70,6 +72,19 @@ public class PostLikeServlet extends HttpServlet {
             e.printStackTrace();
             log.error("Error Occurred, IO Exception, Caused By Either Database Connection, Or Bad JSON");
         }
+    }
+
+    /**
+     * Asserts Whether JSon Was OK,
+     * If Any get Method Crashes, It Means JSon Was BAD,
+     * As Object Has Not_NULL Property, So It Sends Information
+     * About It To Server Automatically
+     * @param postLikeObject
+     */
+    private void assertJsonWasOK(PostLike postLikeObject) {
+        postLikeObject.getPostID();
+        postLikeObject.getUserID();
+        postLikeObject.isLiked();
     }
 
     /**

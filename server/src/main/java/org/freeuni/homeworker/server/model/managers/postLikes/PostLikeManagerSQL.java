@@ -29,8 +29,11 @@ public class PostLikeManagerSQL implements PostLikeManager {
         Connection connection = null;
         try {
             connection = connectionsPool.acquireConnection();
+
             if (userAlreadyLikedPost(postLikeObject, connection)){
+
             } else {
+
                 executeAddSQLQuery(postLikeObject, connection);
             }
             queryExecuted = true;

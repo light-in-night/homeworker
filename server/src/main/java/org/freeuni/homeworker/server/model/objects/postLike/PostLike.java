@@ -17,13 +17,13 @@ public class PostLike implements Serializable {
     private long id;
 
     @JsonProperty("userID")
-    private long userID;
+    private Long userID;
 
     @JsonProperty("postID")
-    private long postID;
+    private Long postID;
 
     @JsonProperty("liked")
-    private boolean liked;
+    private Boolean liked;
 
     /**
      * Constructs PostLike Object, Which Contains Information, That
@@ -33,7 +33,7 @@ public class PostLike implements Serializable {
      * @param postID Post ID
      * @param liked Shows Whether User Liked, Or Disliked The Post
      */
-    public PostLike(long id, int userID, int postID, boolean liked) {
+    public PostLike(long id, long userID, long postID, boolean liked) {
         this.id = id;
         this.userID = userID;
         this.postID = postID;
