@@ -12,8 +12,8 @@ public class Post {
     @JsonProperty("id")
     private long id;
 
-    @JsonProperty("user_id")
-    private long user_id;
+    @JsonProperty("userId")
+    private long userId;
 
     @JsonProperty("contents")
     private String contents;
@@ -31,9 +31,9 @@ public class Post {
 
     }
 
-    public Post(long id, long user_id, String contents) {
+    public Post(long id, long userId, String contents) {
         this.id = id;
-        this.user_id = user_id;
+        this.userId = userId;
         this.contents = contents;
     }
 
@@ -45,8 +45,8 @@ public class Post {
         this.contents = contents;
     }
 
-    public long getUser_id() {
-        return user_id;
+    public long getUserId() {
+        return userId;
     }
 
     public long getId() {
@@ -58,14 +58,14 @@ public class Post {
     }
 
     public void setUserId(long user_id) {
-        this.user_id = user_id;
+        this.userId = user_id;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", user_id='" + user_id + '\'' +
+                ", userId='" + userId + '\'' +
                 ", contents='" + contents + '\'' +
                 '}';
     }

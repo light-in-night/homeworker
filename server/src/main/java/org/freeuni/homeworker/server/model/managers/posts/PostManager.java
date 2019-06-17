@@ -12,9 +12,9 @@ import java.util.List;
  */
 public interface PostManager extends AbstractManager {
 
-    void addPost(Post post);
+    void add(Post post);
 
-    Post getPostById(long post_id);
+    Post getById(long post_id);
 
     List<Post> getPostsByUser(long user_id);
 

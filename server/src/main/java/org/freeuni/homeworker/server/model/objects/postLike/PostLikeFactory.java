@@ -1,9 +1,10 @@
 package org.freeuni.homeworker.server.model.objects.postLike;
 
-import org.freeuni.homeworker.server.model.objects.user.User;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class PostLikeFactory {
 
@@ -15,10 +16,10 @@ public class PostLikeFactory {
         try {
             resultSet.next();
             PostLike postLike = new PostLike();
-            postLike.setId(resultSet.getLong(1));
-            postLike.setUserID(resultSet.getLong(2));
-            postLike.setPostID(resultSet.getLong(3));
-            postLike.setLiked(resultSet.getBoolean(4));
+            postLike.setId(resultSet.getLong("id"));
+            postLike.setUserID(resultSet.getLong("userId"));
+            postLike.setPostID(resultSet.getLong("postId"));
+            postLike.setLiked(resultSet.getBoolean("liked"));
 
             return postLike;
         } catch (SQLException e) {
@@ -26,5 +27,20 @@ public class PostLikeFactory {
             return null;
         }
     }
+
+    public static List<PostLike> listFromResultSet(ResultSet resultSet) {
+        List<PostLike> result = new ArrayList<>();
+        try {
+            while (resultSet.next()) {
+                result.add(fromResultSet(resultSet));
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 
 }

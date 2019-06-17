@@ -7,11 +7,11 @@ import java.util.List;
 
 public class PostFactory {
     //TODO: what if resultset is invalid?
-    public static Post postFromResultSet(ResultSet resultSet)  {
+    public static Post fromResultSet(ResultSet resultSet)  {
         try {
             Post post = new Post();
             post.setId(resultSet.getLong("id"));
-            post.setUserId(resultSet.getLong("userId_FK"));
+            post.setUserId(resultSet.getLong("userId"));
             post.setContents(resultSet.getString("content"));
             post.setCreationTimestamp(resultSet.getTimestamp("creationtimestamp"));
             post.setCategory(resultSet.getString("category"));
@@ -22,11 +22,11 @@ public class PostFactory {
         }
     }
 
-    public static List<Post> postListFromResultSet(ResultSet resultSet) {
+    public static List<Post> listFromResultSet(ResultSet resultSet) {
         List<Post> result = new ArrayList<>();
         try {
             while (resultSet.next()) {
-                result.add(postFromResultSet(resultSet));
+                result.add(fromResultSet(resultSet));
             }
             return result;
         } catch (SQLException e) {
