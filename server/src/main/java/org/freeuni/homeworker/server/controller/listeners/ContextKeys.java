@@ -10,4 +10,6 @@ public interface ContextKeys {
 
 	String POST_LIKE_MANAGER = "postLikeManager";
 
+	String CATEGORY_MANAGER = "categoryManager";
+	String POST_CATEGORY_MANAGER = "postCategoryManager";
 }

@@ -1,5 +1,6 @@
 package org.freeuni.homeworker.server.model.source;
 
+import org.freeuni.homeworker.server.model.source.rawSource.SQLConnectionFactory;
 import org.junit.Test;
 
 import java.sql.SQLException;

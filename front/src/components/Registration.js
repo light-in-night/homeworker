@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class RegFrom extends Component {
+class Registration extends Component {
     state = {
         firstName: "",
         lastName: "",
@@ -36,19 +36,19 @@ class RegFrom extends Component {
             <form>
             <ul className="regFormOuter">
                 <li>
-                    <label for="first-name">First Name</label>
+                    <label htmlFor="first-name">First Name</label>
                     <input type="text" id="first-name" placeholder="Enter your first name here" onChange={this.handleFirstNameChange}/>
                 </li>
                 <li>
-                    <label for="last-name">Last Name</label>
+                    <label htmlFor="last-name">Last Name</label>
                     <input type="text" id="last-name" placeholder="Enter your last name here" onChange={this.handleLastNameChange}/>
                 </li>
                 <li>
-                    <label for="email">Email</label>
+                    <label htmlFor="email">Email</label>
                     <input type="email" id="email" placeholder="Enter your email here" onChange={this.handleEmailChange}/>
                 </li>
                 <li>
-                    <label for="password">Password</label>
+                    <label htmlFor="password">Password</label>
                     <input type="password" id="password" placeholder="Enter your password here" onChange={this.handlePasswordChange}/>
                 </li>
                 <li>
@@ -61,4 +61,4 @@ class RegFrom extends Component {
     }
 }
 
-export default RegFrom;
+export default Registration;

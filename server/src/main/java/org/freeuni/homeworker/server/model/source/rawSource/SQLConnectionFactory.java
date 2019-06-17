@@ -1,4 +1,4 @@
-package org.freeuni.homeworker.server.model.source;
+package org.freeuni.homeworker.server.model.source.rawSource;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

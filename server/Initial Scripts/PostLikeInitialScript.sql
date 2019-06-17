@@ -1,12 +1,15 @@
-
+#DROP DATABASE IF EXISTS homeworker;
+#CREATE DATABASE homeworker;
 USE homeworker;
 
-DROP PostLike
+DROP TABLE IF EXISTS postLike;
 
-
-CREATE TABLE PostLike(
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    userID BIGINT NOT NULL,
-    postID BIGINT NOT NULL,
-    liked BOOLEAN NOT NULL
+CREATE TABLE postLike(
+    id BIGINT AUTO_INCREMENT,
+    userId BIGINT NOT NULL,
+    postId BIGINT NOT NULL,
+    liked BOOLEAN NOT NULL,
+    CONSTRAINT pkId primary key (id),
+	foreign key (userId) references users(id),
+	foreign key (postId) references posts(id)
 );

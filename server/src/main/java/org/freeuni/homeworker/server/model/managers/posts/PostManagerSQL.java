@@ -3,7 +3,7 @@ package org.freeuni.homeworker.server.model.managers.posts;
 import org.freeuni.homeworker.server.controller.servlets.UserRegistrationServlet;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 import org.freeuni.homeworker.server.model.objects.post.PostFactory;
-import org.freeuni.homeworker.server.model.source.ConnectionPool;
+import org.freeuni.homeworker.server.model.source.rawSource.ConnectionPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,7 +51,7 @@ public class PostManagerSQL implements PostManager {
      * @param post post object to add.
      */
     @Override
-    public void addPost(Post post) {
+    public void add(Post post) {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
@@ -78,7 +78,7 @@ public class PostManagerSQL implements PostManager {
      * @return one post with given id
      */
     @Override
-    public Post getPostById(long post_id) {
+    public Post getById(long post_id) {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
@@ -89,7 +89,7 @@ public class PostManagerSQL implements PostManager {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID);
             preparedStatement.setLong(1, post_id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            return PostFactory.postFromResultSet(resultSet);
+            return PostFactory.fromResultSet(resultSet);
         } catch (InterruptedException | SQLException e) {
             e.printStackTrace();
         } finally {
@@ -119,7 +119,7 @@ public class PostManagerSQL implements PostManager {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_USER_ID);
             preparedStatement.setLong(1, user_id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            return PostFactory.postListFromResultSet(resultSet);
+            return PostFactory.listFromResultSet(resultSet);
         } catch (InterruptedException | SQLException e) {
             e.printStackTrace();
         } finally {
@@ -151,7 +151,7 @@ public class PostManagerSQL implements PostManager {
             preparedStatement.setTimestamp(1, start);
             preparedStatement.setTimestamp(2, end);
             ResultSet resultSet = preparedStatement.executeQuery();
-            return PostFactory.postListFromResultSet(resultSet);
+            return PostFactory.listFromResultSet(resultSet);
         } catch (InterruptedException | SQLException e) {
             e.printStackTrace();
         } finally {

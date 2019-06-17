@@ -5,7 +5,7 @@ import Home from './components/Home'
 import Header from './components/Header'
 import Contact from './components/Contact'
 import About from './components/About'
-import RegFrom from './components/RegFrom';
+import Registration from './components/Registration';
 
 class App extends Component {
 
@@ -39,7 +39,7 @@ class App extends Component {
                     <Route path='/home' component={Home}/>
                     <Route path='/about' component={About}/>
                     <Route path='/contact' component={Contact}/>
-                    <Route path='/register' component={RegFrom}/>
+                    <Route path='/register' component={Registration}/>
                 </div>
             </BrowserRouter>
         );
