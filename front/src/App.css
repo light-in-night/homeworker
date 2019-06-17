@@ -219,3 +219,6 @@ nav a:hover::before {
   letter-spacing: .09em;
   border-radius: 2px;
 }
+.homeLink {
+  text-decoration: none;
+}

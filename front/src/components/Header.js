@@ -12,7 +12,7 @@ class Header extends Component {
 
                 <div className={'container'}>
 
-                    <h1 className={'brand'}>Homeworker</h1>
+                    <Link to='/home' className={'homeLink'}><h1  className={'brand'}>Homeworker</h1></Link>
                     <nav>
                         <ul>
                             <li><SideMenu/></li>
