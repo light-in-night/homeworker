@@ -1,4 +1,4 @@
-package org.freeuni.homeworker.server.model.source.rawSource;
+package org.freeuni.homeworker.server.model.source;
 
 @SuppressWarnings("WeakerAccess")
 public class MyDBInfo {

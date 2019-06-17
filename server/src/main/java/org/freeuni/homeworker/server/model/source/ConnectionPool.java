@@ -1,4 +1,4 @@
-package org.freeuni.homeworker.server.model.source.rawSource;
+package org.freeuni.homeworker.server.model.source;
 
 import org.freeuni.homeworker.server.model.managers.users.UserManagerSQL;
 import org.slf4j.Logger;

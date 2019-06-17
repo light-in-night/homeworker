@@ -1,4 +1,4 @@
-package org.freeuni.homeworker.server.model.source.rawSource;
+package org.freeuni.homeworker.server.model.source;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

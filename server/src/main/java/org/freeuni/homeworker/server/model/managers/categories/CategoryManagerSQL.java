@@ -2,7 +2,7 @@ package org.freeuni.homeworker.server.model.managers.categories;
 
 import org.freeuni.homeworker.server.model.objects.category.Category;
 import org.freeuni.homeworker.server.model.objects.category.CategoryFactory;
-import org.freeuni.homeworker.server.model.source.rawSource.ConnectionPool;
+import org.freeuni.homeworker.server.model.source.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

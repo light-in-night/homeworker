@@ -6,7 +6,7 @@ import org.freeuni.homeworker.server.model.managers.postCategory.PostCategoryMan
 import org.freeuni.homeworker.server.model.managers.postLikes.PostLikeManagerSQL;
 import org.freeuni.homeworker.server.model.managers.posts.PostManagerSQL;
 import org.freeuni.homeworker.server.model.managers.users.UserManagerSQL;
-import org.freeuni.homeworker.server.model.source.rawSource.ConnectionPoolFactory;
+import org.freeuni.homeworker.server.model.source.ConnectionPoolFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

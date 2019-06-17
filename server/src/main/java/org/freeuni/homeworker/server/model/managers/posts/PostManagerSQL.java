@@ -3,7 +3,7 @@ package org.freeuni.homeworker.server.model.managers.posts;
 import org.freeuni.homeworker.server.controller.servlets.UserRegistrationServlet;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 import org.freeuni.homeworker.server.model.objects.post.PostFactory;
-import org.freeuni.homeworker.server.model.source.rawSource.ConnectionPool;
+import org.freeuni.homeworker.server.model.source.ConnectionPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,7 +1,7 @@
 package org.freeuni.homeworker.server.model.managers.postLikes;
 
 import org.freeuni.homeworker.server.model.objects.postLike.PostLike;
-import org.freeuni.homeworker.server.model.source.rawSource.ConnectionPool;
+import org.freeuni.homeworker.server.model.source.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

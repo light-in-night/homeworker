@@ -6,7 +6,7 @@ import org.freeuni.homeworker.server.model.objects.post.Post;
 import org.freeuni.homeworker.server.model.objects.post.PostFactory;
 import org.freeuni.homeworker.server.model.objects.postCategory.PostCategory;
 import org.freeuni.homeworker.server.model.objects.postCategory.PostCategoryFactory;
-import org.freeuni.homeworker.server.model.source.rawSource.ConnectionPool;
+import org.freeuni.homeworker.server.model.source.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
