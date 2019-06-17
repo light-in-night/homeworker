@@ -3,8 +3,8 @@ package org.freeuni.homeworker.server.controller.servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
-import org.freeuni.homeworker.server.model.managers.postEdit.postEditManager;
-import org.freeuni.homeworker.server.model.objects.postEdit.postEditObject;
+import org.freeuni.homeworker.server.model.managers.postEdit.PostEditManager;
+import org.freeuni.homeworker.server.model.objects.postEdit.PostEditObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@WebServlet(name = "postEditServlet")
-public class postEditServlet extends HttpServlet {
+@WebServlet(name = "PostEditServlet")
+public class PostEditServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // JSON string is given through request by name json
         response.setContentType("application/json");
@@ -26,8 +26,8 @@ public class postEditServlet extends HttpServlet {
         ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         //turns json into java object
         try {
-            postEditObject obj = objectMapper.readValue(jSonObject, postEditObject.class);
-            postEditManager postManager = (postEditManager) request.getServletContext().getAttribute(ContextKeys.POST_EDIT_MANAGER);
+            PostEditObject obj = objectMapper.readValue(jSonObject, PostEditObject.class);
+            PostEditManager postManager = (PostEditManager) request.getServletContext().getAttribute(ContextKeys.POST_EDIT_MANAGER);
             postManager.editPost(obj);
         } catch (IOException e) {
             e.printStackTrace();

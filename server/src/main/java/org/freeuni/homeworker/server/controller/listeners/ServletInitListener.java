@@ -2,7 +2,8 @@ package org.freeuni.homeworker.server.controller.listeners;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.freeuni.homeworker.server.model.managers.postEdit.postEditManager;
+import org.freeuni.homeworker.server.model.managers.postEdit.PostEditManager;
+
 import org.freeuni.homeworker.server.model.managers.postLikes.PostLikeManager;
 
 import org.freeuni.homeworker.server.model.managers.categories.CategoryManagerSQL;
@@ -43,7 +44,7 @@ public class ServletInitListener implements ServletContextListener {
 		servletContext.setAttribute(ContextKeys.POST_MANAGER, new PostManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTION_IN_POST_MANAGER)));
 		servletContext.setAttribute(ContextKeys.POST_LIKE_MANAGER, new PostLikeManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_POST_LIKE_DAO)));
 
-		servletContext.setAttribute(ContextKeys.POST_EDIT_MANAGER , new postEditManager(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_POST_EDIT_MANAGER)));
+		servletContext.setAttribute(ContextKeys.POST_EDIT_MANAGER , new PostEditManager(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_POST_EDIT_MANAGER)));
 
 		servletContext.setAttribute(ContextKeys.CATEGORY_MANAGER, new CategoryManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_CATEGORY)));
 		servletContext.setAttribute(ContextKeys.POST_CATEGORY_MANAGER, new PostCategoryManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTION_IN_POST_CATEGORY)));

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
-public class postEditObject implements Serializable {
+public class PostEditObject implements Serializable {
     // ID of the post
     @JsonProperty("id")
     private long postID ;
@@ -16,7 +16,7 @@ public class postEditObject implements Serializable {
     private String postText;
 
     //constructor
-    public postEditObject(long id , String text){
+    public PostEditObject(long id , String text){
         this.postID = id ;
         this.postText = text;
     }
