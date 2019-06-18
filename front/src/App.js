@@ -6,6 +6,8 @@ import Header from './components/Header'
 import Contact from './components/Contact'
 import About from './components/About'
 import Registration from './components/Registration';
+import Login from './components/Login'
+
 
 class App extends Component {
 
@@ -32,7 +34,7 @@ class App extends Component {
 
     render() {
         return (
-            <BrowserRouter>
+              <BrowserRouter>
                 <div className="App">
                     <Header/>
                     <Route exact path='/' component={Home}/>
@@ -40,6 +42,7 @@ class App extends Component {
                     <Route path='/about' component={About}/>
                     <Route path='/contact' component={Contact}/>
                     <Route path='/register' component={Registration}/>
+                    <Route path='/login' component={Login}/>
                 </div>
             </BrowserRouter>
         );
