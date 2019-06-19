@@ -2,6 +2,8 @@ package org.freeuni.homeworker.server.model.managers.categories;
 
 import org.freeuni.homeworker.server.model.objects.category.Category;
 
+import java.util.List;
+
 /**
  * Handles category insert/update/delete into the
  * database.
@@ -31,4 +33,10 @@ public interface CategoryManager {
      * @return category object
      */
     Category getById(long id);
+
+    /**
+     * Returns every category in the database
+     * @return list of categories
+     */
+    List<Category> getAllCategories();
 }

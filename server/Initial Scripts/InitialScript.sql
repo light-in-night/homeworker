@@ -3,11 +3,7 @@ CREATE DATABASE homeworker;
 USE homeworker;
 
 #DELETE TABLES
-DROP TABLE IF EXISTS postLike;
-DROP TABLE IF EXISTS postCategory;
-DROP TABLE IF EXISTS categories;
-DROP TABLE IF EXISTS posts;
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS postLike, postCategory,categories,posts,users;
 
 #CREATE TABLES
 CREATE TABLE users (
@@ -118,17 +114,17 @@ INSERT INTO homeworker.postcategory
 VALUES
 (3,1);
 
-DELETE FROM homeworker.postcategory
-WHERE postcategory.id = 1;
+#DELETE FROM homeworker.postcategory
+#WHERE postcategory.id = 1;
 
 
 #CATEGORIES
 SELECT categories.id, categories.name, categories.description
 FROM homeworker.categories
-WHERE categories.id = 1;
+WHERE categories.id = 1;posts
 
-DELETE FROM homeworker.categories
-WHERE categories.id = 1;
+#DELETE FROM homeworker.categories
+#WHERE categories.id = 1;
 
 #POST CATEGORIES
 SELECT COUNT(post.id)

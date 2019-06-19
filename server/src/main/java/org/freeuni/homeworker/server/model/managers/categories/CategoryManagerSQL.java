@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 
 public class CategoryManagerSQL implements CategoryManager {
@@ -25,6 +26,9 @@ public class CategoryManagerSQL implements CategoryManager {
             "SELECT categories.id, categories.name, categories.description\n" +
                 "FROM homeworker.categories\n" +
                 "WHERE categories.id = ?;";
+    private static final String SELECT_ALL =
+            "SELECT  *" +
+                    "FROM  homeworker.categories;";
 
     private final ConnectionPool connectionPool;
 
@@ -75,6 +79,24 @@ public class CategoryManagerSQL implements CategoryManager {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             return CategoryFactory.fromResultSet(resultSet);
+        } catch (InterruptedException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                connectionPool.putBackConnection(connection);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Category> getAllCategories() {
+        Connection connection = null;
+        try {
+            connection = connectionPool.acquireConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return CategoryFactory.listFromResultSet(resultSet);
         } catch (InterruptedException | SQLException e) {
             e.printStackTrace();
         } finally {

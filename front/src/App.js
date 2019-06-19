@@ -6,6 +6,7 @@ import Header from './components/Header'
 import Contact from './components/Contact'
 import About from './components/About'
 import Registration from './components/Registration';
+import PostCreation from './components/PostCreation'
 
 class App extends Component {
 
@@ -40,6 +41,7 @@ class App extends Component {
                     <Route path='/about' component={About}/>
                     <Route path='/contact' component={Contact}/>
                     <Route path='/register' component={Registration}/>
+                    <Route path='/createPost' component={PostCreation}/>
                 </div>
             </BrowserRouter>
         );
