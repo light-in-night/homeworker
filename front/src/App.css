@@ -7,6 +7,7 @@
 body {
   font-family: "B612 Mono", Raleway, Arial, Helvetica, sans-serif;
   line-height: 1.4;
+  background-color: ghostwhite;
 }
 
 .container {
@@ -76,7 +77,7 @@ nav a::before {
 
   position: absolute;
   top: 0;
-  width: 0%;
+  width: 0;
 
   transition: all ease-in-out 250ms;
 }
@@ -89,7 +90,6 @@ nav a:hover::before {
   display: flex;
   flex-wrap: wrap;
   flex-flow: row wrap;
-  background-color: ghostwhite;
   align-items: center;
   justify-content: center;
 }
@@ -221,4 +221,8 @@ nav a:hover::before {
 }
 .homeLink {
   text-decoration: none;
+}
+
+#registrationForm {
+  padding: 10em;
 }

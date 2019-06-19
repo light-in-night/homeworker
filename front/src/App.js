@@ -9,27 +9,6 @@ import Registration from './components/Registration';
 
 class App extends Component {
 
-    categories = () => {
-        return [
-            {
-                name: 'Category 1',
-                numberOfPosts: '500'
-            },
-            {
-                name: 'Category 2',
-                numberOfPosts: '500'
-            },
-            {
-                name: 'Category 3',
-                numberOfPosts: '412'
-            },
-            {
-                name: 'Category 4',
-                numberOfPosts: '331'
-            }
-            ]
-    };
-
     render() {
         return (
             <BrowserRouter>
