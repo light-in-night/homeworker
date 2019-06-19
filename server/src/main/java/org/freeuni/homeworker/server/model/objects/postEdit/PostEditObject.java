@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
+/**
+ * DB object. also can be converted to JSON string
+ * with JSON annotations.
+ */
 public class PostEditObject implements Serializable {
     // ID of the post
     @JsonProperty("id")

@@ -6,8 +6,9 @@ import org.freeuni.homeworker.server.utils.StringUtils;
 
 import java.util.Objects;
 
-/*
+/**
  * Simple user class that can save all the information about user
+ * can be converted to and from JSON very easily using JACKSON
  */
 @SuppressWarnings("WeakerAccess")
 @JsonInclude(JsonInclude.Include.NON_NULL) // annotation to include null values when converted to json
@@ -91,6 +92,10 @@ public class User {
 		this.password = password;
 	}
 
+	/**
+	 * Returns if the given user entry is valid.
+	 * @return true if valid, false otherwise.
+	 */
 	public boolean isValid() {
 		boolean valid = StringUtils.isNotBlank(firstName);
 		valid = valid && StringUtils.isNotBlank(lastName);
@@ -111,6 +116,13 @@ public class User {
 				'}';
 	}
 
+	/**
+	 * The two User objects are equal if all their
+	 * fields are equal.
+	 *
+	 * @param o other object
+	 * @return true if fields are equal, false otherwise
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -124,6 +136,12 @@ public class User {
 				getPassword().equals(user.getPassword());
 	}
 
+	/**
+	 * returns a combination of hashcodes of all
+	 * fields.
+	 *
+	 * @return combination of hashcodes of all fields.
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(getId(), getFirstName(), getLastName(), getGender(), getEmail(), getPassword());

@@ -10,6 +10,10 @@ import java.io.Serializable;
 import java.util.Objects;
 
 
+/**
+ * DB object. also can be converted to JSON string
+ * with JSON annotations.
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL) // annotation to include null values when converted to json
 public class PostLike implements Serializable {
 

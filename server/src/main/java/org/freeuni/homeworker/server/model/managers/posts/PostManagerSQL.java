@@ -162,6 +162,11 @@ public class PostManagerSQL implements PostManager {
         return null;
     }
 
+    /**
+     *
+     * @param post_id
+     * @param correctedContains
+     */
     @Override
     public void updatePostContents(long post_id, String correctedContains) {
         Connection connection = null;
@@ -184,6 +189,12 @@ public class PostManagerSQL implements PostManager {
         }
     }
 
+    /**
+     * updates the post rating with the given difference
+     *
+     * @param post_id id of the updated post
+     * @param diff DIFFERENCE of ratings the new and old posts
+     */
     @Override
     public void updatePostRating(long post_id, long diff) {
         Connection connection = null;

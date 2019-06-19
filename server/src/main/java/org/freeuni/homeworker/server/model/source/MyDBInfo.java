@@ -1,5 +1,8 @@
 package org.freeuni.homeworker.server.model.source;
 
+/**
+ * Holds the credentials for DB access.
+ */
 @SuppressWarnings("WeakerAccess")
 public class MyDBInfo {
 

@@ -7,7 +7,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Static factory class. every "new" opeation goes here.
+ * can also create lists when needed.
+ */
 public class CategoryFactory {
+    /**
+     * Makes a single object from resultSet.
+     * @param resultSet resultSet of the object
+     * @return object on successful conversion, null otherwise
+     */
     public static Category fromResultSet(ResultSet resultSet)  {
         try {
             Category category = new Category();
@@ -21,6 +30,11 @@ public class CategoryFactory {
         }
     }
 
+    /**
+     * Makes a list of objects from resultSet.
+     * @param resultSet resultSet of the object
+     * @return list of objects on successful conversion, null otherwise
+     */
     public static List<Category> listFromResultSet(ResultSet resultSet) {
         List<Category> result = new ArrayList<>();
         try {
