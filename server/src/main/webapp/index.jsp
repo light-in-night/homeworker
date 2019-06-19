@@ -12,5 +12,10 @@
 </head>
 <body>
     <h1>Server is up and running!</h1>
+    <form action="/service" method="get">
+        <label>First Name</label> <input type="text" name="firstName"> <br>
+        <label>Last Name</label>  <input type="text" name="lastName"> <br>
+        <input type="submit" name="Gachite!">
+    </form>
 </body>
 </html>
