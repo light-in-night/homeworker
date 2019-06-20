@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, NavLink } from 'react-router-dom';
+import {  Link } from 'react-router-dom';
 import '../App.css';
 
 class SideMenu extends Component {

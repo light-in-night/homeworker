@@ -36,12 +36,12 @@ class Registration extends Component {
             <form>
             <ul className="regFormOuter">
                 <li>
-                    <label htmlFor="first-name">First Name</label>
-                    <input type="text" id="first-name" placeholder="Enter your first name here" onChange={this.handleFirstNameChange}/>
+                    <label htmlFor="postTitle">First Name</label>
+                    <input type="text" id="postTitle" placeholder="Post Title" onChange={this.handleFirstNameChange}/>
                 </li>
                 <li>
                     <label htmlFor="last-name">Last Name</label>
-                    <input type="text" id="last-name" placeholder="Enter your last name here" onChange={this.handleLastNameChange}/>
+                    <input type="text" id="lastName" placeholder="Enter your last name here" onChange={this.handleLastNameChange}/>
                 </li>
                 <li>
                     <label htmlFor="email">Email</label>
@@ -52,7 +52,7 @@ class Registration extends Component {
                     <input type="password" id="password" placeholder="Enter your password here" onChange={this.handlePasswordChange}/>
                 </li>
                 <li>
-                <button type="submit" onClick={this.register}>Register</button>
+                    <button type="submit" onClick={this.register}>Register</button>
                 </li>
             </ul>
             </form>

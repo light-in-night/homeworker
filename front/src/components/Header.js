@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import '../App.css';
 import SideMenu from './SideMenu';
-import About from './About'
 
 class Header extends Component {
 

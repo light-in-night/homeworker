@@ -44,6 +44,7 @@ public class CategoryManagerSQL implements CategoryManager {
             PreparedStatement preparedStatement = connection.prepareStatement(ADD_CATEGORY);
             preparedStatement.setString(1, category.getName());
             preparedStatement.setString(2, category.getDescription());
+            preparedStatement.executeUpdate();
         } catch (InterruptedException | SQLException e) {
             e.printStackTrace();
         } finally {
