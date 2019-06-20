@@ -1,5 +1,7 @@
 package org.freeuni.homeworker.server.model.objects.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.freeuni.homeworker.server.utils.StringUtils;
@@ -12,6 +14,7 @@ import java.util.Objects;
  */
 @SuppressWarnings("WeakerAccess")
 @JsonInclude(JsonInclude.Include.NON_NULL) // annotation to include null values when converted to json
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
 	@JsonProperty("id")

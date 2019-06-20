@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class PostEditManager implements PostEdit {
-    private final String EDIT_POST = "update posts Set content = ? , lastUpdated = now() where postId = ?";
+    private final String EDIT_POST = "UPDATE posts SET content = ? where id = ?";
     // Gets postEdit object and sets column data for given object id to text in database
     private final ConnectionPool connectionsPool;
 
