@@ -3,11 +3,7 @@ CREATE DATABASE homeworker;
 USE homeworker;
 
 #DELETE TABLES
-DROP TABLE IF EXISTS postLike;
-DROP TABLE IF EXISTS postCategory;
-DROP TABLE IF EXISTS categories;
-DROP TABLE IF EXISTS posts;
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS postLike, postCategory,categories,posts,users;
 
 #CREATE TABLES
 CREATE TABLE users (
@@ -59,7 +55,7 @@ CREATE TABLE postCategory(
 );
 
 
-###POPULATE DB###
+#####################################POPULATE DB####################################
 
 #USERS
 INSERT INTO homeworker.users
@@ -67,21 +63,42 @@ INSERT INTO homeworker.users
 VALUES
 ('tornike','onoprishvili','male','tonop15@freeuni.edu.ge','something',10),
 ('guga','gugashvili','male','ggush@freeuni.edu.ge','somethingother',-11),
-('givi','givishvili','male','ggivi@freeuni.edu.ge','somethingweird',41);
+('givi','givishvili','male','ggivi@freeuni.edu.ge','somethingweirddqw',41),
+('magda','zandra','female','mlac@freeuni.edu.ge','dqwe',5),
+('marco','lianora','male','ddasd@mit.edu.us','aaqqee',-31),
+('pope','gvalia','male','ggivi@stanford.edu','blah',11);
 
 #POSTS
 INSERT INTO  homeworker.posts
 (userId , content , rating )
 VALUES
-(1, 'hello world!',0),
-(2, 'fluggengeggenholen!',0),
-(3, 'ashmalaxa!',0);
+(1, 'hello world!', 3),
+(1, 'learning c++!', 0),
+(1, 'i hate java', -1),
+(2, 'i am high!',0),
+(2, 'go to the door!',1),
+(2, 'fluck!',1),
+(3, 'miscusi!',2),
+(3, 'fluck!',2),
+(3, 'mother of god!',10),
+(4, 'ashmalaxa!',0),
+(5, 'morte mio!',10);
 
 #POST LIKES
 INSERT INTO homeworker.postlike
 (userId,postId,liked)
 VALUES
-(1,1,true),(1,2,true),(2,1,true);
+(1,1,true),
+(1,2,true),
+(2,1,true),
+(3,9,true),
+(3,6,true),
+(4,1,false),
+(4,2,false),
+(4,3,false),
+(4,4,false),
+(4,5,false),
+(4,6,false);
 
 #CATEGORY
 INSERT INTO homeworker.categories
@@ -89,53 +106,60 @@ INSERT INTO homeworker.categories
 VALUES
 ('Jobs', 'Hire workforce or apply for a job!'),
 ('Life and Style', 'Daily posts from other homeworkers!'),
-('Updates', 'System updates and important notifications.');
+('Updates', 'System updates and important notifications.'),
+('WTF', 'Something funny.');
 
 #POST CATEGORY
-INSERT INTO homeworker.postcategory
-(postId,categoryId)
-VALUES
-(1,1),
-(1,2),
-(2,3),
-(3,3);
-
-
-###SELECTS###
-
-#POSTS
-
-#USERS
-
-#POST LIKES
-SELECT postcategory.id, postcategory.postId, postcategory.categoryId
-FROM homeworker.postcategory
-WHERE postcategory.postId = 1;
-
 
 INSERT INTO homeworker.postcategory
 (postId, categoryId)
 VALUES
-(3,1);
+(1,1),
+(2,1),
+(3,2),
+(4,2),
+(5,2),
+(6,2),
+(7,3),
+(8,4),
+(9,4);
 
-DELETE FROM homeworker.postcategory
-WHERE postcategory.id = 1;
+#DELETE FROM homeworker.postcategory
+#WHERE postcategory.id = 1;
+
+
+
+
+########################SELECTS############################
+
+#POSTS
+#select *
+#from homeworker.posts;
+#USERS
+
+#POST LIKES
+
 
 
 #CATEGORIES
-SELECT categories.id, categories.name, categories.description
-FROM homeworker.categories
-WHERE categories.id = 1;
+# SELECT categories.id, categories.name, categories.description
+# FROM homeworker.categories
+# WHERE categories.id = 1;
 
-DELETE FROM homeworker.categories
-WHERE categories.id = 1;
+#DELETE FROM homeworker.categories
+#WHERE categories.id = 1;
 
 #POST CATEGORIES
-SELECT COUNT(post.id)
-FROM homeworker.postcategory as postcategory
-JOIN homeworker.categories as category ON
-	  postcategory.categoryId = category.id
-JOIN homeworker.posts as post ON
-    postcategory.postId = post.id
-WHERE category.id = 3;
+# SELECT COUNT(post.id)
+# FROM homeworker.postcategory as postcategory
+# JOIN homeworker.categories as category ON
+# 	  postcategory.categoryId = category.id
+# JOIN homeworker.posts as post ON
+#     postcategory.postId = post.id
+# WHERE category.id = 3;
+
+# SELECT postcategory.id, postcategory.postId, postcategory.categoryId
+# FROM homeworker.postcategory
+# WHERE postcategory.postId = 1;
+
 

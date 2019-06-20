@@ -6,31 +6,11 @@ import Header from './components/Header'
 import Contact from './components/Contact'
 import About from './components/About'
 import Registration from './components/Registration';
+import PostCreation from './components/PostCreation'
 import Login from './components/Login'
 
 
 class App extends Component {
-
-    categories = () => {
-        return [
-            {
-                name: 'Category 1',
-                numberOfPosts: '500'
-            },
-            {
-                name: 'Category 2',
-                numberOfPosts: '500'
-            },
-            {
-                name: 'Category 3',
-                numberOfPosts: '412'
-            },
-            {
-                name: 'Category 4',
-                numberOfPosts: '331'
-            }
-            ]
-    };
 
     render() {
         return (
@@ -42,7 +22,7 @@ class App extends Component {
                     <Route path='/about' component={About}/>
                     <Route path='/contact' component={Contact}/>
                     <Route path='/register' component={Registration}/>
-                    <Route path='/login' component={Login}/>
+                    <Route path='/createPost' component={PostCreation}/>
                 </div>
             </BrowserRouter>
         );

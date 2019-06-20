@@ -13,17 +13,17 @@ import java.util.List;
 public class PostManagerSQL implements PostManager {
 
     private static final String ADD_POST =
-            "INSERT INTO posts (userId_FK, content) \n" +
+            "INSERT INTO posts (userId, content) \n" +
                     "VALUES \n" +
                     "(?,?);";
     private static final String SELECT_BY_ID =
             "SELECT *\n" +
                     "    FROM posts\n" +
-                    "    WHERE posts.postId = ?;";
+                    "    WHERE posts.id = ?;";
     private static final String SELECT_BY_USER_ID =
             "SELECT *\n" +
                     "    FROM posts\n" +
-                    "    WHERE posts.userId_FK = ?;";
+                    "    WHERE posts.userId = ?;";
     private static final String SELECT_BETWEEN_TIMES =
             "SELECT *\n" +
                     "FROM posts\n" +
@@ -33,6 +33,9 @@ public class PostManagerSQL implements PostManager {
             "UPDATE posts\n" +
                     "SET rating = rating + ?\n" +
                     "WHERE id = ?;";
+    private static final String SELECT_ALL =
+            "SELECT *" +
+                    "FROM homeworker.posts;";
 
 
     private final ConnectionPool connectionPool;
@@ -62,6 +65,7 @@ public class PostManagerSQL implements PostManager {
             PreparedStatement preparedStatement = connection.prepareStatement(ADD_POST);
             preparedStatement.setLong(1, post.getUserId());
             preparedStatement.setString(2, post.getContents());
+            preparedStatement.executeUpdate();
         } catch (InterruptedException | SQLException e) {
             e.printStackTrace();
         } finally {
@@ -162,6 +166,11 @@ public class PostManagerSQL implements PostManager {
         return null;
     }
 
+    /**
+     *
+     * @param post_id
+     * @param correctedContains
+     */
     @Override
     public void updatePostContents(long post_id, String correctedContains) {
         Connection connection = null;
@@ -184,6 +193,12 @@ public class PostManagerSQL implements PostManager {
         }
     }
 
+    /**
+     * updates the post rating with the given difference
+     *
+     * @param post_id id of the updated post
+     * @param diff DIFFERENCE of ratings the new and old posts
+     */
     @Override
     public void updatePostRating(long post_id, long diff) {
         Connection connection = null;
@@ -205,6 +220,28 @@ public class PostManagerSQL implements PostManager {
                 connectionPool.putBackConnection(connection);
             }
         }
+    }
+
+    @Override
+    public List<Post> getAllPosts() {
+        Connection connection = null;
+        try {
+            connection = connectionPool.acquireConnection();
+            if (connection == null) {
+                log.info("Server is stopped can't persist more data.");
+                return null;
+            }
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return PostFactory.listFromResultSet(resultSet);
+        } catch (InterruptedException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                connectionPool.putBackConnection(connection);
+            }
+        }
+        return null;
     }
 
     @Override

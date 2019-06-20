@@ -62,6 +62,7 @@ public class PostCategoryManagerSQL implements PostCategoryManager {
             PreparedStatement preparedStatement = connection.prepareStatement(ADD_POST_CATEGORY);
             preparedStatement.setLong(1, postCategory.getPostId());
             preparedStatement.setLong(2, postCategory.getCategoryId());
+            preparedStatement.executeUpdate();
         } catch (InterruptedException | SQLException e) {
             e.printStackTrace();
         } finally {

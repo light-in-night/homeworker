@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * Connection pool holds connections and
+ * is thread-safe.
+ */
 @SuppressWarnings("WeakerAccess")
 public class ConnectionPool {
 
@@ -22,6 +26,10 @@ public class ConnectionPool {
 
 	private static Logger log = LoggerFactory.getLogger(UserManagerSQL.class);
 
+	/**
+	 * Initializes a new connection pool with given list of connections.
+	 * @param connections
+	 */
 	public ConnectionPool(List<Connection> connections) {
 		if (connections != null && connections.size() > 0) { // assert that number of connections passed is more than zero if that's not so this class has no function.
 			connectionsPool = new ArrayBlockingQueue<>(connections.size()); //initialize new pool
@@ -33,7 +41,10 @@ public class ConnectionPool {
 		}
 	}
 
-	// takes a connection if it is available if not blocks before recourse is available
+	/**
+	 *
+	 * takes a connection if it is available if not blocks before recourse is available
+ 	 */
 	public Connection acquireConnection() throws InterruptedException {
 		if (!destroying) {
 			return connectionsPool.take();
@@ -41,11 +52,17 @@ public class ConnectionPool {
 		return null;
 	}
 
-	// method to return connection back to pool only connection retrieved from pool should be back to pool if not illegal state may occur
+	/**
+	 * method to return connection back to pool only connection retrieved from pool should be back to pool if not illegal state may occur
+	 * @param connection connection to return this must be ALWAYS called after the aqureConnection() method.
+	 */
 	public void putBackConnection(Connection connection) {
 		connectionsPool.add(connection);
 	}
 
+	/**
+	 * Destroy method must be called whenever the object is to be deleted.
+	 */
 	public void destroy() {
 		destroying = true;
 		if (connectionsPool.size() == numberOfInitialConnections) {
