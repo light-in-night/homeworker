@@ -60,4 +60,9 @@ public interface PostManager extends AbstractManager {
      */
     void updatePostRating(long post_id, long diff);
 
+    /**
+     * Returns all posts in database
+     * @return list of all posts
+     */
+    List<Post> getAllPosts();
 }

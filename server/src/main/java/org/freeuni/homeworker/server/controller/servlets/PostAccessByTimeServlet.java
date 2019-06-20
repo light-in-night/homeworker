@@ -6,23 +6,21 @@ import org.freeuni.homeworker.server.model.managers.posts.PostManager;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.List;
 
-@WebServlet(name = "PostAccessServlet", urlPatterns = {"/getpost"})
-public class PostAccessServlet extends HttpServlet {
-
+@WebServlet(name = "PostAccessByTimeServlet", urlPatterns = "/getpost/byTime")
+public class PostAccessByTimeServlet extends HttpServlet {
     /**
-     * Returns every post from Database.
-     * requires no arguments to be passed in.
-     * The returned JSON will have a format
-     * for example like this:
+     * Returns JSON list of posts between given two times.
+     * the times are in format yyyy-[m]m-[d]d hh:mm:ss[.f...]. format. for example '2019-1-5 23:12:31'.
+     * you must provide two parameters : startTime, endTime, both having above said formats.
+     * this will return JSON of list of posts :
      * example : {
      *      [{
      *          "id" : 1234,
@@ -41,20 +39,16 @@ public class PostAccessServlet extends HttpServlet {
      *      ]
      *  }
      */
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Utilities.setCORSHeaders(response);
         Utilities.setJSONContentType(response);
+        Utilities.setCORSHeaders(response);
 
-        PostManager postManager = (PostManager) request.getServletContext().getAttribute(ContextKeys.POST_MANAGER);
-        ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+        PostManager postManager = (PostManager) getServletContext().getAttribute(ContextKeys.POST_MANAGER);
+        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
 
-        List<Post> postList = postManager.getAllPosts();
-
-        ServletOutputStream out = response.getOutputStream();
-
-        String jsonOutput = objectMapper.writeValueAsString(postList);
-
-        out.print(jsonOutput);
+        Timestamp startTime = Timestamp.valueOf(request.getParameter("startTime"));
+        Timestamp endTime = Timestamp.valueOf(request.getParameter("endTime"));
+        List<Post> posts = postManager.getPostsBetweenTimes(startTime, endTime);
+        response.getWriter().write(objectMapper.writeValueAsString(posts));
     }
 }

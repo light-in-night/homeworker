@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "CategoryAccessServlet", urlPatterns = "/getCategories,/categories")
+@WebServlet(name = "CategoryAccessServlet", urlPatterns = "/getcategory")
 public class CategoryAccessServlet extends HttpServlet {
     /**
      * Returns every category in the database.

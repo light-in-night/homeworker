@@ -2,27 +2,25 @@ package org.freeuni.homeworker.server.controller.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
-import org.freeuni.homeworker.server.model.managers.posts.PostManager;
+import org.freeuni.homeworker.server.model.managers.postCategory.PostCategoryManager;
 import org.freeuni.homeworker.server.model.objects.post.Post;
+import org.freeuni.homeworker.server.model.objects.postCategory.PostCategory;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "PostAccessServlet", urlPatterns = {"/getpost"})
-public class PostAccessServlet extends HttpServlet {
+@WebServlet(name = "PostAccessByCategoryServlet", urlPatterns = "/getpost/bycategory")
+public class PostAccessByCategoryServlet extends HttpServlet {
 
     /**
-     * Returns every post from Database.
-     * requires no arguments to be passed in.
-     * The returned JSON will have a format
-     * for example like this:
+     * Returns list of posts of given category.
+     * expects a Parameter of categoryId.
+     * returns a JSON of given format :
      * example : {
      *      [{
      *          "id" : 1234,
@@ -40,21 +38,15 @@ public class PostAccessServlet extends HttpServlet {
      *      ...
      *      ]
      *  }
-     */
-    @Override
+     **/
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Utilities.setCORSHeaders(response);
         Utilities.setJSONContentType(response);
 
-        PostManager postManager = (PostManager) request.getServletContext().getAttribute(ContextKeys.POST_MANAGER);
-        ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-
-        List<Post> postList = postManager.getAllPosts();
-
-        ServletOutputStream out = response.getOutputStream();
-
-        String jsonOutput = objectMapper.writeValueAsString(postList);
-
-        out.print(jsonOutput);
+        PostCategoryManager postCategoryManager = (PostCategoryManager) getServletContext().getAttribute(ContextKeys.POST_CATEGORY_MANAGER);
+        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+        long categoryId = Long.parseLong((String) request.getAttribute("categoryId"));
+        List<Post> posts = postCategoryManager.getPostsInCategory(categoryId);
+        response.getWriter().write(objectMapper.writeValueAsString(posts));
     }
 }

@@ -12,16 +12,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "/makePost", urlPatterns = "/newPost, /makePost, /createPost")
+@WebServlet(name = "/makePost", urlPatterns = "/createpost")
 public class PostCreationServlet extends HttpServlet {
 
     /**
      * This servlet creates posts.
      * to use it, you must send JSON in this format:
      *  {
-     *      userId  : 123456,
-     *      content : 'hello world',
-     *      category : 'lifestyle'
+     *      "userId" : 123456,
+     *      "content" : "hello world",
+     *      "category" : "lifestyle"
      *  }
      *
      *  that will create a new post that has category 'lifestyle"
@@ -35,7 +35,6 @@ public class PostCreationServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         PostManager postManager = (PostManager) getServletContext().getAttribute(ContextKeys.POST_MANAGER);
 

@@ -13,14 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "CategoryCreationServlet", urlPatterns = "/newCategory, /makeCategory, /createCategory")
+@WebServlet(name = "CategoryCreationServlet", urlPatterns = "/createcategory")
 public class CategoryCreationServlet extends HttpServlet {
     /**
      * Creates a new Category.
      * Reads as input a JSON String in following format:
      * {
-     *     name : 'jobs',
-     *     description : 'where people work'
+     *     "name" : 'jobs',
+     *     "description" : 'where people work'
      * }
      *
      * @param request

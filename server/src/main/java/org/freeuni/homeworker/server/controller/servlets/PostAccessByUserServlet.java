@@ -6,23 +6,23 @@ import org.freeuni.homeworker.server.model.managers.posts.PostManager;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "PostAccessServlet", urlPatterns = {"/getpost"})
-public class PostAccessServlet extends HttpServlet {
-
+@WebServlet(name = "PostAccessByUserServlet",urlPatterns = "/getpost/byuser")
+public class PostAccessByUserServlet extends HttpServlet {
     /**
-     * Returns every post from Database.
-     * requires no arguments to be passed in.
-     * The returned JSON will have a format
-     * for example like this:
+     *  Expects an single integer argument with a name
+     *  userId.
+     *  As an example it can be passed in via this url link :
+     *  http//:localhost:8089/war_exploded/getPosts/byUser/?userId=123
+     *
+     *   the returned JSON will contain all the posts by user with id 123
+     *  for example
      * example : {
      *      [{
      *          "id" : 1234,
@@ -43,18 +43,14 @@ public class PostAccessServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Utilities.setCORSHeaders(response);
         Utilities.setJSONContentType(response);
+        Utilities.setCORSHeaders(response);
 
-        PostManager postManager = (PostManager) request.getServletContext().getAttribute(ContextKeys.POST_MANAGER);
-        ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+        PostManager postManager = (PostManager) getServletContext().getAttribute(ContextKeys.POST_MANAGER);
+        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
 
-        List<Post> postList = postManager.getAllPosts();
-
-        ServletOutputStream out = response.getOutputStream();
-
-        String jsonOutput = objectMapper.writeValueAsString(postList);
-
-        out.print(jsonOutput);
+        String userIdString = request.getParameter("userId");
+        List<Post> posts = postManager.getPostsByUser(Long.parseLong(userIdString));
+        response.getWriter().write(objectMapper.writeValueAsString(posts));
     }
 }
