@@ -45,31 +45,43 @@ public class PostLikeServlet extends HttpServlet {
     private void executeRequest(HttpServletRequest request, HttpServletResponse response, String jSonObject) {
         Response resp = new Response();
         try {
-            PostLike postLikeObject = new ObjectMapper().readValue(jSonObject, PostLike.class);
-            PostLikeManager likeModuleManager = (PostLikeManager) request.getServletContext().getAttribute(ContextKeys.POST_LIKE_MANAGER);
-            if(postLikeObject.isLiked()){
-                if(likeModuleManager.like(postLikeObject)) {
-                    resp.setMessage("Request Executed Without Fail");
-                    resp.setStatus(ResponseStatus.OK.name());
-                } else{
-                    resp.setMessage("Error During Adding Post Like");
-                    resp.setStatus(ResponseStatus.ERROR.name());
-                }
-            } else {
-                if(likeModuleManager.unLike(postLikeObject)){
-                    resp.setStatus(ResponseStatus.OK.name());
-                    resp.setMessage("Request Executed Without Fail");
-                }else{
-                    resp.setStatus(ResponseStatus.ERROR.name());
-                    resp.setMessage("Error During Post Dislike");
-                }
-            }
             ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-            response.getWriter().write(objectMapper.writeValueAsString(resp));
+            PostLike postLikeObject = objectMapper.readValue(jSonObject, PostLike.class);
+            if(invalidJSon(postLikeObject)){
+                resp.setMessage("Invalid JSon");
+                resp.setStatus(ResponseStatus.ERROR.name());
+                response.getWriter().write(objectMapper.writeValueAsString(resp));
+                return;
+            } else {
+                PostLikeManager likeModuleManager = (PostLikeManager) request.getServletContext().getAttribute(ContextKeys.POST_LIKE_MANAGER);
+                if (postLikeObject.isLiked()) {
+                    if (likeModuleManager.like(postLikeObject)) {
+                        resp.setMessage("Request Executed Without Fail");
+                        resp.setStatus(ResponseStatus.OK.name());
+                    } else {
+                        resp.setMessage("Error During Adding Post Like");
+                        resp.setStatus(ResponseStatus.ERROR.name());
+                    }
+                } else {
+                    if (likeModuleManager.unLike(postLikeObject)) {
+                        resp.setStatus(ResponseStatus.OK.name());
+                        resp.setMessage("Request Executed Without Fail");
+                    } else {
+                        resp.setStatus(ResponseStatus.ERROR.name());
+                        resp.setMessage("Error During Post Dislike");
+                    }
+                }
+                response.getWriter().write(objectMapper.writeValueAsString(resp));
+
+            }
         } catch (IOException e) {
             e.printStackTrace();
             log.error("Error Occurred, IO Exception, Caused By Either Database Connection, Or Bad JSON");
         }
+    }
+
+    private boolean invalidJSon(PostLike postLikeObject) {
+        return postLikeObject == null || postLikeObject.containsNullFields();
     }
 
     /**

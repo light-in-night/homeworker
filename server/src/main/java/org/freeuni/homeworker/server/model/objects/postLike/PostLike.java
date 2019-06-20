@@ -5,6 +5,7 @@ package org.freeuni.homeworker.server.model.objects.postLike;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -21,13 +22,13 @@ public class PostLike implements Serializable {
     private long id;
 
     @JsonProperty("userID")
-    private long userID;
+    private Long userID;
 
     @JsonProperty("postID")
-    private long postID;
+    private Long postID;
 
     @JsonProperty("liked")
-    private boolean liked;
+    private Boolean liked;
 
     /**
      * Constructs PostLike Object, Which Contains Information, That
@@ -37,7 +38,7 @@ public class PostLike implements Serializable {
      * @param postID Post ID
      * @param liked Shows Whether User Liked, Or Disliked The Post
      */
-    public PostLike(long id, int userID, int postID, boolean liked) {
+    public PostLike(long id, Long userID, Long postID, Boolean liked) {
         this.id = id;
         this.userID = userID;
         this.postID = postID;
@@ -60,7 +61,7 @@ public class PostLike implements Serializable {
         return userID;
     }
 
-    public void setUserID(long userID) {
+    public void setUserID(Long userID) {
         this.userID = userID;
     }
 
@@ -68,7 +69,7 @@ public class PostLike implements Serializable {
         return postID;
     }
 
-    public void setPostID(long postID) {
+    public void setPostID(Long postID) {
         this.postID = postID;
     }
 
@@ -76,7 +77,7 @@ public class PostLike implements Serializable {
         return liked;
     }
 
-    public void setLiked(boolean liked) {
+    public void setLiked(Boolean liked) {
         this.liked = liked;
     }
 
@@ -94,6 +95,13 @@ public class PostLike implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getUserID(), getPostID(), isLiked());
+    }
+
+
+    public boolean containsNullFields(){
+        return userID == null ||
+                postID == null ||
+                liked == null;
     }
 
     @Override
