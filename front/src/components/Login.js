@@ -69,32 +69,32 @@ class Login extends Component {
     
     render() {
         return (
-            <div>
+            <div id="loginBody">
             <form>
-            <ul className="loginForm">
+            <ul className="loginFormList">
                 <li>
                     <label htmlFor="first-name">First Name</label>
-                    <input type="text" id="first-name" placeholder="Enter your first name here" onChange={this.handleFirstNameChange}/>
+                    <input type="text" id="first-name" placeholder="Enter your Firstname Here" onChange={this.handleFirstNameChange}/>
                 </li>
                 <li>
                     <label htmlFor="last-name">Last Name</label>
-                    <input type="text" id="last-name" placeholder="Enter your last name here" onChange={this.handleLastNameChange}/>
+                    <input type="text" id="last-name" placeholder="Enter Your Lastname Here" onChange={this.handleLastNameChange}/>
                 </li>
                 <li>
                     <label htmlFor="phone-number">Phone Number</label>
-                    <input type="text" id="phone-number" placeholder="Enter your Phone Number here" onChange={this.handlePhoneNumberChange}/>
+                    <input type="text" id="phone-number" placeholder="Enter Your Phone Number Here" onChange={this.handlePhoneNumberChange}/>
                 </li>
                 <li>
                     <label htmlFor="email">Email</label>
-                    <input type="email" id="email" placeholder="Enter your email here" onChange={this.handleEmailChange}/>
+                    <input type="email" id="email" placeholder="Enter Your Email Here" onChange={this.handleEmailChange}/>
                 </li>
                 <li>
                     <label htmlFor="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter your password here" onChange={this.handlePasswordChange}/>
+                    <input type="password" id="password" placeholder="Enter Your Password Here" onChange={this.handlePasswordChange}/>
                 </li>
                 <li>
                     <label htmlFor="repeat-password">Repeat Password</label>
-                    <input type="password" id="repeat-password" placeholder="Repeat your password here" onChange={this.handleRepeatPasswordChange}/>
+                    <input type="password" id="repeat-password" placeholder="Repeat Your Password Here" onChange={this.handleRepeatPasswordChange}/>
                 </li>
                 <li>
                 <button type="submit" onClick={this.login}>Login</button>

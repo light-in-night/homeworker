@@ -23,6 +23,7 @@ class App extends Component {
                     <Route path='/contact' component={Contact}/>
                     <Route path='/register' component={Registration}/>
                     <Route path='/createPost' component={PostCreation}/>
+                    <Route path='/Login' component={Login}/>
                 </div>
             </BrowserRouter>
         );
