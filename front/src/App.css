@@ -20,7 +20,7 @@ height: 100%;
   margin: 0 auto;
 }
 .aboutCss{
-  height: 600px;
+  min-height: 600px;
   background: rgb(26,0,36);
   background: linear-gradient(90deg, rgba(26,0,36,0.7343312324929971) 1%, rgba(9,121,44,0.8127626050420168) 48%, rgba(0,212,255,1) 100%);
 
@@ -109,6 +109,10 @@ nav a:hover::before {
 }
 .AboutClassItem{
   margin : 5%;
+}
+.AboutClassItem >img{
+  padding:1px;
+   border:1px solid #021a40;
 }
 .PersonInfo{
   min-height :100px;
