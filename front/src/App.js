@@ -15,6 +15,7 @@ class App extends Component {
 
     render() {
         return (
+            
               <BrowserRouter>
                 <div className="App">
                     <Header/>
@@ -28,6 +29,7 @@ class App extends Component {
                     <Route path='/posts' component={ExpandingPostWall}/>
                 </div>
             </BrowserRouter>
+           
         );
     }
 }
