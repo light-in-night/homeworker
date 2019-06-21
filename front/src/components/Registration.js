@@ -4,28 +4,45 @@ class Registration extends Component {
     state = {
         firstName: "",
         lastName: "",
+        gender: "",
         email: "",
         password: "",
         repeatPassword: ""
     };
 
-
     register = (e) => {
         e.preventDefault();
+        e.target.disabled = true;
         let request = JSON.stringify(this.state);
         fetch('http://localhost/register', {
             method: 'POST',
             body: request
         }).then((response) => {
-            console.log(response);
+            if(response.status !== "OK") {
+                console.log(response);
+            } else {
+                this.routeChange();
+            }
         })
     };
+
+    routeChange = () => {
+        let path = 'home';
+        this.props.history.push(path);
+    }
+
     handleFirstNameChange = (e) => {
         this.setState({firstName: e.target.value});
     };
+
     handleLastNameChange = (e) => {
         this.setState({lastName: e.target.value});
     };
+    
+    handleGenderChange = (e) => {
+        this.setState({gender: e.target.value});
+    };
+
     handleEmailChange = (e) => {
         this.setState({email: e.target.value});
     };
@@ -39,7 +56,7 @@ class Registration extends Component {
     render() {
         return (
             <div id='registrationForm'>
-                <form>
+                <form >
                 <ul className="regFormOuter">
                     <li>
                         <label htmlFor="first-name">First Name</label>
@@ -48,6 +65,10 @@ class Registration extends Component {
                     <li>
                         <label htmlFor="last-name">Last Name</label>
                         <input type="text" id="last-name" placeholder="Enter your last name here" onChange={this.handleLastNameChange}/>
+                    </li>
+                    <li>
+                        <label htmlFor="gender">Gender</label>
+                        <input type="text" id="gender" placeholder="Enter your gender here" onChange={this.handleGenderChange}/>
                     </li>
                     <li>
                         <label htmlFor="email">Email</label>

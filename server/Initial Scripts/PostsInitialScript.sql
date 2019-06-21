@@ -8,7 +8,6 @@ CREATE TABLE posts (
    id         bigint auto_increment,
    userId  		bigint,
    content    VARCHAR(1000) NOT NULL,
-   rating     bigint default 0,
    creationtimestamp timestamp default CURRENT_TIMESTAMP,
    foreign key (userId) references users(id),
 	primary key (id)

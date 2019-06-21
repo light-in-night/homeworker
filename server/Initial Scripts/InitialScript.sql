@@ -14,16 +14,15 @@ CREATE TABLE users (
     email VARCHAR(100) NOT NULL,
     password VARCHAR(100) NOT NULL,
     karma bigint default 0,
-    constraint pkId primary key (id)
+    constraint pkId primary key (id),
+	unique key (email)
 );
 
 CREATE TABLE posts (
    id         bigint auto_increment,
    userId  	  bigint,
    content    VARCHAR(1024) NOT NULL,
-   rating     bigint default 0,
    creationtimestamp timestamp default CURRENT_TIMESTAMP,
-   category  varchar(64) default '',
    foreign key (userId) references users(id),
    primary key (id)
 );
@@ -70,19 +69,19 @@ VALUES
 
 #POSTS
 INSERT INTO  homeworker.posts
-(userId , content , rating )
+(userId , content )
 VALUES
-(1, 'hello world!', 3),
-(1, 'learning c++!', 0),
-(1, 'i hate java', -1),
-(2, 'i am high!',0),
-(2, 'go to the door!',1),
-(2, 'fluck!',1),
-(3, 'miscusi!',2),
-(3, 'fluck!',2),
-(3, 'mother of god!',10),
-(4, 'ashmalaxa!',0),
-(5, 'morte mio!',10);
+(1, 'hello world!'),
+(1, 'learning c++!'),
+(1, 'i hate java'),
+(2, 'i am high!'),
+(2, 'go to the door!'),
+(2, 'fluck!'),
+(3, 'miscusi!'),
+(3, 'fluck!'),
+(3, 'mother of god!'),
+(4, 'ashmalaxa!'),
+(5, 'morte mio!');
 
 #POST LIKES
 INSERT INTO homeworker.postlike
@@ -127,16 +126,15 @@ VALUES
 #DELETE FROM homeworker.postcategory
 #WHERE postcategory.id = 1;
 
-
-
-
 ########################SELECTS############################
 
 #POSTS
 #select *
 #from homeworker.posts;
-#USERS
 
+#USERS
+# select *
+# from homeworker.users;
 #POST LIKES
 
 
@@ -150,12 +148,13 @@ VALUES
 #WHERE categories.id = 1;
 
 #POST CATEGORIES
-# SELECT COUNT(post.id)
+#
+# SELECT post.*
 # FROM homeworker.postcategory as postcategory
 # JOIN homeworker.categories as category ON
 # 	  postcategory.categoryId = category.id
 # JOIN homeworker.posts as post ON
-#     postcategory.postId = post.id
+#      postcategory.postId = post.id
 # WHERE category.id = 3;
 
 # SELECT postcategory.id, postcategory.postId, postcategory.categoryId

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "/makePost", urlPatterns = "/createpost")
+@WebServlet(name = "PostCreationServlet", urlPatterns = "/createpost")
 public class PostCreationServlet extends HttpServlet {
 
     /**
@@ -35,11 +35,13 @@ public class PostCreationServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         PostManager postManager = (PostManager) getServletContext().getAttribute(ContextKeys.POST_MANAGER);
 
         String jsonStr = Utilities.readFromRequest(request);
         Post post = objectMapper.readValue(jsonStr,Post.class);
         postManager.add(post);
+
     }
 }

@@ -7,8 +7,9 @@ import java.io.PrintWriter;
 
 public class Utilities {
     public static HttpServletResponse setCORSHeaders(HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
         response.setHeader("Access-Control-Allow-Methods", "GET,POST");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
         return response;
     }
 

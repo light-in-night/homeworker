@@ -19,7 +19,7 @@ public class PostAccessByCategoryServlet extends HttpServlet {
 
     /**
      * Returns list of posts of given category.
-     * expects a Parameter of categoryId.
+     * Expects a Parameter named categoryId that is a number.
      * returns a JSON of given format :
      * example : {
      *      [{
@@ -45,7 +45,7 @@ public class PostAccessByCategoryServlet extends HttpServlet {
 
         PostCategoryManager postCategoryManager = (PostCategoryManager) getServletContext().getAttribute(ContextKeys.POST_CATEGORY_MANAGER);
         ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-        long categoryId = Long.parseLong((String) request.getAttribute("categoryId"));
+        long categoryId = Long.parseLong((String) request.getParameter("categoryId"));
         List<Post> posts = postCategoryManager.getPostsInCategory(categoryId);
         response.getWriter().write(objectMapper.writeValueAsString(posts));
     }

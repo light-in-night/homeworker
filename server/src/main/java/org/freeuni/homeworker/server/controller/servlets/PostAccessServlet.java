@@ -40,6 +40,13 @@ public class PostAccessServlet extends HttpServlet {
      *      ...
      *      ]
      *  }
+     *  basically, we have this structure:
+     *  {
+     *      {postJson_0},
+     *      {postJson_1},
+     *      {postJson_2},
+     *      ...
+     *  }
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
