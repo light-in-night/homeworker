@@ -10,10 +10,23 @@ body {
   background-color: ghostwhite;
 }
 
+html,body {
+height: 100%;
+}
+
 .container {
   width: 80%;
   top: 50%;
   margin: 0 auto;
+}
+.aboutCss{
+  height: 600px;
+  background: rgb(26,0,36);
+  background: linear-gradient(90deg, rgba(26,0,36,0.7343312324929971) 1%, rgba(9,121,44,0.8127626050420168) 48%, rgba(0,212,255,1) 100%);
+
+}
+.aboutCss h2,p {
+  color: white;
 }
 
 header {
@@ -93,6 +106,21 @@ nav a:hover::before {
   background-color: ghostwhite;
   align-items: center;
   justify-content: center;
+}
+.AboutClassItem{
+  margin : 5%;
+}
+.PersonInfo{
+  min-height :100px;
+  border: 3px dashed #E3E551;
+  border-radius: 13px;
+  
+}
+
+.aboutClass{
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: row wrap;
 }
 
 .category-item {
@@ -297,4 +325,18 @@ nav a:hover::before {
 
 #loginBody {
   padding: 2em;
+}
+
+.hit-the-floor{
+  color: #B548CB; font-size: 48px; font-family: 'Signika', sans-serif; padding-bottom: 10px;
+   
+}
+.drop-the-floor{
+  font-family: Georgia,"Times New Roman",serif;
+
+ font-weight: bold;
+ color:white;
+ line-height: 22px;
+ margin: 0;
+ letter-spacing: 1px
 }
