@@ -1,6 +1,7 @@
 package org.freeuni.homeworker.server.model.managers.posts;
 
 import org.freeuni.homeworker.server.controller.servlets.UserRegistrationServlet;
+import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 import org.freeuni.homeworker.server.model.objects.post.PostFactory;
 import org.freeuni.homeworker.server.model.source.ConnectionPool;
@@ -10,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.*;
 import java.util.List;
 
-public class PostManagerSQL implements PostManager {
+public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
 
     private static final String ADD_POST =
             "INSERT INTO posts (userId, content) \n" +
@@ -37,14 +38,10 @@ public class PostManagerSQL implements PostManager {
             "SELECT *" +
                     "FROM homeworker.posts;";
 
-
-    private final ConnectionPool connectionPool;
-
     private static Logger log = LoggerFactory.getLogger(UserRegistrationServlet.class);
 
-
     public PostManagerSQL(ConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
+        super(connectionPool);
     }
 
     /**
@@ -167,7 +164,6 @@ public class PostManagerSQL implements PostManager {
     }
 
     /**
-     *
      * @param post_id
      * @param correctedContains
      */
@@ -197,7 +193,7 @@ public class PostManagerSQL implements PostManager {
      * updates the post rating with the given difference
      *
      * @param post_id id of the updated post
-     * @param diff DIFFERENCE of ratings the new and old posts
+     * @param diff    DIFFERENCE of ratings the new and old posts
      */
     @Override
     public void updatePostRating(long post_id, long diff) {
@@ -244,8 +240,4 @@ public class PostManagerSQL implements PostManager {
         return null;
     }
 
-    @Override
-    public void destroyManager() {
-        connectionPool.destroy();
-    }
 }

@@ -10,7 +10,7 @@ CREATE TABLE users (
     id BIGINT AUTO_INCREMENT,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
-    gender VARCHAR(100) default "unspecified",
+    gender VARCHAR(100) default 'unspecified',
     email VARCHAR(100) NOT NULL,
     password VARCHAR(100) NOT NULL,
     karma BIGINT default 0,

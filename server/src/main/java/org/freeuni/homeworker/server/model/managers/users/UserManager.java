@@ -1,6 +1,5 @@
 package org.freeuni.homeworker.server.model.managers.users;
 
-import org.freeuni.homeworker.server.model.managers.AbstractManager;
 import org.freeuni.homeworker.server.model.objects.user.User;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
  * Author : Guga Tkesheladze
  *
  */
-public interface UserManager extends AbstractManager {
+public interface UserManager {
 
     /**
      * Adds a new user in the database
