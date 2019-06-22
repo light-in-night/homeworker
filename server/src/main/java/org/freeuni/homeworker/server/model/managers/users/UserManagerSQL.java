@@ -1,6 +1,7 @@
 package org.freeuni.homeworker.server.model.managers.users;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.freeuni.homeworker.server.model.source.ConnectionPool;
 import org.freeuni.homeworker.server.model.objects.user.User;
 import org.freeuni.homeworker.server.model.objects.user.UserFactory;
@@ -17,8 +18,8 @@ import java.util.List;
  * This class is implementation of
  * @code UserManager interface
  */
-@SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection"})
-public class UserManagerSQL implements UserManager {
+@SuppressWarnings({"SqlNoDataSourceInspection"})
+public class UserManagerSQL extends GeneralManagerSQL implements UserManager {
 
 	private static Logger log = LoggerFactory.getLogger(UserManagerSQL.class);
 
@@ -30,15 +31,8 @@ public class UserManagerSQL implements UserManager {
 
 	private static final String GET_ALL_USERS = "SELECT id, first_name, last_name, gender, email, password FROM users";
 
-	// connection pool
-	private ConnectionPool connectionPool;
-
 	public UserManagerSQL(ConnectionPool connectionPool) {
-		if (connectionPool != null) {
-			this.connectionPool = connectionPool;
-		} else {
-			throw new IllegalStateException("Illegal state during creation of UserManagerSQL class.");
-		}
+		super(connectionPool);
 	}
 
 	@Override
@@ -172,10 +166,5 @@ public class UserManagerSQL implements UserManager {
 
 		connectionPool.putBackConnection(connection);
 		return UserFactory.usersFromResultSet(resultSet);
-	}
-
-	@Override
-	public void destroyManager() {
-		connectionPool.destroy();
 	}
 }

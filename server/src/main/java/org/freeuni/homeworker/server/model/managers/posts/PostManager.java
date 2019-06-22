@@ -1,6 +1,5 @@
 package org.freeuni.homeworker.server.model.managers.posts;
 
-import org.freeuni.homeworker.server.model.managers.AbstractManager;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 
 import java.sql.Timestamp;
@@ -12,7 +11,7 @@ import java.util.List;
  *
  * Author : Tornike Onoprishvili
  */
-public interface PostManager extends AbstractManager {
+public interface PostManager {
     /**
      * Adds a selected post into the database
      * @param post post to add

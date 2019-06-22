@@ -3,6 +3,7 @@ package org.freeuni.homeworker.server.controller.listeners;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.freeuni.homeworker.server.model.managers.Login.LoginManagerSQL;
+import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.freeuni.homeworker.server.model.managers.postEdit.PostEditManager;
 
 import org.freeuni.homeworker.server.model.managers.categories.CategoryManagerSQL;
@@ -19,6 +20,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Initialises whole application.
@@ -59,14 +62,19 @@ public class ServletInitListener implements ServletContextListener {
 	 */
 	@Override
 	public void contextDestroyed(ServletContextEvent servletContextEvent) {
-//		ServletContext servletContext = servletContextEvent.getServletContext();
-//
-//
-//		servletContext.getAttribute(ContextKeys.USER_MANAGER);
-//		servletContext.getAttribute(ContextKeys.POST_MANAGER);
-//		servletContext.getAttribute(ContextKeys.POST_LIKE_MANAGER);
-//		servletContext.getAttribute(ContextKeys.POST_EDIT_MANAGER);
-//		servletContext.getAttribute(ContextKeys.CATEGORY_MANAGER);
-//		servletContext.getAttribute(ContextKeys.POST_CATEGORY_MANAGER);
+		ServletContext servletContext = servletContextEvent.getServletContext();
+		Field[] fields = ManagerNameKeys.class.getFields();
+		try {
+			for (Field field : fields) {
+				String currManagerKey = (String)field.get(ManagerNameKeys.class);
+				log.info("Destroying manager " + currManagerKey + ", as server is stopping.");
+				GeneralManagerSQL currManager = (GeneralManagerSQL) servletContext.getAttribute(currManagerKey);
+				if (currManager != null) {
+					currManager.destroyManager();
+				}
+			}
+		} catch (IllegalAccessException e) {
+			log.error("Error occurred during destroying managers.", e);
+		}
 	}
 }

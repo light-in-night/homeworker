@@ -1,5 +1,6 @@
 package org.freeuni.homeworker.server.model.managers.categories;
 
+import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.freeuni.homeworker.server.model.objects.category.Category;
 import org.freeuni.homeworker.server.model.objects.category.CategoryFactory;
 import org.freeuni.homeworker.server.model.source.ConnectionPool;
@@ -11,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-public class CategoryManagerSQL implements CategoryManager {
+public class CategoryManagerSQL extends GeneralManagerSQL implements CategoryManager {
     private static final String ADD_CATEGORY =
             "INSERT INTO homeworker.categories\n" +
                 "(name,description)\n" +
@@ -30,10 +31,9 @@ public class CategoryManagerSQL implements CategoryManager {
             "SELECT  *" +
                     "FROM  homeworker.categories;";
 
-    private final ConnectionPool connectionPool;
 
     public CategoryManagerSQL(ConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
+        super(connectionPool);
     }
 
     @Override

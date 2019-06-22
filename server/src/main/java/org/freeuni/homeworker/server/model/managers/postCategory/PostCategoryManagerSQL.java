@@ -1,5 +1,6 @@
 package org.freeuni.homeworker.server.model.managers.postCategory;
 
+import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.freeuni.homeworker.server.model.objects.category.Category;
 import org.freeuni.homeworker.server.model.objects.category.CategoryFactory;
 import org.freeuni.homeworker.server.model.objects.post.Post;
@@ -14,7 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class PostCategoryManagerSQL implements PostCategoryManager {
+public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCategoryManager {
+
     private static final String ADD_POST_CATEGORY =
             "INSERT INTO homeworker.postcategory\n" +
                     "(postId,categoryId)\n" +
@@ -48,10 +50,9 @@ public class PostCategoryManagerSQL implements PostCategoryManager {
                     "    postcategory.postId = post.id\n" +
                     "WHERE post.id = ?;";
 
-    private final ConnectionPool connectionPool;
 
     public PostCategoryManagerSQL(ConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
+        super(connectionPool);
     }
 
     @Override

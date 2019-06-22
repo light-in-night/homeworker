@@ -1,5 +1,6 @@
 package org.freeuni.homeworker.server.model.managers.postLikes;
 
+import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.freeuni.homeworker.server.model.objects.postLike.PostLike;
 import org.freeuni.homeworker.server.model.source.ConnectionPool;
 
@@ -8,15 +9,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PostLikeManagerSQL implements PostLikeManager {
+public class PostLikeManagerSQL extends GeneralManagerSQL implements PostLikeManager {
 
     private final String SELECT_ALL = "SELECT * FROM postLike WHERE userID = ? AND postID = ?;";
     private final String DELETE_QUERY = "DELETE FROM postLike WHERE userID = ? AND postID = ?;";
     private final String ADD_QUERY = "INSERT INTO postLike (userID, postID, liked) VALUES (?, ?, ?);";
-    private final ConnectionPool connectionsPool;
 
     public PostLikeManagerSQL(ConnectionPool connectionsPool){
-        this.connectionsPool = connectionsPool;
+        super(connectionsPool);
     }
 
     /**
@@ -28,9 +28,8 @@ public class PostLikeManagerSQL implements PostLikeManager {
         boolean queryExecuted;
         Connection connection = null;
         try {
-            connection = connectionsPool.acquireConnection();
-            if (userAlreadyLikedPost(postLikeObject, connection)){
-            } else {
+            connection = connectionPool.acquireConnection();
+            if (!userAlreadyLikedPost(postLikeObject, connection)){
                 executeAddSQLQuery(postLikeObject, connection);
             }
             queryExecuted = true;
@@ -40,7 +39,7 @@ public class PostLikeManagerSQL implements PostLikeManager {
             queryExecuted = false;
         } finally {
             if (connection != null) {
-                connectionsPool.putBackConnection(connection);
+                connectionPool.putBackConnection(connection);
             }
         }
         return queryExecuted;
@@ -83,7 +82,7 @@ public class PostLikeManagerSQL implements PostLikeManager {
         boolean queryExecuted;
         Connection connection = null;
         try {
-            connection = connectionsPool.acquireConnection();
+            connection = connectionPool.acquireConnection();
             executeDeleteSQLQuery(postLikeObject, connection);
             queryExecuted = true;
         } catch (Exception e) {
@@ -91,7 +90,7 @@ public class PostLikeManagerSQL implements PostLikeManager {
             queryExecuted = false;
         } finally {
             if (connection != null) {
-                connectionsPool.putBackConnection(connection);
+                connectionPool.putBackConnection(connection);
             }
         }
         return queryExecuted;
