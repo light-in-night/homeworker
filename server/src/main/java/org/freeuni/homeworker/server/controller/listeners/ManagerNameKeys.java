@@ -14,4 +14,6 @@ public interface ManagerNameKeys {
 
 	String POST_CATEGORY_MANAGER = "postCategoryManager";
 
+	String LOGIN_MANAGER = "loginManager";
+
 }

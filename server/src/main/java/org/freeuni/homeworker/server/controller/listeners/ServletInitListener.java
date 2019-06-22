@@ -30,6 +30,8 @@ import java.util.List;
 @WebListener
 public class ServletInitListener implements ServletContextListener {
 
+	private static final Logger log = LoggerFactory.getLogger(ServletInitListener.class);
+
 	private static final int NUMBER_OF_CONNECTIONS_IN_USER_MANAGER = 20;
 	private static final int NUMBER_OF_CONNECTION_IN_POST_MANAGER = 10;
 	private static final int NUMBER_OF_CONNECTIONS_IN_POST_LIKE_DAO = 20;
@@ -37,7 +39,6 @@ public class ServletInitListener implements ServletContextListener {
 	private static final int NUMBER_OF_CONNECTIONS_IN_CATEGORY = 5;
 	private static final int NUMBER_OF_CONNECTION_IN_POST_CATEGORY = 10;
 	private static final int NUMBER_OF_CONNECTION_IN_LOGIN = 15;
-	private static Logger log = LoggerFactory.getLogger(ServletInitListener.class);
 
 	/**
 	 * Initialises all objects needed for application
@@ -52,7 +53,6 @@ public class ServletInitListener implements ServletContextListener {
 		servletContext.setAttribute(ContextKeys.POST_LIKE_MANAGER, new PostLikeManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_POST_LIKE_DAO)));
 		servletContext.setAttribute(ContextKeys.POST_EDIT_MANAGER , new PostEditManager(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_POST_EDIT_MANAGER)));
 		servletContext.setAttribute(ContextKeys.CATEGORY_MANAGER, new CategoryManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_CATEGORY)));
-		servletContext.setAttribute(ContextKeys.POST_CATEGORY_MANAGER, new PostCategoryManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTION_IN_POST_CATEGORY)));
 		servletContext.setAttribute(ContextKeys.POST_CATEGORY_MANAGER, new PostCategoryManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTION_IN_POST_CATEGORY)));
 		servletContext.setAttribute(ContextKeys.LOGIN_MANAGER, new LoginManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTION_IN_LOGIN)));
 	}

@@ -8,5 +8,4 @@ public interface ContextKeys extends ManagerNameKeys {
 
 	String OBJECT_MAPPER = "objectMapper";
 
-	String LOGIN_MANAGER = "loginManager";
 }
