@@ -2,6 +2,7 @@ package org.freeuni.homeworker.server.controller.session;
 
 import java.util.Date;
 
+@SuppressWarnings("WeakerAccess")
 public class Session {
 
 	private Long userId;
@@ -19,35 +20,35 @@ public class Session {
 		lastActivityTime = new Date();
 	}
 
-	public Long getUserId() {
+	public synchronized Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public synchronized void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
-	public boolean isLoggedIn() {
+	public synchronized boolean isLoggedIn() {
 		return loggedIn;
 	}
 
-	public void setLoggedIn(boolean loggedIn) {
+	public synchronized void setLoggedIn(boolean loggedIn) {
 		this.loggedIn = loggedIn;
 	}
 
-	public int getNumberOfUnSuccessfulAttempts() {
+	public synchronized int getNumberOfUnSuccessfulAttempts() {
 		return numberOfUnSuccessfulAttempts;
 	}
 
-	public void setNumberOfUnSuccessfulAttempts(int numberOfUnSuccessfulAttempts) {
+	public synchronized void setNumberOfUnSuccessfulAttempts(int numberOfUnSuccessfulAttempts) {
 		this.numberOfUnSuccessfulAttempts = numberOfUnSuccessfulAttempts;
 	}
 
-	public Date getLastActivityTime() {
+	public synchronized Date getLastActivityTime() {
 		return lastActivityTime;
 	}
 
-	public void setLastActivityTime(Date lastActivityTime) {
+	public synchronized void setLastActivityTime(Date lastActivityTime) {
 		this.lastActivityTime = lastActivityTime;
 	}
 

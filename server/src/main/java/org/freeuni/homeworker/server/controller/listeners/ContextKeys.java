@@ -8,4 +8,8 @@ public interface ContextKeys extends ManagerNameKeys {
 
 	String OBJECT_MAPPER = "objectMapper";
 
+	String SESSION_MANAGER = "sessionManager";
+
+	String SESSION_ID = "sessionId";
+
 }

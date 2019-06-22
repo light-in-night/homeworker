@@ -3,6 +3,7 @@ package org.freeuni.homeworker.server.controller.session;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@SuppressWarnings("WeakerAccess")
 public class SessionManager {
 
 	private ConcurrentHashMap<String, Session> sessionMap;
@@ -19,6 +20,14 @@ public class SessionManager {
 	}
 
 	public Session getSession(String sessionId) {
-		return sessionMap.computeIfAbsent(sessionId, (session) -> sessionMap.get(session));
+		return null;
+	}
+
+	public Session login(String sessionId, long userId) {
+		return sessionMap.computeIfPresent(sessionId, (id, session) -> {
+			session.setLoggedIn(true);
+			session.setUserId(userId);
+			return session;
+		});
 	}
 }

@@ -1,21 +1,24 @@
 package org.freeuni.homeworker.server.controller.filter;
 
-import javax.servlet.Filter;
+import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
+import org.freeuni.homeworker.server.controller.session.Session;
+import org.freeuni.homeworker.server.controller.session.SessionManager;
+
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class LoginFilter implements Filter {
+@SuppressWarnings("RedundantThrows")
+public class LoginFilter extends HttpFilter {
+
 
 	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {}
-
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
+	protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+		String sessionId = request.getHeader(ContextKeys.SESSION_ID);
+		SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
 	}
 
 	@Override

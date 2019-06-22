@@ -2,6 +2,7 @@ package org.freeuni.homeworker.server.controller.listeners;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.freeuni.homeworker.server.controller.session.SessionManager;
 import org.freeuni.homeworker.server.model.managers.Login.LoginManagerSQL;
 import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.freeuni.homeworker.server.model.managers.postEdit.PostEditManager;
@@ -55,6 +56,7 @@ public class ServletInitListener implements ServletContextListener {
 		servletContext.setAttribute(ContextKeys.CATEGORY_MANAGER, new CategoryManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_CATEGORY)));
 		servletContext.setAttribute(ContextKeys.POST_CATEGORY_MANAGER, new PostCategoryManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTION_IN_POST_CATEGORY)));
 		servletContext.setAttribute(ContextKeys.LOGIN_MANAGER, new LoginManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTION_IN_LOGIN)));
+		servletContext.setAttribute(ContextKeys.SESSION_MANAGER, new SessionManager());
 	}
 
 	/**
