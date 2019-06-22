@@ -10,7 +10,7 @@ CREATE TABLE users (
     id BIGINT AUTO_INCREMENT,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
-    gender VARCHAR(100) default "unspecified",
+    gender VARCHAR(100) default 'unspecified',
     email VARCHAR(100) NOT NULL,
     password VARCHAR(100) NOT NULL,
     karma BIGINT default 0,
@@ -52,6 +52,17 @@ CREATE TABLE postCategory(
     constraint pkId primary key (id),
     constraint fkPostId foreign key (postId) references posts(id),
     constraint fkCategoryId foreign key (categoryId) references categories(id)
+);
+
+CREATE TABLE messages (
+    id BIGINT AUTO_INCREMENT,
+    senderId BIGINT,
+    receiverId BIGINT,
+    message VARCHAR(2000),
+    sendTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT pkId PRIMARY KEY (id),
+    CONSTRAINT fkSenderId FOREIGN KEY (senderId) REFERENCES users(id),
+    CONSTRAINT fkReceiverId FOREIGN KEY (receiverId) REFERENCES users(id)
 );
 
 
