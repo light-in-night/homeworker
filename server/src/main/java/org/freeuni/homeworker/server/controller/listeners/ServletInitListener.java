@@ -66,7 +66,9 @@ public class ServletInitListener implements ServletContextListener {
 				String currManagerKey = (String)field.get(ManagerNameKeys.class);
 				log.info("Destroying manager " + currManagerKey + ", as server is stopping.");
 				GeneralManagerSQL currManager = (GeneralManagerSQL) servletContext.getAttribute(currManagerKey);
-				currManager.destroyManager();
+				if (currManager != null) {
+					currManager.destroyManager();
+				}
 			}
 		} catch (IllegalAccessException e) {
 			log.error("Error occurred during destroying managers.", e);
