@@ -12,6 +12,11 @@ constructor(){
 }
     categories = () => {
         return [
+
+            {
+                name: 'Stepmom',
+                numberOfPosts: '100'
+            },
             {
                 name: 'Homemade',
                 numberOfPosts: '500'
@@ -27,6 +32,14 @@ constructor(){
             {
                 name: 'Hentai',
                 numberOfPosts: '11512'
+            },
+            {
+                name: 'GangBang',
+                numberOfPosts: '6969'
+            },
+            {
+                name: 'BBC',
+                numberOfPosts: '2525'
             }
             ]
     };
@@ -36,15 +49,14 @@ constructor(){
 
     render() {
         var items = this.state.categories.filter(
-            (post) =>{return post.name.indexOf(this.state.search)!==-1});
+            (post) =>{return post.name.toLowerCase().indexOf(this.state.search.toLowerCase())!==-1});
             console.log(items);
         return (
             <div className="App">
-                <label>Filter Posts</label><input type='text' onChange={this.changeSearch.bind(this)} />
+                <b><label>Filter Posts : </label></b><input type='text' onChange={this.changeSearch.bind(this)} />
                 <CategoryBox items={items}/>                                                                         
             </div>
         );
     }
 }
-
 export default Home

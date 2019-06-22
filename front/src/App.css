@@ -20,7 +20,7 @@ height: 100%;
   margin: 0 auto;
 }
 .aboutCss{
-  min-height: 600px;
+  min-height: 800px;
   background: rgb(26,0,36);
   background: linear-gradient(90deg, rgba(26,0,36,0.7343312324929971) 1%, rgba(9,121,44,0.8127626050420168) 48%, rgba(0,212,255,1) 100%);
 
