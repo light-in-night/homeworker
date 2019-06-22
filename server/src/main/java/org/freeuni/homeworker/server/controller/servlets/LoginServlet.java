@@ -1,12 +1,11 @@
 package org.freeuni.homeworker.server.controller.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.Login.LoginManager;
-import org.freeuni.homeworker.server.model.managers.Login.LoginManagerSQL;
 import org.freeuni.homeworker.server.model.objects.Login.LoginRequest;
-import org.freeuni.homeworker.server.model.objects.response.Response;
-import org.freeuni.homeworker.server.model.objects.response.ResponseStatus;
+import org.freeuni.homeworker.server.model.objects.Login.LoginResponse;
 import org.freeuni.homeworker.server.model.objects.user.User;
 import org.freeuni.homeworker.server.utils.ServletUtils;
 import org.slf4j.Logger;
@@ -35,19 +34,31 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	private void logInUser(HttpServletRequest request, HttpServletResponse response, String jSon) {
-		Response responseToServer = new Response();
 		ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+		LoginManager loginManager = (LoginManager) request.getServletContext().getAttribute(ContextKeys.LOGIN_MANAGER);
 		try {
 			LoginRequest loginRequest = objectMapper.readValue(jSon, LoginRequest.class);
 			if(loginRequest.containsNull()){
 				throw new Exception("Invalid JSon");
 			}
-			LoginManager loginManager = (LoginManager) request.getServletContext().getAttribute(ContextKeys.LOGIN_MANAGER);
+			String sessionID = request.getHeader(ContextKeys.SESSION_ID);
+			LoginResponse loginResponse = new LoginResponse(sessionID, -1, false);
+
 			User user = loginManager.getUserByEmail(loginRequest.getEmail());
 			if(user == null){
 				log.info("User By Email " + loginRequest.getEmail() + " Not Found!");
 			} else {
+
+
+				if(user.getPassword().equals(DigestUtils.sha256Hex(loginRequest.getPassword()))){
+					loginResponse.setLoggedIn(true);
+					loginResponse.setUserId(user.getId());
+				} else {
+					loginResponse.setLoggedIn(false);
+					loginResponse.setUserId(-1);
+				}
 			}
+			response.getWriter().write(objectMapper.writeValueAsString(loginResponse));
 
 		} catch (Exception e) {
 			e.printStackTrace();
