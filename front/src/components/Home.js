@@ -3,7 +3,13 @@ import '../App.css';
 import CategoryBox from './CategoryBox'
 
 class Home extends Component{
-
+constructor(){
+    super();
+    this.state={
+      search: "",
+      categories:this.categories()
+    };
+}
     categories = () => {
         return [
             {
@@ -24,11 +30,18 @@ class Home extends Component{
             }
             ]
     };
+    changeSearch = (event) =>{
+        this.setState({ search:event.target.value});
+    }
 
     render() {
+        var items = this.state.categories.filter(
+            (post) =>{return post.name.indexOf(this.state.search)!==-1});
+            console.log(items);
         return (
             <div className="App">
-                <CategoryBox categories={this.categories()}/>
+                <label>Filter Posts</label><input type='text' onChange={this.changeSearch.bind(this)} />
+                <CategoryBox items={items}/>                                                                         
             </div>
         );
     }

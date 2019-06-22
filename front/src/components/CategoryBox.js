@@ -4,14 +4,12 @@ import '../App.css';
 
 class CategoryBox extends Component {
 
-    state = {
-        categories: this.props.categories
-    };
-
     render() {
+        var categories = this.props.items;
         return (
             <div className="category-box" >
-                {this.state.categories.map((category) => {
+                {categories.map((category) => {
+                    console.log("a")
                   return <CategoryItem category={category} />;
                 })}
             </div>
