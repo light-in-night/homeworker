@@ -19,4 +19,6 @@ public interface ContextKeys {
 	String CATEGORY_MANAGER = "categoryManager";
 
 	String POST_CATEGORY_MANAGER = "postCategoryManager";
+
+	String LOGIN_MANAGER = "loginManager";
 }

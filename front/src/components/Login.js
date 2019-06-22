@@ -4,12 +4,8 @@ class Login extends Component {
     constructor(){
         super();
         this.state = {
-            firstName : "",
-            lastName : "",
-            phoneNumber : "",
             email : "",
             password : "",
-            repeatedPassword : "", 
         }
 
     }
@@ -19,7 +15,7 @@ class Login extends Component {
     login = (e) => {
         e.preventDefault();
         if(this.validateUser() === false){
-            //Inform That Data Is Not Enough
+            
             return;
         }
         if(this.state.password !== this.state.repeatedPassword){
@@ -39,50 +35,28 @@ class Login extends Component {
     };
     
     validateUser = () => {
-        let valid = this.state.firstName !== "";
-        valid = valid && this.state.lastName !== "";
-        valid = valid && this.state.phoneNumber !== "";
-        valid = valid && this.state.email !== "";  
-        valid = valid && this.state.password !== "";
-        valid = valid && this.state.repeatedPassword !== "";
+        this.state.email = this.state.email.trim();
+        this.state.password = this.state.password.trim();
+        let valid = this.state.email.length > 0 &&
+        this.state.password.length >= 0;
         return valid;
     }
     
-    handleFirstNameChange = (e) => {
-        this.setState({firstName: e.target.value});
-    };
-    handleLastNameChange = (e) => {
-        this.setState({lastName: e.target.value});
-    };
-    handlePhoneNumberChange = (e) => {
-        this.setState({lastName : e.target.value});
-    }
     handleEmailChange = (e) => {
         this.setState({email: e.target.value});
     };
     handlePasswordChange = (e) => {
         this.setState({password: e.target.value});
     };
-    handleRepeatPasswordChange = (e) => {
-        this.setState({password : e.target.value});
-    }
     
+
     render() {
         return (
             <div id="loginBody">
             <form>
             <ul className="loginFormList">
                 <li>
-                    <label htmlFor="first-name">First Name</label>
-                    <input type="text" id="first-name" placeholder="Enter your Firstname Here" onChange={this.handleFirstNameChange}/>
-                </li>
-                <li>
-                    <label htmlFor="last-name">Last Name</label>
-                    <input type="text" id="last-name" placeholder="Enter Your Lastname Here" onChange={this.handleLastNameChange}/>
-                </li>
-                <li>
-                    <label htmlFor="phone-number">Phone Number</label>
-                    <input type="text" id="phone-number" placeholder="Enter Your Phone Number Here" onChange={this.handlePhoneNumberChange}/>
+                    <h3 className="loginHeader">Enter Yout Account Infiromation Here</h3>
                 </li>
                 <li>
                     <label htmlFor="email">Email</label>
@@ -91,10 +65,6 @@ class Login extends Component {
                 <li>
                     <label htmlFor="password">Password</label>
                     <input type="password" id="password" placeholder="Enter Your Password Here" onChange={this.handlePasswordChange}/>
-                </li>
-                <li>
-                    <label htmlFor="repeat-password">Repeat Password</label>
-                    <input type="password" id="repeat-password" placeholder="Repeat Your Password Here" onChange={this.handleRepeatPasswordChange}/>
                 </li>
                 <li>
                 <button type="submit" onClick={this.login}>Login</button>
