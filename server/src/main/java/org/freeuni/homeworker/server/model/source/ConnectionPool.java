@@ -13,6 +13,7 @@ import java.util.concurrent.BlockingQueue;
 /**
  * Connection pool holds connections and
  * is thread-safe.
+ * @author Guga Tkesheladze
  */
 @SuppressWarnings("WeakerAccess")
 public class ConnectionPool {
@@ -28,7 +29,7 @@ public class ConnectionPool {
 
 	/**
 	 * Initializes a new connection pool with given list of connections.
-	 * @param connections
+	 * @param connections @code List<Connection>
 	 */
 	public ConnectionPool(List<Connection> connections) {
 		if (connections != null && connections.size() > 0) { // assert that number of connections passed is more than zero if that's not so this class has no function.
@@ -65,16 +66,26 @@ public class ConnectionPool {
 	 */
 	public void destroy() {
 		destroying = true;
-		if (connectionsPool.size() == numberOfInitialConnections) {
-			for (int i = 0; i < numberOfInitialConnections; i++) {
-				try {
-					connectionsPool.take().close();
-				} catch (SQLException e) {
-					log.error("Error occurred during destroying connection pool", e);
-				} catch (InterruptedException e) {
-					log.error("Error occurred during destroying connection pool", e);
+		while (true) {
+			if (connectionsPool.size() == numberOfInitialConnections) {
+				for (int i = 0; i < numberOfInitialConnections; i++) {
+					try {
+						connectionsPool.take().close();
+					} catch (SQLException | InterruptedException e) {
+						log.error("Error occurred during destroying connection pool", e);
+					}
 				}
+				break;
 			}
+			sleepThreadSafely(1000);
+		}
+	}
+
+	private void sleepThreadSafely(long millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			log.info("Thread was interrupted, while sleeping.", e);
 		}
 	}
 }

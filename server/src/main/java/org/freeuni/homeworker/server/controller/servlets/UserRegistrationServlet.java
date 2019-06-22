@@ -6,6 +6,7 @@ import org.freeuni.homeworker.server.model.managers.users.UserManager;
 import org.freeuni.homeworker.server.model.objects.response.Response;
 import org.freeuni.homeworker.server.model.objects.response.ResponseStatus;
 import org.freeuni.homeworker.server.model.objects.user.User;
+import org.freeuni.homeworker.server.utils.ServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,24 +25,12 @@ public class UserRegistrationServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-		resp.setHeader("Content-Type", "application/json");
-		resp.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-		resp.setHeader("Access-Control-Allow-Methods", "POST");
-		StringBuilder stringBuilder = new StringBuilder();
-		String line;
-		BufferedReader bufferedReader;
-		try {
-			bufferedReader = new BufferedReader(req.getReader());
-			while ((line = bufferedReader.readLine()) != null) {
-				stringBuilder.append(line);
-			}
-		} catch (IOException e) {
-			log.error("Error occurred during reading request.", e);
-		}
+		ServletUtils.setCORSHeaders(resp);
+		ServletUtils.setJSONContentType(resp);
 
 		ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
 		try {
-			User user = objectMapper.readValue(stringBuilder.toString(), User.class);
+			User user = objectMapper.readValue(ServletUtils.readFromRequest(req), User.class);
 			UserManager userManager = (UserManager) getServletContext().getAttribute(ContextKeys.USER_MANAGER);
 			Response response = new Response();
 			if (userManager.addUser(user)) {

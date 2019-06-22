@@ -3,7 +3,7 @@ package org.freeuni.homeworker.server.model.managers;
 /**
  * Abstract manager for all your Abstraction needs.
  *
- * Author: Givi Khartishvili
+ * Author: Guga Tkesheladze
  */
 public interface AbstractManager {
 

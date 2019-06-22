@@ -7,6 +7,7 @@ import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.users.UserManager;
 import org.freeuni.homeworker.server.model.managers.users.UserManagerSQL;
 import org.freeuni.homeworker.server.model.objects.user.User;
+import org.freeuni.homeworker.server.utils.ServletUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,15 +24,12 @@ public class UserAccessServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        response.setHeader("Access-Control-Allow-Methods", "GET");
-
+        ServletUtils.setCORSHeaders(response);
+        ServletUtils.setJSONContentType(response);
         Object obj = request.getServletContext().getAttribute(ContextKeys.USER_MANAGER);
         UserManager userManager = (UserManager) obj;
 
         List<User> users = userManager.getUsers();
-
-        response.setContentType("application/json;charset=UTF-8");
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         String output = gson.toJson(users);

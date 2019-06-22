@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Static class for creating connectionPool
+ * @author Guga Tkesheladze
  */
 public class ConnectionPoolFactory {
 

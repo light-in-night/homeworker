@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.categories.CategoryManager;
 import org.freeuni.homeworker.server.model.objects.category.Category;
+import org.freeuni.homeworker.server.utils.ServletUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,12 +28,11 @@ public class CategoryAccessServlet extends HttpServlet {
      *
      * @param request
      * @param response
-     * @throws ServletException
      * @throws IOException
      */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Utilities.setCORSHeaders(response);
-        Utilities.setJSONContentType(response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ServletUtils.setCORSHeaders(response);
+        ServletUtils.setJSONContentType(response);
 
         ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         CategoryManager categoryManager = (CategoryManager) getServletContext().getAttribute(ContextKeys.CATEGORY_MANAGER);

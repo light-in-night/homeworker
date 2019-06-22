@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.posts.PostManager;
 import org.freeuni.homeworker.server.model.objects.post.Post;
+import org.freeuni.homeworker.server.utils.ServletUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,7 +39,7 @@ public class PostCreationServlet extends HttpServlet {
         ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         PostManager postManager = (PostManager) getServletContext().getAttribute(ContextKeys.POST_MANAGER);
 
-        String jsonStr = Utilities.readFromRequest(request);
+        String jsonStr = ServletUtils.readFromRequest(request);
         Post post = objectMapper.readValue(jsonStr,Post.class);
         postManager.add(post);
     }

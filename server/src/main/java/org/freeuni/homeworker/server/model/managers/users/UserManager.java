@@ -9,7 +9,7 @@ import java.util.List;
  * This interface is to manage users it is responsible for
  * saving and reading users form the database of choice.
  *
- * Author : Guga Tkhesheladze
+ * Author : Guga Tkesheladze
  *
  */
 public interface UserManager extends AbstractManager {

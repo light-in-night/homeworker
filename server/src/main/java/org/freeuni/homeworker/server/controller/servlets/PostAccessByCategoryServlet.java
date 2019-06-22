@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.postCategory.PostCategoryManager;
 import org.freeuni.homeworker.server.model.objects.post.Post;
-import org.freeuni.homeworker.server.model.objects.postCategory.PostCategory;
+import org.freeuni.homeworker.server.utils.ServletUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,9 +39,9 @@ public class PostAccessByCategoryServlet extends HttpServlet {
      *      ]
      *  }
      **/
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Utilities.setCORSHeaders(response);
-        Utilities.setJSONContentType(response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ServletUtils.setCORSHeaders(response);
+        ServletUtils.setJSONContentType(response);
 
         PostCategoryManager postCategoryManager = (PostCategoryManager) getServletContext().getAttribute(ContextKeys.POST_CATEGORY_MANAGER);
         ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);

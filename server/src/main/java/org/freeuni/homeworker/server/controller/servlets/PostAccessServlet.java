@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.posts.PostManager;
 import org.freeuni.homeworker.server.model.objects.post.Post;
+import org.freeuni.homeworker.server.utils.ServletUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -12,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "PostAccessServlet", urlPatterns = {"/getpost"})
@@ -42,9 +42,9 @@ public class PostAccessServlet extends HttpServlet {
      *  }
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Utilities.setCORSHeaders(response);
-        Utilities.setJSONContentType(response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ServletUtils.setCORSHeaders(response);
+        ServletUtils.setJSONContentType(response);
 
         PostManager postManager = (PostManager) request.getServletContext().getAttribute(ContextKeys.POST_MANAGER);
         ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
