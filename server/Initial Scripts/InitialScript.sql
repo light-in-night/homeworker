@@ -3,7 +3,7 @@ CREATE DATABASE homeworker;
 USE homeworker;
 
 #DELETE TABLES
-DROP TABLE IF EXISTS postLike, postCategory,categories,posts,users;
+DROP TABLE IF EXISTS postLike, postCategory, categories, posts, users, messages;
 
 #CREATE TABLES
 CREATE TABLE users (
@@ -13,16 +13,16 @@ CREATE TABLE users (
     gender VARCHAR(100) default "unspecified",
     email VARCHAR(100) NOT NULL,
     password VARCHAR(100) NOT NULL,
-    karma bigint default 0,
+    karma BIGINT default 0,
     constraint pkId primary key (id)
 );
 
 CREATE TABLE posts (
-   id         bigint auto_increment,
-   userId  	  bigint,
+   id         BIGINT AUTO_INCREMENT,
+   userId  	  BIGINT,
    content    VARCHAR(1024) NOT NULL,
-   rating     bigint default 0,
-   creationtimestamp timestamp default CURRENT_TIMESTAMP,
+   rating     BIGINT default 0,
+   creationTimestamp timestamp default CURRENT_TIMESTAMP,
    category  varchar(64) default '',
    foreign key (userId) references users(id),
    primary key (id)
@@ -39,16 +39,16 @@ CREATE TABLE postLike(
 );
 
 CREATE TABLE categories (
-	id BIGINT auto_increment,
+	id BIGINT AUTO_INCREMENT,
     name varchar(64) not null,
     description varchar(256) default 'no description',
     constraint pkId primary key (id)
 );
 
 CREATE TABLE postCategory(
-	id BIGINT auto_increment,
-    postId bigint,
-    categoryId bigint,
+	id BIGINT AUTO_INCREMENT,
+    postId BIGINT,
+    categoryId BIGINT,
     constraint pkId primary key (id),
     constraint fkPostId foreign key (postId) references posts(id),
     constraint fkCategoryId foreign key (categoryId) references categories(id)

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Date;
 
-public class TextMessage implements Serializable {
+public class Message implements Serializable {
 
 	@JsonProperty("id")
 	private long id;
