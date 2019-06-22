@@ -8,6 +8,7 @@ import About from './components/About'
 import Registration from './components/Registration';
 import PostCreation from './components/PostCreation'
 import Login from './components/Login'
+import Review from './components/Review'
 
 
 class App extends Component {
@@ -25,6 +26,7 @@ class App extends Component {
                     <Route path='/register' component={Registration}/>
                     <Route path='/createPost' component={PostCreation}/>
                     <Route path='/Login' component={Login}/>
+                    <Route path='/Review' component={Review}/>
                 </div>
             </BrowserRouter>
            

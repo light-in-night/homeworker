@@ -344,3 +344,7 @@ nav a:hover::before {
  margin: 0;
  letter-spacing: 1px
 }
+.review{
+  align-content: center;
+  margin: 2% 35%;
+}
