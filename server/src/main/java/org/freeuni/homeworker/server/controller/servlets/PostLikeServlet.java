@@ -19,7 +19,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 
-@WebServlet("/postLikeServlet")
+@WebServlet(name = "PostLikeServlet", urlPatterns = {"secure/postLikeServlet"})
 public class PostLikeServlet extends HttpServlet {
 
     private static Logger log = LoggerFactory.getLogger(UserRegistrationServlet.class);
