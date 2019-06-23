@@ -30,10 +30,6 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
                     "FROM posts\n" +
                     "WHERE posts.creationtimestamp >= ? AND posts.creationtimestamp < ?;";
 
-    private static final String UPDATE_RATING =
-            "UPDATE posts\n" +
-                    "SET rating = rating + ?\n" +
-                    "WHERE id = ?;";
     private static final String SELECT_ALL =
             "SELECT *" +
                     "FROM homeworker.posts;";
@@ -179,35 +175,6 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID);
             preparedStatement.setLong(1, post_id);
             preparedStatement.setString(1, correctedContains);
-            preparedStatement.executeUpdate();
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                connectionPool.putBackConnection(connection);
-            }
-        }
-    }
-
-    /**
-     * updates the post rating with the given difference
-     *
-     * @param post_id id of the updated post
-     * @param diff    DIFFERENCE of ratings the new and old posts
-     */
-    @Override
-    public void updatePostRating(long post_id, long diff) {
-        Connection connection = null;
-        try {
-            connection = connectionPool.acquireConnection();
-            if (connection == null) {
-                log.info("Server is stopped can't persist more data.");
-                return;
-            }
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement(UPDATE_RATING);
-            preparedStatement.setLong(1, diff);
-            preparedStatement.setLong(2, post_id);
             preparedStatement.executeUpdate();
         } catch (InterruptedException | SQLException e) {
             e.printStackTrace();

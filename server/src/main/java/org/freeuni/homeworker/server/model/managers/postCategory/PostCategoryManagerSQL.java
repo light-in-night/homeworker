@@ -33,16 +33,16 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
             "SELECT *\n" +
                     "FROM homeworker.postcategory\n" +
                     "WHERE postcategory.categoryId = ?;";
-    private static final String COUNT_POSTS_BY_CATEGORY =
-            "SELECT COUNT(postcategory.id)\n" +
+    private static final String SELECT_POSTS_BY_CATEGORY =
+            "SELECT post.*\n" +
                     "FROM homeworker.postcategory as postcategory\n" +
                     "JOIN homeworker.categories as category ON\n" +
                     "\t  postcategory.categoryId = category.id\n" +
                     "JOIN homeworker.posts as post ON\n" +
                     "    postcategory.postId = post.id\n" +
                     "WHERE category.id = ?;";
-    private static final String COUNT_CATEGORIES_BY_POST =
-            "SELECT COUNT(postcategory.id)\n" +
+    private static final String SELECT_CATEGORIES_BY_POST =
+            "SELECT category.*\n" +
                     "FROM homeworker.postcategory as postcategory\n" +
                     "JOIN homeworker.categories as category ON\n" +
                     "\t  postcategory.categoryId = category.id\n" +
@@ -134,7 +134,7 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(COUNT_POSTS_BY_CATEGORY);
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_POSTS_BY_CATEGORY);
             preparedStatement.setLong(1, categoryId);
             ResultSet resultSet = preparedStatement.executeQuery();
             return PostFactory.listFromResultSet(resultSet);
@@ -153,7 +153,7 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(COUNT_CATEGORIES_BY_POST);
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CATEGORIES_BY_POST);
             preparedStatement.setLong(1, postId);
             ResultSet resultSet = preparedStatement.executeQuery();
             return CategoryFactory.listFromResultSet(resultSet);

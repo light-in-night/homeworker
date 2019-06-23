@@ -15,10 +15,9 @@ class Header extends Component {
                     <nav>
                         <ul>
                             <li><SideMenu/></li>
-                            <li><Link to='/home'>Home</Link></li>
-                            <li><Link to='/contact'>Contact</Link></li>
                             <li><Link to='/about'>About</Link></li>
-                            <li><Link to='/Login'>Login</Link></li>
+                            <li><Link to='/contact'>Contact</Link></li>
+                            <li><Link to='/login'>Login</Link></li>
                         </ul>
                     </nav>
                 </div>

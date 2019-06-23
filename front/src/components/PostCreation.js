@@ -16,12 +16,12 @@ class PostCreation extends Component{
         this.handleContentChange = this.handleContentChange.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.routeChange = this.routeChange.bind(this);
-      }
+    }
 
     makePost(e) {
         e.preventDefault();
         let request = JSON.stringify(this.state);
-        fetch('http://localhost:8080/server_war_exploded/createpost', {
+        fetch('http://localhost:80/createpost', {
             method: 'POST',
             body: request
         }).then((response) => {

@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "UserAccessServlet", urlPatterns = {"/getUsers"})
+@WebServlet(name = "UserAccessServlet", urlPatterns = {"/getusers"})
 public class UserAccessServlet extends HttpServlet {
 
     @Override

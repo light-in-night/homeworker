@@ -8,6 +8,7 @@ import About from './components/About'
 import Registration from './components/Registration';
 import PostCreation from './components/PostCreation'
 import Login from './components/Login'
+import ExpandingPostWall from './components/ExpandingPostWall'
 
 
 class App extends Component {
@@ -24,7 +25,8 @@ class App extends Component {
                     <Route path='/contact' component={Contact}/>
                     <Route path='/register' component={Registration}/>
                     <Route path='/createPost' component={PostCreation}/>
-                    <Route path='/Login' component={Login}/>
+                    <Route path='/login' component={Login}/>
+                    <Route path='/posts' component={ExpandingPostWall}/>
                 </div>
             </BrowserRouter>
            

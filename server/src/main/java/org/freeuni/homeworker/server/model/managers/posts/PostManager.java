@@ -52,14 +52,6 @@ public interface PostManager {
     void updatePostContents(long post_id, String correctedContains);
 
     /**
-     * updates rating of the post.
-     *
-     * @param post_id post id
-     * @param diff DIFFERENCE, of the new rating to the old one.
-     */
-    void updatePostRating(long post_id, long diff);
-
-    /**
      * Returns all posts in database
      * @return list of all posts
      */

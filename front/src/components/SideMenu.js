@@ -20,12 +20,13 @@ class SideMenu extends Component {
     render() {
         return (
             <div>
-                <a onClick={this.toggleNav}>See Menu</a>
+                <a href="#" onClick={this.toggleNav}>See Menu</a>
                 <div id={'sidenavContainer'} className={'sidenav'} > 
-                    <a className="closebtn" onClick={this.closeNav}>&times;</a>
-                    <Link to='/login'>Login for Users</Link>
-                    <Link to='/register'>Registration</Link>
-                    <Link to='/createPost'>Create Post</Link>
+                    <a href="#" className="closebtn" onClick={this.closeNav}>&times;</a>
+                    <Link to='/login' onClick={this.closeNav}>Login for Users</Link>
+                    <Link to='/register'onClick={this.closeNav}>Registration</Link>
+                    <Link to='/search'onClick={this.closeNav}>Search</Link>
+                    <Link to='/createPost'onClick={this.closeNav}>Create Post</Link>
                 </div>
             </div>
         );
