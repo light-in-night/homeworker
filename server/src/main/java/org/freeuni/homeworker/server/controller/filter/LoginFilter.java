@@ -1,7 +1,6 @@
 package org.freeuni.homeworker.server.controller.filter;
 
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
-import org.freeuni.homeworker.server.controller.session.Session;
 import org.freeuni.homeworker.server.controller.session.SessionManager;
 
 import javax.servlet.FilterChain;
@@ -19,10 +18,9 @@ public class LoginFilter extends HttpFilter {
 	protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 		String sessionId = request.getHeader(ContextKeys.SESSION_ID);
 		SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
+
 	}
 
 	@Override
-	public void destroy() {
-
-	}
+	public void destroy() {}
 }
