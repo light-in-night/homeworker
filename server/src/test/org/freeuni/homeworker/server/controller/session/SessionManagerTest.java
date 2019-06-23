@@ -8,6 +8,5 @@ public class SessionManagerTest {
 	public void getSession() {
 		SessionManager sessionManager = new SessionManager();
 		String sessionId = sessionManager.createNewSession();
-		System.out.println(sessionManager.getSession(sessionId));
 	}
 }
