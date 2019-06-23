@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
+@SuppressWarnings("RedundantThrows")
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
@@ -26,9 +27,8 @@ public class LoginServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("application/json");
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Methods", "POST");
+		ServletUtils.setCORSHeaders(response);
+		ServletUtils.setJSONContentType(response);
 		String jSon = ServletUtils.readFromRequest(request);
 		logInUser(request, response, jSon);
 	}
@@ -38,19 +38,17 @@ public class LoginServlet extends HttpServlet {
 		LoginManager loginManager = (LoginManager) request.getServletContext().getAttribute(ContextKeys.LOGIN_MANAGER);
 		try {
 			LoginRequest loginRequest = objectMapper.readValue(jSon, LoginRequest.class);
-			if(loginRequest.containsNull()){
+			if (loginRequest.containsNull()) {
 				throw new Exception("Invalid JSon");
 			}
 			String sessionID = request.getHeader(ContextKeys.SESSION_ID);
 			LoginResponse loginResponse = new LoginResponse(sessionID, -1, false);
 
 			User user = loginManager.getUserByEmail(loginRequest.getEmail());
-			if(user == null){
+			if (user == null) {
 				log.info("User By Email " + loginRequest.getEmail() + " Not Found!");
 			} else {
-
-
-				if(user.getPassword().equals(DigestUtils.sha256Hex(loginRequest.getPassword()))){
+				if (user.getPassword().equals(DigestUtils.sha256Hex(loginRequest.getPassword()))) {
 					loginResponse.setLoggedIn(true);
 					loginResponse.setUserId(user.getId());
 				} else {
@@ -59,10 +57,8 @@ public class LoginServlet extends HttpServlet {
 				}
 			}
 			response.getWriter().write(objectMapper.writeValueAsString(loginResponse));
-
 		} catch (Exception e) {
-			e.printStackTrace();
-			log.error("Invalid JSon");
+			log.error("Invalid JSon", e);
 		}
 	}
 

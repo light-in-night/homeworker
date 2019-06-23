@@ -3,9 +3,20 @@ import '../App.css';
 import CategoryBox from './CategoryBox'
 
 class Home extends Component{
-
+constructor(){
+    super();
+    this.state={
+      search: "",
+      categories:this.categories()
+    };
+}
     categories = () => {
         return [
+
+            {
+                name: 'Stepmom',
+                numberOfPosts: '100'
+            },
             {
                 name: 'Homemade',
                 numberOfPosts: '500'
@@ -21,17 +32,31 @@ class Home extends Component{
             {
                 name: 'Hentai',
                 numberOfPosts: '11512'
+            },
+            {
+                name: 'GangBang',
+                numberOfPosts: '6969'
+            },
+            {
+                name: 'BBC',
+                numberOfPosts: '2525'
             }
             ]
     };
+    changeSearch = (event) =>{
+        this.setState({ search:event.target.value});
+    }
 
     render() {
+        var items = this.state.categories.filter(
+            (post) =>{return post.name.toLowerCase().indexOf(this.state.search.toLowerCase())!==-1});
+            console.log(items);
         return (
             <div className="App">
-                <CategoryBox categories={this.categories()}/>
+                <b><label>Filter Posts : </label></b><input type='text' onChange={this.changeSearch.bind(this)} />
+                <CategoryBox items={items}/>                                                                         
             </div>
         );
     }
 }
-
 export default Home

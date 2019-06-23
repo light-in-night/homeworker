@@ -3,16 +3,14 @@ import '../App.css';
 
 class CategoryItem extends Component {
 
-    state = {
-        name: this.props.category.name,
-        numberOfPosts: this.props.category.numberOfPosts
-    };
 
     render() {
+        var name= this.props.category.name ;
+        var numberOfPosts= this.props.category.numberOfPosts ;
         return (
             <div className="category-item" >
-                <p>{this.state.name}</p>
-                <p>{this.state.numberOfPosts}</p>
+                <p>{name}</p>
+                <p>{numberOfPosts}</p>
             </div>
         );
     }

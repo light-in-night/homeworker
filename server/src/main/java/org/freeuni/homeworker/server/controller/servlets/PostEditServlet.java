@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@WebServlet(name = "PostEditServlet", urlPatterns = {"secure/postEdit"})
+@WebServlet(name = "PostEditServlet", urlPatterns = {"/secure/postEdit"})
 public class PostEditServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(PostEditServlet.class);

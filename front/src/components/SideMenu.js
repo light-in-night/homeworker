@@ -25,7 +25,6 @@ class SideMenu extends Component {
                     <a className="closebtn" onClick={this.closeNav}>&times;</a>
                     <Link to='/login'>Login for Users</Link>
                     <Link to='/register'>Registration</Link>
-                    <Link to='/search'>Search</Link>
                     <Link to='/createPost'>Create Post</Link>
                 </div>
             </div>
