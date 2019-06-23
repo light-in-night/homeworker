@@ -69,7 +69,7 @@ class Login extends Component {
             <form  onSubmit={this.login.bind(this)}>
                 <ul className="loginFormList">
                     <li>
-                        <h3 className="loginHeader">Enter Yout Account Infiromation Here</h3>
+                        <h3 className="loginHeader">Enter Your Account Information Here</h3>
                     </li>
                     <li>
                         <label htmlFor="email">Email</label>
@@ -80,7 +80,7 @@ class Login extends Component {
                         <input type="password" id="password" placeholder="Enter Your Password Here" onChange={this.handlePasswordChange}/>
                     </li>
                     <li>
-                    <button type="submit">Login</button>
+                        <button type="submit">Login</button>
                     </li>
                 </ul>
             </form>

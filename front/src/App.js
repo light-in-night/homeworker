@@ -10,10 +10,14 @@ import PostCreation from './components/PostCreation'
 import Login from './components/Login'
 
 
+
 class App extends Component {
+
 
     render() {
 
+        localStorage.setItem("userId", null);
+        console.log(localStorage.getItem("userId"));
         return (
               <BrowserRouter logInfo={this.state}>
                 <div className="App">
