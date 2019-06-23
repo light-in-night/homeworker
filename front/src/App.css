@@ -118,7 +118,45 @@ nav a:hover::before {
   min-height :100px;
   border: 3px dashed #E3E551;
   border-radius: 13px;
-  
+
+}
+
+.aboutClass{
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: row wrap;
+}
+.AboutClassItem{
+  margin : 5%;
+}
+.AboutClassItem >img{
+  padding:1px;
+   border:1px solid #021a40;
+}
+.PersonInfo{
+  min-height :100px;
+  border: 3px dashed #E3E551;
+  border-radius: 13px;
+
+}
+
+.aboutClass{
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: row wrap;
+}
+.AboutClassItem{
+  margin : 5%;
+}
+.AboutClassItem >img{
+  padding:1px;
+   border:1px solid #021a40;
+}
+.PersonInfo{
+  min-height :100px;
+  border: 3px dashed #E3E551;
+  border-radius: 13px;
+
 }
 
 .aboutClass{
@@ -333,7 +371,39 @@ nav a:hover::before {
 
 .hit-the-floor{
   color: #B548CB; font-size: 48px; font-family: 'Signika', sans-serif; padding-bottom: 10px;
-   
+
+}
+.drop-the-floor{
+  font-family: Georgia,"Times New Roman",serif;
+
+ font-weight: bold;
+ color:white;
+ line-height: 22px;
+ margin: 0;
+ letter-spacing: 1px
+}
+
+.hit-the-floor{
+  color: #B548CB; font-size: 48px; font-family: 'Signika', sans-serif; padding-bottom: 10px;
+
+}
+.drop-the-floor{
+  font-family: Georgia,"Times New Roman",serif;
+
+ font-weight: bold;
+ color:white;
+ line-height: 22px;
+ margin: 0;
+ letter-spacing: 1px
+}
+
+.loginHeader{
+  margin : auto;
+}
+
+.hit-the-floor{
+  color: #B548CB; font-size: 48px; font-family: 'Signika', sans-serif; padding-bottom: 10px;
+
 }
 .drop-the-floor{
   font-family: Georgia,"Times New Roman",serif;

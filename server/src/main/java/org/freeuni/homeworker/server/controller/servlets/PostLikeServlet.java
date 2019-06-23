@@ -11,7 +11,6 @@ import org.freeuni.homeworker.server.utils.ServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +19,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 
-@WebServlet("/postLikeServlet")
+@WebServlet(name = "PostLikeServlet", urlPatterns = {"/secure/postLikeServlet"})
 public class PostLikeServlet extends HttpServlet {
 
     private static Logger log = LoggerFactory.getLogger(UserRegistrationServlet.class);
