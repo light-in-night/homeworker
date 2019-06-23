@@ -35,14 +35,16 @@ public class PostLike implements Serializable {
      * @param postID Post ID
      * @param liked Shows Whether User Liked, Or Disliked The Post
      */
-    public PostLike(long id, Long userID, Long postID, Boolean liked) {
+    public PostLike(Long id, Long userID, Long postID, Boolean liked) {
         this.id = id;
         this.userID = userID;
         this.postID = postID;
         this.liked = liked;
     }
 
-    public PostLike(){
+    public PostLike(){}
+
+    public PostLike(int id, int i, int i1, boolean liked){
 
     }
 

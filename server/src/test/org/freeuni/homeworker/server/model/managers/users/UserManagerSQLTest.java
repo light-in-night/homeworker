@@ -48,11 +48,6 @@ public class UserManagerSQLTest {
     }
 
     @Test
-    public void UserManagerSQLTest3() {
-        new UserManagerSQL(ConnectionPoolFactory.buildConnectionPool(20));
-    }
-
-    @Test
     public void userAddTest1() {
         Assert.assertTrue(userManagerSQL.addUser(validUser));
         MockUserPrepearedStatement preparedStatement = connection.getPreparedStatement();
