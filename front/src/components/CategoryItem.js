@@ -21,8 +21,8 @@ class CategoryItem extends Component {
                 to={{pathname : '/posts', state : {source: `http://localhost:80/getpost/bycategory?categoryId=${this.state.id}`, } }} 
                 style={{ textDecoration: 'none'}}>
                 <div className="category-item">
-                        <p>{this.state.name}</p>
-                        <p>{this.state.numberOfPosts} post{this.state.numberOfPosts !== 1 ? "s" : ""}</p>
+                    <p>{this.state.name}</p>
+                    <p>{this.state.numberOfPosts} post{this.state.numberOfPosts !== 1 ? "s" : ""}</p>
                 </div>
             </Link>
         );

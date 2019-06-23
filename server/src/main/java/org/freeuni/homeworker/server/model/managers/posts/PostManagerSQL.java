@@ -14,7 +14,7 @@ import java.util.List;
 public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
 
     private static final String ADD_POST =
-            "INSERT INTO posts (userId, content) \n" +
+            "INSERT INTO posts (userId, contents) \n" +
                     "VALUES \n" +
                     "(?,?);";
     private static final String SELECT_BY_ID =
@@ -45,22 +45,24 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
      * Underlying MySQL database
      *
      * @param post post object to add.
+     * @return id of the inserted post
      */
     @Override
-    public void add(Post post) {
+    public long add(Post post) throws SQLException, InterruptedException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
-            if (connection == null) {
-                log.info("Server is stopped can't persist more data.");
-                return;
-            }
-            PreparedStatement preparedStatement = connection.prepareStatement(ADD_POST);
+            PreparedStatement preparedStatement = connection.prepareStatement(ADD_POST, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setLong(1, post.getUserId());
             preparedStatement.setString(2, post.getContents());
             preparedStatement.executeUpdate();
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return (generatedKeys.getLong(1));
+                } else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
         } finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
@@ -75,7 +77,7 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
      * @return one post with given id
      */
     @Override
-    public Post getById(long post_id) {
+    public Post getById(long post_id) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
@@ -87,14 +89,11 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
             preparedStatement.setLong(1, post_id);
             ResultSet resultSet = preparedStatement.executeQuery();
             return PostFactory.fromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
-        return null;
     }
 
     /**
@@ -105,7 +104,7 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
      * @return List of all posts by user
      */
     @Override
-    public List<Post> getPostsByUser(long user_id) {
+    public List<Post> getPostsByUser(long user_id) throws SQLException, InterruptedException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
@@ -117,14 +116,11 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
             preparedStatement.setLong(1, user_id);
             ResultSet resultSet = preparedStatement.executeQuery();
             return PostFactory.listFromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
         } finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
-        return null;
     }
 
     /**
@@ -136,7 +132,7 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
      * @return List of posts created within interval
      */
     @Override
-    public List<Post> getPostsBetweenTimes(Timestamp start, Timestamp end) {
+    public List<Post> getPostsBetweenTimes(Timestamp start, Timestamp end) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
@@ -149,22 +145,21 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
             preparedStatement.setTimestamp(2, end);
             ResultSet resultSet = preparedStatement.executeQuery();
             return PostFactory.listFromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
-        return null;
     }
 
     /**
+     *
+     * TODO: correct this.
      * @param post_id
      * @param correctedContains
      */
     @Override
-    public void updatePostContents(long post_id, String correctedContains) {
+    public void updatePostContents(long post_id, String correctedContains) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
@@ -176,9 +171,7 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
             preparedStatement.setLong(1, post_id);
             preparedStatement.setString(1, correctedContains);
             preparedStatement.executeUpdate();
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
@@ -186,7 +179,7 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
     }
 
     @Override
-    public List<Post> getAllPosts() {
+    public List<Post> getAllPosts() throws SQLException, InterruptedException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
@@ -197,14 +190,11 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
             ResultSet resultSet = preparedStatement.executeQuery();
             return PostFactory.listFromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
         } finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
-        return null;
     }
 
 }

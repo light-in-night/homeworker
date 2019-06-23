@@ -21,10 +21,8 @@ CREATE TABLE users (
 CREATE TABLE posts (
    id         BIGINT AUTO_INCREMENT,
    userId  	  BIGINT,
-   content    VARCHAR(1024) NOT NULL,
-   rating     BIGINT default 0,
+   contents    VARCHAR(1024) NOT NULL,
    creationTimestamp timestamp default CURRENT_TIMESTAMP,
-   category  varchar(64) default '',
    foreign key (userId) references users(id),
    primary key (id)
 );
@@ -71,7 +69,7 @@ VALUES
 
 #POSTS
 INSERT INTO  homeworker.posts
-(userId , content )
+(userId , contents )
 VALUES
 (1, 'hello world!'),
 (1, 'learning c++!'),
@@ -131,12 +129,12 @@ VALUES
 ########################SELECTS############################
 
 #POSTS
-#select *
-#from homeworker.posts;
+select *
+from homeworker.posts;
 
 #USERS
-# select *
-# from homeworker.users;
+ select *
+ from homeworker.users;
 #POST LIKES
 
 

@@ -25,8 +25,8 @@ public class PostFactory {
             Post post = new Post();
             post.setId(resultSet.getLong("id"));
             post.setUserId(resultSet.getLong("userId"));
-            post.setContents(resultSet.getString("content"));
-            post.setCreationTimestamp(resultSet.getTimestamp("creationtimestamp"));
+            post.setContents(resultSet.getString("contents"));
+            post.setCreationTimestamp(resultSet.getTimestamp("creationTimestamp"));
             return post;
         } catch (SQLException e) {
             log.error("Invalid result set was passed to post factory.", e);

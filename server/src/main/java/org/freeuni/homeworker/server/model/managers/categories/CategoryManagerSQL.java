@@ -5,10 +5,7 @@ import org.freeuni.homeworker.server.model.objects.category.Category;
 import org.freeuni.homeworker.server.model.objects.category.CategoryFactory;
 import org.freeuni.homeworker.server.model.source.ConnectionPool;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 
@@ -37,16 +34,21 @@ public class CategoryManagerSQL extends GeneralManagerSQL implements CategoryMan
     }
 
     @Override
-    public void add(Category category) {
+    public long add(Category category) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(ADD_CATEGORY);
+            PreparedStatement preparedStatement = connection.prepareStatement(ADD_CATEGORY, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, category.getName());
             preparedStatement.setString(2, category.getDescription());
             preparedStatement.executeUpdate();
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return (generatedKeys.getLong(1));
+                } else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
         } finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
@@ -55,16 +57,14 @@ public class CategoryManagerSQL extends GeneralManagerSQL implements CategoryMan
     }
 
     @Override
-    public void removeById(long id) {
+    public void removeById(long id) throws SQLException, InterruptedException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(REMOVE_CATEGORY);
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
@@ -72,7 +72,7 @@ public class CategoryManagerSQL extends GeneralManagerSQL implements CategoryMan
     }
 
     @Override
-    public Category getById(long id) {
+    public Category getById(long id) throws SQLException, InterruptedException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
@@ -80,32 +80,26 @@ public class CategoryManagerSQL extends GeneralManagerSQL implements CategoryMan
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             return CategoryFactory.fromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
         } finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
-        return null;
     }
 
     @Override
-    public List<Category> getAllCategories() {
+    public List<Category> getAllCategories() throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
             ResultSet resultSet = preparedStatement.executeQuery();
             return CategoryFactory.listFromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
-        return null;
     }
 
 }

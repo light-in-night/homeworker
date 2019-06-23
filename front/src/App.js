@@ -9,7 +9,7 @@ import Registration from './components/Registration';
 import PostCreation from './components/PostCreation'
 import Login from './components/Login'
 import ExpandingPostWall from './components/ExpandingPostWall'
-
+import ChooseCategories from './components/ChooseCategories'
 
 class App extends Component {
 
@@ -27,6 +27,7 @@ class App extends Component {
                     <Route path='/createPost' component={PostCreation}/>
                     <Route path='/login' component={Login}/>
                     <Route path='/posts' component={ExpandingPostWall}/>
+                    <Route path='/chooseCategories' component={ChooseCategories}/>
                 </div>
             </BrowserRouter>
            

@@ -56,7 +56,7 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
     }
 
     @Override
-    public void add(PostCategory postCategory) {
+    public void add(PostCategory postCategory) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
@@ -64,9 +64,7 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
             preparedStatement.setLong(1, postCategory.getPostId());
             preparedStatement.setLong(2, postCategory.getCategoryId());
             preparedStatement.executeUpdate();
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
@@ -74,16 +72,14 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
     }
 
     @Override
-    public void removeById(long id) {
+    public void removeById(long id) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(REMOVE_POST_CATEGORY);
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
@@ -91,46 +87,33 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
     }
 
     @Override
-    public List<PostCategory> getByPostId(long postId) {
+    public List<PostCategory> getByPostId(long postId) throws InterruptedException, SQLException {
+        return getPostCategories(postId, SELECT_BY_POST_ID);
+    }
+
+    private List<PostCategory> getPostCategories(long postId, String selectByPostId) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_POST_ID);
+            PreparedStatement preparedStatement = connection.prepareStatement(selectByPostId);
             preparedStatement.setLong(1, postId);
             ResultSet resultSet = preparedStatement.executeQuery();
             return PostCategoryFactory.listFromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
-        return null;
     }
 
     @Override
-    public List<PostCategory> getByCategoryId(long categoryId) {
-        Connection connection = null;
-        try {
-            connection = connectionPool.acquireConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_CATEGORY_ID);
-            preparedStatement.setLong(1, categoryId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            return PostCategoryFactory.listFromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                connectionPool.putBackConnection(connection);
-            }
-        }
-        return null;
+    public List<PostCategory> getByCategoryId(long categoryId) throws InterruptedException, SQLException {
+        return getPostCategories(categoryId, SELECT_BY_CATEGORY_ID);
     }
 
 
     @Override
-    public List<Post> getPostsInCategory(long categoryId) {
+    public List<Post> getPostsInCategory(long categoryId) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
@@ -138,18 +121,15 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
             preparedStatement.setLong(1, categoryId);
             ResultSet resultSet = preparedStatement.executeQuery();
             return PostFactory.listFromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
-        return null;
     }
 
     @Override
-    public List<Category> getCategoriesOfPost(long postId) {
+    public List<Category> getCategoriesOfPost(long postId) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
@@ -157,13 +137,10 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
             preparedStatement.setLong(1, postId);
             ResultSet resultSet = preparedStatement.executeQuery();
             return CategoryFactory.listFromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
-        return null;
     }
 }

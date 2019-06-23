@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
+import Form from 'react-bootstrap/Form'
 import '../App.css';
 
 class PostCreation extends Component{
@@ -9,16 +12,26 @@ class PostCreation extends Component{
         this.state =  {
             userId : 1,         //TODO: change this
             contents : "",
-            category : ""
-
+            categories : []
         };
-        this.makePost = this.makePost.bind(this);
-        this.handleContentChange = this.handleContentChange.bind(this);
-        this.handleCategoryChange = this.handleCategoryChange.bind(this);
-        this.routeChange = this.routeChange.bind(this);
     }
 
-    makePost(e) {
+    componentDidMount() {
+        this.getAllCategories();
+    }
+
+    getAllCategories = () => {
+        fetch('http://localhost:80/getcategory')
+        .then(response => response.json())
+        .then(response => {
+            // console.log("current state is " + this.state);
+            // console.log("response is " + response);
+            this.setState({categories : response.categories})
+        })
+        .catch(e => console.log(e))
+    }
+
+    makePost = (e) => {
         e.preventDefault();
         let request = JSON.stringify(this.state);
         fetch('http://localhost:80/createpost', {
@@ -29,37 +42,22 @@ class PostCreation extends Component{
         })
     };
 
-    handleContentChange(e){
+    handleContentChange = (e) => {
         this.setState({contents: e.target.value});
     };
 
-    handleCategoryChange(e){
-        this.setState({category: e.target.value});
-    };
-
-    routeChange() {
-        let path = 'home';
-        this.props.history.push(path);
-    }
 
     render() {
         return (
             <div>
-            <form>
-            <ul className="regFormOuter">
-                <li>
-                    <label htmlFor="contents">Post Contents</label>
-                    <textarea type="text" id="contents" placeholder="Tell us a story..." cols="20" rows="10" onChange={this.handleContentChange}/>
-                </li>
-                <li>
-                    <label htmlFor="category">Post Category</label>
-                    <input type="text" id="category" placeholder="What's your post's category?" onChange={this.handleCategoryChange}/>
-                </li>
-                <li>
-                    <button type="submit" onClick={(event) => { this.makePost(event); this.routeChange();}}>Publish</button>
-                </li>
-            </ul>
-            </form>
+            <Form>
+                <Form.Group controlId="exampleForm.ControlTextarea1">
+                    <Form.Label>Example textarea</Form.Label>
+                    <Form.Control as="textarea" rows="3" />
+                    <Link to={{pathname:'/chooseCategories', state: {categories : this.state.categories}}} >
+                         Finish writing </Link>
+                </Form.Group>
+            </Form>
             </div>  
         );
     }

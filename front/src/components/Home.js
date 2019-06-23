@@ -18,11 +18,9 @@ class Home extends Component{
 
     fetchCategoriesAndPosts = () => {
         fetch("http://localhost/getpost/countbycategory")
-        .then((result) => {
-            return result.json()
-        })
+        .then(result =>  result.json() )
         .then((jsonResult) => {
-            this.setState({items : jsonResult, isLoaded : true})
+            this.setState({items : jsonResult.data, isLoaded : true})
             console.log(this.state.items);
         })
         .catch(error => {

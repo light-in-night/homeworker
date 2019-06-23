@@ -107,6 +107,8 @@ nav a:hover::before {
   align-items: center;
   justify-content: center;
 }
+
+
 .AboutClassItem{
   margin : 5%;
 }
@@ -139,6 +141,12 @@ nav a:hover::before {
 .category-item:hover{
   transition: all .2s ease-in-out;
   transform: scale(1.12);
+  cursor: pointer;
+}
+.category-item-selected {
+  transition: all .2s ease-in-out;
+  transform: scale(0.95);
+  color: rgb(95, 84, 84);
   cursor: pointer;
 }
 .category-box p {
