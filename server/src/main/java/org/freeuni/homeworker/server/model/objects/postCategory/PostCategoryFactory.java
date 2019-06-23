@@ -29,6 +29,7 @@ public class PostCategoryFactory {
             PostCategory postCategory = new PostCategory();
             postCategory.setId(resultSet.getLong("id"));
             postCategory.setPostId(resultSet.getLong("postId"));
+            postCategory.setCategoryId(resultSet.getLong("categoryId"));
             return postCategory;
         } catch (SQLException e) {
             log.error("Error occurred during transforming result set to post category.", e);
