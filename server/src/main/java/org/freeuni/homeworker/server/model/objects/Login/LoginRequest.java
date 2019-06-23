@@ -18,10 +18,10 @@ public class LoginRequest implements Serializable {
 	private String password;
 
 
+	public LoginRequest() {
+	}
 
-	public LoginRequest(){}
-
-	public LoginRequest(String email, String password){
+	public LoginRequest(String email, String password) {
 		this.email = email;
 		this.password = password;
 	}
@@ -50,12 +50,12 @@ public class LoginRequest implements Serializable {
 
 	@Override
 	public String toString() {
-		String result = "Email : " + getEmail() +"\n";
+		String result = "Email : " + getEmail() + "\n";
 		result += "Password : " + getPassword() + "\n";
 		return result;
 	}
 
-	public boolean containsNull(){
+	public boolean containsNull() {
 		return getEmail() == null || getPassword() == null;
 	}
 
