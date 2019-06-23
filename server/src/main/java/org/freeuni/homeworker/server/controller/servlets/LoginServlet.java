@@ -49,12 +49,22 @@ public class LoginServlet extends HttpServlet {
 			if (user == null) {
 				log.info("User By Email " + loginRequest.getEmail() + " Not Found!");
 			} else {
+				/*
 				if (user.getPassword().equals(DigestUtils.sha256Hex(loginRequest.getPassword()))) {
 					loginResponse.setLoggedIn(true);
 					loginResponse.setUserId(user.getId());
 				} else {
 					log.info("Incorrect Password");
+				}*/
+
+				//Not Using Test To Make Easy Custom Tests
+				if (user.getPassword().equals((loginRequest.getPassword()))) {
+					loginResponse.setLoggedIn(true);
+					loginResponse.setUserId(user.getId());
+				} else {
+					log.info("Incorrect Password");
 				}
+
 			}
 			response.getWriter().write(objectMapper.writeValueAsString(loginResponse));
 		} catch (Exception e) {

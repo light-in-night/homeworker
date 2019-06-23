@@ -13,9 +13,9 @@ import Login from './components/Login'
 class App extends Component {
 
     render() {
+
         return (
-            
-              <BrowserRouter>
+              <BrowserRouter logInfo={this.state}>
                 <div className="App">
                     <Header/>
                     <Route exact path='/' component={Home}/>
