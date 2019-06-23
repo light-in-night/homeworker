@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import CategoryBox from './CategoryBox'
-
+import CB from './CB'
 class Home extends Component{
 constructor(){
     super();
@@ -53,9 +53,12 @@ constructor(){
             console.log(items);
         return (
             <div className="App">
+                 <CB/>  
                 <b><label>Filter Posts : </label></b><input type='text' onChange={this.changeSearch.bind(this)} />
-                <CategoryBox items={items}/>                                                                         
+                <CategoryBox items={items}/>  
+                                                                                    
             </div>
+            
         );
     }
 }
