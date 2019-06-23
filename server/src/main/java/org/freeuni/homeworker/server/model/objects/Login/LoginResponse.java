@@ -9,13 +9,12 @@ public class LoginResponse {
 	private String sessionId;
 
 	@JsonProperty("userId")
-	private long userId;
+	private Long userId;
 
 	@JsonProperty("loggedIn")
-	private boolean loggedIn;
+	private Boolean loggedIn;
 
-
-	public LoginResponse(String sessionId, long userId, boolean loggedIn) {
+	public LoginResponse(String sessionId, Long userId, Boolean loggedIn) {
 		this.sessionId = sessionId;
 		this.userId = userId;
 		this.loggedIn = loggedIn;
@@ -29,19 +28,28 @@ public class LoginResponse {
 		this.sessionId = sessionID;
 	}
 
-	public long getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(long userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
-	public boolean isLoggedIn() {
+	public Boolean isLoggedIn() {
 		return loggedIn;
 	}
 
-	public void setLoggedIn(boolean loggedIn) {
+	public void setLoggedIn(Boolean loggedIn) {
 		this.loggedIn = loggedIn;
+	}
+
+	@Override
+	public String toString() {
+		return "LoginResponse{" +
+				"sessionId='" + sessionId + '\'' +
+				", userId=" + userId +
+				", loggedIn=" + loggedIn +
+				'}';
 	}
 }
