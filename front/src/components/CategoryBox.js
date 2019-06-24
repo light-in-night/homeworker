@@ -9,7 +9,6 @@ class CategoryBox extends Component {
         return (
             <div className="category-box" >
                 {categories.map((category) => {
-                    console.log("a")
                   return <CategoryItem category={category} />;
                 })}
             </div>

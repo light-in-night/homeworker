@@ -41,24 +41,34 @@ public class LoginServlet extends HttpServlet {
 			if (loginRequest.containsNull()) {
 				throw new Exception("Invalid JSon");
 			}
-			String sessionID = request.getHeader(ContextKeys.SESSION_ID);
-			LoginResponse loginResponse = new LoginResponse(sessionID, -1, false);
 
+
+			String sessionID = request.getHeader(ContextKeys.SESSION_ID);
 			User user = loginManager.getUserByEmail(loginRequest.getEmail());
+			LoginResponse loginResponse = new LoginResponse(sessionID, (long)-1, false);
 			if (user == null) {
 				log.info("User By Email " + loginRequest.getEmail() + " Not Found!");
 			} else {
+				/*
 				if (user.getPassword().equals(DigestUtils.sha256Hex(loginRequest.getPassword()))) {
 					loginResponse.setLoggedIn(true);
 					loginResponse.setUserId(user.getId());
 				} else {
-					loginResponse.setLoggedIn(false);
-					loginResponse.setUserId(-1);
+					log.info("Incorrect Password");
+				}*/
+
+				//Not Using Test To Make Easy Custom Tests
+				if (user.getPassword().equals((loginRequest.getPassword()))) {
+					loginResponse.setLoggedIn(true);
+					loginResponse.setUserId(user.getId());
+				} else {
+					log.info("Incorrect Password");
 				}
+
 			}
 			response.getWriter().write(objectMapper.writeValueAsString(loginResponse));
 		} catch (Exception e) {
-			log.error("Invalid JSon", e);
+			log.error(e.toString());
 		}
 	}
 

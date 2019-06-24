@@ -60,8 +60,8 @@ class About extends Component{
           isHovering5: !state.isHovering5,
         };
       }
-    render() {
       
+    render() {    
         return (
           <div className="aboutCss">
               <div>

@@ -11,12 +11,16 @@ import Login from './components/Login'
 import CB from './components/CB'
 
 
+
 class App extends Component {
 
+
     render() {
+
+        localStorage.setItem("userId", null);
+        console.log(localStorage.getItem("userId"));
         return (
-            
-              <BrowserRouter>
+              <BrowserRouter logInfo={this.state}>
                 <div className="App">
                     <Header/>
                     <Route exact path='/' component={Home}/>

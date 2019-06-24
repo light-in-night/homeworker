@@ -12,28 +12,41 @@ class Login extends Component {
     
     
 
-    login = (e) => {
+    login (e) {
         e.preventDefault();
         if(this.validateUser() === false){
-            
-            return;
-        }
-        if(this.state.password !== this.state.repeatedPassword){
-            //Inform That Password Mismatch
-            return;
-        }
-        let request = JSON.stringify(this.state);
-        console.log(request);
-        return;
-
-        fetch('http://localhost/login', {
-            method: 'POST',
-            body: request
-        }).then((response) => {
-            console.log(response);
-        })
+            //Change Login header
+        } else {
+            let request = JSON.stringify(this.state);
+            fetch('http://localhost/login', {
+                method: 'POST',
+                body: request
+            }).then((response) => {
+                response.json()
+                .then((data) => {
+                    //Not TestIng sessionId... Yet;
+                    if(data.loggedIn){
+                        localStorage.setItem("userId", data.userId);
+                        //Redirect SomeWhere Else When Done
+                        this.redirectPage("/");   
+                    } else {
+                        console.log(data);
+                        let header = document.getElementsByClassName("loginHeader");   
+                        header.innerHTML = "Email Or Password Was Not Correct";
+                    }
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }       
+        
     };
     
+    redirectPage(page){
+        this.props.history.push(page);
+    }
+
     validateUser = () => {
         this.state.email = this.state.email.trim();
         this.state.password = this.state.password.trim();
@@ -49,27 +62,27 @@ class Login extends Component {
         this.setState({password: e.target.value});
     };
     
-
     render() {
+        
         return (
             <div id="loginBody">
-            <form>
-            <ul className="loginFormList">
-                <li>
-                    <h3 className="loginHeader">Enter Yout Account Infiromation Here</h3>
-                </li>
-                <li>
-                    <label htmlFor="email">Email</label>
-                    <input type="email" id="email" placeholder="Enter Your Email Here" onChange={this.handleEmailChange}/>
-                </li>
-                <li>
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter Your Password Here" onChange={this.handlePasswordChange}/>
-                </li>
-                <li>
-                <button type="submit" onClick={this.login}>Login</button>
-                </li>
-            </ul>
+            <form  onSubmit={this.login.bind(this)}>
+                <ul className="loginFormList">
+                    <li>
+                        <h3 className="loginHeader">Enter Your Account Information Here</h3>
+                    </li>
+                    <li>
+                        <label htmlFor="email">Email</label>
+                        <input type="email" id="email" placeholder="Enter Your Email Here" onChange={this.handleEmailChange}/>
+                    </li>
+                    <li>
+                        <label htmlFor="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter Your Password Here" onChange={this.handlePasswordChange}/>
+                    </li>
+                    <li>
+                        <button type="submit">Login</button>
+                    </li>
+                </ul>
             </form>
             </div>
         );
