@@ -53,7 +53,7 @@ constructor(){
             console.log(items);
         return (
             <div className="App">
-                 <CB/>  
+                
                 <b><label>Filter Posts : </label></b><input type='text' onChange={this.changeSearch.bind(this)} />
                 <CategoryBox items={items}/>  
                                                                                     
