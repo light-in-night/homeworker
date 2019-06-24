@@ -6,6 +6,7 @@
     "axios": "^0.19.0",
     "material": "^0.3.13",
     "react": "^16.8.6",
+    "react-chatbot": "0.0.1",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
     "react-simple-chatbot": "^0.6.1",
