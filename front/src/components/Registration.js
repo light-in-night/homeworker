@@ -39,6 +39,7 @@ class Registration extends Component {
     render() {
         return (
             <div id='registrationForm'>
+                 <span>pst i can help you register</span><a href='/chatBot' ><img src='chatbot.png' width={40} height={40}></img></a><br/><br/><br/>
                 <form>
                 <ul className="regFormOuter">
                     <li>
@@ -66,6 +67,7 @@ class Registration extends Component {
                     </li>
                 </ul>
                 </form>
+               
             </div>
         );
     }

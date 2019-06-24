@@ -414,3 +414,6 @@ nav a:hover::before {
  margin: 0;
  letter-spacing: 1px
 }
+.chatbot{
+  margin:0% 20%;
+}
