@@ -10,13 +10,19 @@ import PostCreation from './components/PostCreation'
 import Login from './components/Login'
 import ExpandingPostWall from './components/ExpandingPostWall'
 import ChooseCategories from './components/ChooseCategories'
+import CB from './components/CB'
+
+
 
 class App extends Component {
 
+
     render() {
+
+        localStorage.setItem("userId", null);
+        console.log(localStorage.getItem("userId"));
         return (
-            
-              <BrowserRouter>
+              <BrowserRouter logInfo={this.state}>
                 <div className="App">
                     <Header/>
                     <Route exact path='/' component={Home}/>
@@ -28,6 +34,8 @@ class App extends Component {
                     <Route path='/login' component={Login}/>
                     <Route path='/posts' component={ExpandingPostWall}/>
                     <Route path='/chooseCategories' component={ChooseCategories}/>
+                    <Route path='/Login' component={Login}/>
+                    <Route path='/chatBot' component ={CB}/>
                 </div>
             </BrowserRouter>
            

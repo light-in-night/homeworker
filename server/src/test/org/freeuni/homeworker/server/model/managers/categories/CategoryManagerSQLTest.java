@@ -44,7 +44,7 @@ public class CategoryManagerSQLTest {
     }
 
     @Test
-    public void add() throws SQLException {
+    public void add() throws SQLException, InterruptedException {
         when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
         CategoryManagerSQL categoryManagerSQL = new CategoryManagerSQL(connectionPool);
         categoryManagerSQL.add(category);
@@ -52,14 +52,14 @@ public class CategoryManagerSQLTest {
     }
 
     @Test
-    public void removeById() throws SQLException {
+    public void removeById() throws SQLException, InterruptedException {
         when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
         CategoryManagerSQL categoryManagerSQL = new CategoryManagerSQL(connectionPool);
         categoryManagerSQL.removeById(1);
         categoryManagerSQL.removeById(1);
     }
     @Test
-    public void getById() throws SQLException {
+    public void getById() throws SQLException, InterruptedException {
         when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
         CategoryManagerSQL categoryManagerSQL = new CategoryManagerSQL(connectionPool);
         categoryManagerSQL.getById(1);

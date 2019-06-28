@@ -422,3 +422,87 @@ nav a:hover::before {
  margin: 0;
  letter-spacing: 1px
 }
+.chatbot{
+  margin:0% 20%;
+}
+
+/* For ALl Button */
+
+button {
+  cursor: pointer;
+}
+
+.menuBar li:hover{
+  cursor: pointer;
+}
+
+/* CONTACT FORM */
+
+.contactList,
+.flex-inner {
+  list-style-type: none;
+  padding: 0;
+}
+
+.contactList {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contactList li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+
+.contactList > li:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.contactList li label,
+.contactList li p {
+  padding: 8px;
+  font-weight: 300;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.contactList > li > label,
+.contactList li p {
+  flex: 1 0 120px;
+  max-width: 220px;
+}
+
+.contactList > li > label + * {
+  flex: 1 0 220px;
+}
+
+.contactList li p {
+  margin: 0;
+}
+
+.contactList li input:not([type='checkbox']),
+.contactList li textarea {
+  padding: 15px;
+  border: none;
+}
+
+.contactList li button {
+  margin-left: auto;
+  padding: 8px 16px;
+  border: none;
+  background: #333;
+  color: #f2f2f2;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  border-radius: 2px;
+}
+
+#contactForm {
+  padding: 10em;
+}
+
+.contactHeader{
+  margin: 0 auto;
+}

@@ -13,9 +13,8 @@ class CategoryBox extends Component {
     render() {
        // console.log(this.state.categories);
         return (
-            <div className="category-box">
-                {this.state.categories.map((category) => {
-                    console.log("a")
+            <div className="category-box" >
+                {categories.map((category) => {
                   return <CategoryItem category={category} />;
                 })}
             </div>

@@ -51,7 +51,7 @@ public class PostCategoryManagerSQLTest {
     }
 
     @Test
-    public void add() throws SQLException {
+    public void add() throws SQLException, InterruptedException {
         when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
         PostCategoryManagerSQL postCategoryManagerSQL = new PostCategoryManagerSQL(connectionPool);
         postCategoryManagerSQL.add(postCategory);
@@ -59,7 +59,7 @@ public class PostCategoryManagerSQLTest {
     }
 
     @Test
-    public void removeById() throws SQLException {
+    public void removeById() throws SQLException, InterruptedException {
         when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
         PostCategoryManagerSQL postCategoryManagerSQL = new PostCategoryManagerSQL(connectionPool);
         postCategoryManagerSQL.removeById(1);
@@ -67,7 +67,7 @@ public class PostCategoryManagerSQLTest {
     }
 
     @Test
-    public void getByPostId() throws SQLException {
+    public void getByPostId() throws SQLException, InterruptedException {
         when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
         when(resultSet.next()).thenReturn(true).thenReturn(false);
         PostCategoryManagerSQL postCategoryManagerSQL = new PostCategoryManagerSQL(connectionPool);
@@ -82,7 +82,7 @@ public class PostCategoryManagerSQLTest {
     }
 
     @Test
-    public void getByCategoryId() throws SQLException {
+    public void getByCategoryId() throws SQLException, InterruptedException {
         when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
         when(resultSet.next()).thenReturn(true).thenReturn(false);
         PostCategoryManagerSQL postCategoryManagerSQL = new PostCategoryManagerSQL(connectionPool);
@@ -94,7 +94,7 @@ public class PostCategoryManagerSQLTest {
     }
 
     @Test
-    public void getPostsInCategory() throws SQLException {
+    public void getPostsInCategory() throws SQLException, InterruptedException {
         when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
         List<Post> list = new ArrayList<>();
         Post post = new Post(2,4,"post");
@@ -119,8 +119,9 @@ public class PostCategoryManagerSQLTest {
     }
 
     @Test
-    public void getCategoriesOfPost() throws SQLException {
-        when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
+    public void getCategoriesOfPost() throws SQLException, InterruptedException {
+        when(connection.prepareStatement(any(String.class)))
+                .thenThrow(new SQLException()).thenReturn(preparedStatement);
         List<Category> list = new ArrayList<>();
         Category category = new Category(3,"interesting","nice");
         Category category2 = new Category(2,"notInteresting","bad");

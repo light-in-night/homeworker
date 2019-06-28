@@ -11,16 +11,20 @@ class Header extends Component {
 
                 <div className={'container'}>
 
-                    <Link to='/home' className={'homeLink'}><h1  className={'brand'}>Homeworker</h1></Link>
+                    <Link to='/home' className={'homeLink'}>
+                        <h1  className={'brand'}>Homeworker</h1>
+                    </Link>
                     <nav>
-                        <ul>
+                        <ul className={"menuBar"}>
                             <li><SideMenu/></li>
                             <li><Link to='/about'>About</Link></li>
                             <li><Link to='/contact'>Contact</Link></li>
                             <li><Link to='/login'>Login</Link></li>
                         </ul>
                     </nav>
+
                 </div>
+
             </header>
         );
     }

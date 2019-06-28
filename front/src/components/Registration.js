@@ -57,6 +57,8 @@ class Registration extends Component {
         return (
             <div id='registrationForm'>
                 <form >
+                 <span>pst i can help you register</span><a href='/chatBot' ><img src='chatbot.png' width={40} height={40}></img></a><br/><br/><br/>
+                
                 <ul className="regFormOuter">
                     <li>
                         <label htmlFor="first-name">First Name</label>
@@ -87,6 +89,7 @@ class Registration extends Component {
                     </li>
                 </ul>
                 </form>
+               
             </div>
         );
     }

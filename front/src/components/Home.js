@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import CategoryBox from './CategoryBox'
-
+import CB from './CB'
 class Home extends Component{
     constructor(props){
         super(props);
@@ -30,17 +30,29 @@ class Home extends Component{
 
     render() {
         console.log(this.state.items);
-        if(this.state.isLoaded) {
-            return (
-                <div className="App">
-                    <CategoryBox categories={this.state.items}/>
-                </div>
-            );
-        } else {
-            return (<div className="App">
-                <h1>Still loading...</h1>
-            </div>);
-        }
+        // if(this.state.isLoaded) {
+        //     return (
+        //         <div className="App">
+        //             <CategoryBox categories={this.state.items}/>
+        //         </div>
+        //     );
+        // } else {
+        //     return (<div className="App">
+        //         <h1>Still loading...</h1>
+        //     </div>);
+        // }
+        var items = this.state.categories.filter(
+            (post) =>{return post.name.toLowerCase().indexOf(this.state.search.toLowerCase())!==-1});
+            console.log(items);
+        return (
+            <div className="App">
+                
+                <b><label>Filter Posts : </label></b><input type='text' onChange={this.changeSearch.bind(this)} />
+                <CategoryBox items={items}/>  
+                                                                                    
+            </div>
+            
+        );
     }
 }
 export default Home
