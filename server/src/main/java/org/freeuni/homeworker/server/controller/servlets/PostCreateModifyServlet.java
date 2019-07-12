@@ -59,10 +59,6 @@ public class PostCreateModifyServlet extends HttpServlet {
      *      id : 123 (id of created post)
      *  }
      *
-     *
-     *  Author : Tornike Onoprishvili
-     *  Tested via : SoapUI
-     *
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -101,7 +97,7 @@ public class PostCreateModifyServlet extends HttpServlet {
 
     /**
      *
-     * TODO : DOES NOT WORK. does PostManager have problems? It does.
+     * TODO : DOES NOT WORK because PostManager does not work.
      *
      * Updates existing post's text.
      *

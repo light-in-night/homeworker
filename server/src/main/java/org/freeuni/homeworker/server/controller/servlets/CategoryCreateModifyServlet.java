@@ -25,6 +25,7 @@ import java.sql.SQLException;
 public class CategoryCreateModifyServlet extends HttpServlet {
     /**
      * Creates a new Category.
+     *
      * Reads:
      * {
      *     "name" : "jobs",

@@ -19,10 +19,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * Author : The Givi, ...
+ * Tested via : ...
+ */
 @WebServlet(name = "UserModifyServlet", urlPatterns = "/hasSession/isLoggedIn/users")
 public class UserModifyServlet extends HttpServlet {
 
     /**
+     * TODO : not tested. probably does not work.
+     *
      * Updates existing user account.
      * Reads :
      * {

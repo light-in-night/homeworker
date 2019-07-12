@@ -39,9 +39,13 @@ public class UserCreationServlet extends HttpServlet {
      * shows if user was added successfully or not.
      * the response will have following structure
      *
+     *      TODO : (WILL BE ADDED IN FUTURE)
      * {
      *      STATUS : OK | ERROR,
      *      ERROR_MESSAGE : '' | 'ERROR MESSAGE'
+     *      **userId** : 123    (will be added in future)
+     *                          (id of created user)
+     *                          (can be used to automatically log-in new user)
      * }
      *
      */

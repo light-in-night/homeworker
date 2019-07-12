@@ -48,11 +48,13 @@ public class LoginServlet extends HttpServlet {
 		ServletUtils.setJSONContentType(response);
 
 		SessionManager sessionManager =(SessionManager)request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
-		UserManager userManager = (UserManager) request.getServletContext().getAttribute(ContextKeys.USER_MANAGER);
+		//UserManager userManager = (UserManager) request.getServletContext().getAttribute(ContextKeys.USER_MANAGER);
 		ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
 		String jsonFromRequest = ServletUtils.readFromRequest(request);
+
 		JsonNode requestRoot = objectMapper.readTree(jsonFromRequest);
 		ObjectNode responseRoot =  objectMapper.createObjectNode();
+
 		try {
 			String sessionId = request.getHeader("sessionId");
 			responseRoot.put("loggedIn", sessionManager.getSession(sessionId).isLoggedIn());

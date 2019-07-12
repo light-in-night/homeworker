@@ -28,10 +28,17 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Author : Tornike Kechakmadze, Tornike Onoprishvili,  (add here)
+ * Tested via : SoapUI (EVERY METHOD)
+ */
 @WebServlet(name = "UserAccessServlet", urlPatterns = {"/admin/users"})
 public class UserAccessServlet extends HttpServlet {
 
     /**
+     * Returns and filters all users.
+     * Used by admins only.
+     *
      * Reads GET parameters:
      * /users
      * ?    id : 123, (OPTIONAL)
@@ -69,8 +76,6 @@ public class UserAccessServlet extends HttpServlet {
      *     ]
      * }
      *
-     * Author : Tornike Kechakmadze, Tornike Onoprishvili,  (add here)
-     * Tested via : SOAPUI (EVERY METHOD)
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

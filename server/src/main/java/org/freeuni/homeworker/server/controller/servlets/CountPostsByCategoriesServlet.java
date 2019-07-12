@@ -30,9 +30,10 @@ public class CountPostsByCategoriesServlet extends HttpServlet {
 
     /**
      *
-     * Returns categories. can be filtered.
+     * Returns categories and post counts.
      *
      * Reads :
+     * Does not read.
      *
      * Returns :
      * {

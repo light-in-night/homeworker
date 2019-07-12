@@ -39,10 +39,14 @@ public class CategoryAccessServlet extends HttpServlet {
      * {
      *     STATUS : "OK"
      *     ERROR_MESSAGE : ""
-     *     categories : [{
-     *              id : 1234,
-     *              name : 'jobs',
-     *              description : 'posts about jobs'
+     *     categories : [
+     *          {
+     *                  id : 1234,
+     *                  name : 'jobs',
+     *                  description : 'posts about jobs'
+     *          },
+     *          {
+     *              ...
      *          },
      *          ...
      *     ]

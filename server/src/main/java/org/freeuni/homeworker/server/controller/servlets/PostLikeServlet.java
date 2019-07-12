@@ -29,7 +29,7 @@ import java.util.List;
 public class PostLikeServlet extends HttpServlet {
 
     /**
-     * TODO : DOES NOT WORK!
+     * TODO : DOES NOT WORK because PostLikeManager uses PostManager that does not work.
      * Reads :
      * /hasSession/isLoggedIn/likeThePost
      * ? postId=123
@@ -74,8 +74,8 @@ public class PostLikeServlet extends HttpServlet {
                     dislikesArray.add(postLike.getUserID());
                 }
             }
-            usersNode.set("likes", likesArray);
-            usersNode.set("dislikes", dislikesArray);
+            usersNode.set("liked", likesArray);
+            usersNode.set("disliked", dislikesArray);
             responseNode.set("users", usersNode);
             JacksonUtils.addStatusOk(responseNode);
         } catch (Exception e) {
@@ -89,6 +89,7 @@ public class PostLikeServlet extends HttpServlet {
      * TESTED, WORKS.
      * Adds likes to post.
      * if already added, this inverts the like to dislike.
+     * userId is deduced from sessionId.
      *
      * Reads :
      * {

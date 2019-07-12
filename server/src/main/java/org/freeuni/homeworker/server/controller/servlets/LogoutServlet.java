@@ -42,11 +42,11 @@ public class LogoutServlet extends HttpServlet {
         ServletUtils.setCORSHeaders(response);
         ServletUtils.setJSONContentType(response);
 
-        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         UserManager userManager = (UserManager) request.getServletContext().getAttribute(ContextKeys.USER_MANAGER);
         SessionManager sessionManager =(SessionManager)request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
-
+        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         String jsonFromRequest = ServletUtils.readFromRequest(request);
+
         JsonNode requestRoot = objectMapper.readTree(jsonFromRequest);
         ObjectNode responseRoot =  objectMapper.createObjectNode();
 

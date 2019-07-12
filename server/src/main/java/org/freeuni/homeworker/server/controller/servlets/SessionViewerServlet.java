@@ -25,22 +25,19 @@ import java.util.Map;
 @WebServlet(name = "SessionViewerServlet",urlPatterns = "/admin/sessions")
 public class SessionViewerServlet extends HttpServlet {
     /**
-     *  TESTED!
+     * Returns list of all active sessions.
+     *
      * Reads :
      *
      * Returns :
      * {
-     *     STATUS : OK | ERROR
-     *     ERROR_MESSAGE : ""
-     *     sessions :[
-     *      {sessionId : "123-asd-asd",
-     *      userId : 123,
-     *      loggedIn : true | false
-     *      isAdmin : true | false
-     *      },
-     *      {},
-     *      ...
-     *     ]
+     *    "STATUS": "OK" | ERROR
+     *    ERROR_MESSAGE : ""
+     *    "sessions": [   {
+     *       "sessionId": "test",
+     *       "userId": null,
+     *       "loggedIn": false
+     *    }],
      * }
      */
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -15,17 +15,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * TODO : UNTESTED!
  *
  * Author : Tornike Kechakhmadze, Tornike Onoprishvili
  * Tested via : SoapUI
  */
 @WebServlet(name = "SessionCreationServlet", urlPatterns = {"/sessions"})
 public class SessionCreationServlet extends HttpServlet {
+
 	/**
 	 * Registers a new session, returns a sessionId.
 	 * The latter can be used in order to make a login and
-	 * Access /secure/* url commands.
+	 * Access /hasSession/* url commands.
 	 *
 	 * Reads :
 	 *

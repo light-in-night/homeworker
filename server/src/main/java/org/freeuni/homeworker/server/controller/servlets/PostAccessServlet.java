@@ -40,6 +40,9 @@ import java.util.stream.Collectors;
 public class PostAccessServlet extends HttpServlet {
 
     /**
+     * Gets all posts.
+     * can be filtered using arguments.
+     *
      * Reads:
      * /posts
      * ?id=123              (OPTIONAL PARAM)
@@ -104,17 +107,17 @@ public class PostAccessServlet extends HttpServlet {
                         try {
                             return request.getParameter("categoryId") == null || postCategoryManager.getByPostId(post.getId()).stream()
                                     .anyMatch(postCategory -> postCategory.getCategoryId() == Long.parseLong(request.getParameter("categoryId")));
-                        } catch (InterruptedException | SQLException e) { e.printStackTrace(); }
+                        } catch (Exception e) { e.printStackTrace(); }
                         return false;
                     })
                     .filter(post -> request.getParameter("t0") == null ||  (post.getCreationTimestamp().getTime() >=  Long.parseLong(request.getParameter("t0"))))
                     .filter(post -> request.getParameter("t1") == null || (post.getCreationTimestamp().getTime() <  Long.parseLong(request.getParameter("t1"))))
                     .collect(Collectors.toList());
-            ArrayNode arrayNode = objectMapper.createArrayNode();
+            ArrayNode postArrayNode = objectMapper.createArrayNode();
             for(Post post : postList) {
-                    arrayNode.add(PostFactory.toObjectNode(post, objectMapper.createObjectNode()));
+                postArrayNode.add(PostFactory.toObjectNode(post, objectMapper.createObjectNode()));
             }
-            objectNode.set("posts", arrayNode);
+            objectNode.set("posts", postArrayNode);
             JacksonUtils.addStatusOk(objectNode);
         } catch (SQLException | InterruptedException e) {
             e.printStackTrace();

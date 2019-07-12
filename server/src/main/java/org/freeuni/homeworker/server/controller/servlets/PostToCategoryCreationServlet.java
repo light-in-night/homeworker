@@ -37,7 +37,9 @@ import java.util.List;
  */
 @WebServlet(name = "PostToCategoryCreationServlet", urlPatterns = "/hasSession/isLoggedIn/posts/addCategory")
 public class PostToCategoryCreationServlet extends HttpServlet {
+
     /**
+     *  TODO: Does not work because PostManager does not work.
      *  Replaces categories on post.
      *
      *  Reads:

@@ -14,7 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@SuppressWarnings("RedundantThrows")
+/**
+ * Author : Tornike Kechakhmadze
+ * Tested via : SoapUI
+ */
 @WebServlet(name = "IllegalRequestServlet", urlPatterns = {"/illegalRequest"})
 public class IllegalRequestServlet extends HttpServlet {
 
