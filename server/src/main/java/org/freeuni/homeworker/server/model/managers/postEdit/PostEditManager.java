@@ -8,9 +8,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Deprecated : Instead use PostManager.updatePostContents
+ */
+@Deprecated
 public class PostEditManager extends GeneralManagerSQL implements PostEdit {
 
-    private final String EDIT_POST = "UPDATE posts SET content = ? where id = ?";
+    private final String EDIT_POST = "UPDATE posts SET contents = ? where id = ?";
     // Gets postEdit object and sets column data for given object id to text in database
 
     public PostEditManager(ConnectionPool connectionsPool) {
@@ -18,7 +22,7 @@ public class PostEditManager extends GeneralManagerSQL implements PostEdit {
     }
 
     @Override
-    public void editPost(PostEditObject obj) {
+    public void editPost(PostEditObject obj) throws SQLException, InterruptedException {
         Connection con = null;
         try {
             con = connectionPool.acquireConnection();
@@ -26,8 +30,6 @@ public class PostEditManager extends GeneralManagerSQL implements PostEdit {
             preparedStatement.setString(1, obj.getPostText());
             preparedStatement.setLong(2, obj.getPostID());
             preparedStatement.executeUpdate();
-        } catch (SQLException | InterruptedException e) {
-            e.printStackTrace();
         } finally {
             if (con != null) {
                 connectionPool.putBackConnection(con);

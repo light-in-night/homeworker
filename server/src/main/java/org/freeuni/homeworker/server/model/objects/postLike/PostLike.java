@@ -44,10 +44,6 @@ public class PostLike implements Serializable {
 
     public PostLike(){}
 
-    public PostLike(int id, int i, int i1, boolean liked){
-
-    }
-
     public long getId() {
         return id;
     }

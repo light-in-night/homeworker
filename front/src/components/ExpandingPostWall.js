@@ -6,8 +6,11 @@ class ExpandingPostWall extends Component{
     constructor(props){
         super(props);
         this.state = {
+            STATUS : "loading",
+            ERROR_MESSAGE : "",
+
             source : props.location.state.source,
-            items : []
+            posts : [],
         }
         this.componentDidMount = this.componentDidMount.bind(this);
     
@@ -15,15 +18,11 @@ class ExpandingPostWall extends Component{
     
     fetchData = () => {
         fetch(this.state.source)
-        .then((response) => response.json())
-        .then((obj) => {
-            this.setState({
-                items : obj
-            })
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+        .then(response => response.json())
+        .then(jsonObj => this.setState(jsonObj))
+        .catch(error => 
+            console.log(error)
+        )
     }
 
     componentDidMount(){
@@ -31,11 +30,18 @@ class ExpandingPostWall extends Component{
     }
 
     render() {
-        console.log(this.state.items);
+        console.log(this.state);
         
         return (
           <div>
-              <PostBox posts={this.state.items}/>
+              <div className="category-box" >
+                {this.state.posts
+                    .map(post => 
+                            <div className="category-item">
+                                <p>{post.contents}</p>
+                            </div>)
+                }
+            </div>
           </div>  
         );
     }

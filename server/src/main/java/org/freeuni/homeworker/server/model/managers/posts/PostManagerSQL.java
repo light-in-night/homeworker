@@ -1,6 +1,5 @@
 package org.freeuni.homeworker.server.model.managers.posts;
 
-import org.freeuni.homeworker.server.controller.servlets.UserRegistrationServlet;
 import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 import org.freeuni.homeworker.server.model.objects.post.PostFactory;
@@ -33,8 +32,12 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
     private static final String SELECT_ALL =
             "SELECT *" +
                     "FROM homeworker.posts;";
+    private static final String UPDATE_BY_ID =
+            "UPDATE posts \n" +
+                    "SET posts.contents = ? \n" +
+                    "WHERE posts.id = ?;";
 
-    private static Logger log = LoggerFactory.getLogger(UserRegistrationServlet.class);
+//    private static Logger log = LoggerFactory.getLogger(UserRegistrationServlet.class);
 
     public PostManagerSQL(ConnectionPool connectionPool) {
         super(connectionPool);
@@ -73,21 +76,22 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
     /**
      * Returns single post with given post id
      *
-     * @param post_id posts's id
+     * @param postId posts's id
      * @return one post with given id
      */
     @Override
-    public Post getById(long post_id) throws InterruptedException, SQLException {
+    public Post getById(long postId) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
-            if (connection == null) {
-                log.info("Server is stopped can't get more data.");
-                return null;
-            }
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID);
-            preparedStatement.setLong(1, post_id);
+            preparedStatement.setLong(1, postId);
             ResultSet resultSet = preparedStatement.executeQuery();
+//            ResultSetMetaData rsmd= resultSet.getMetaData();
+//            String[] arr = new String[5];
+//            for (int i = 1; i < 4; i++) {
+//                arr[i] = rsmd.getColumnName(i);
+//            }
             return PostFactory.fromResultSet(resultSet);
         }  finally {
             if (connection != null) {
@@ -109,7 +113,7 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
         try {
             connection = connectionPool.acquireConnection();
             if (connection == null) {
-                log.info("Server is stopped can't persist more data.");
+//                log.info("Server is stopped can't persist more data.");
                 return null;
             }
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_USER_ID);
@@ -137,7 +141,7 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
         try {
             connection = connectionPool.acquireConnection();
             if (connection == null) {
-                log.info("Server is stopped can't persist more data.");
+//                log.info("Server is stopped can't persist more data.");
                 return null;
             }
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BETWEEN_TIMES);
@@ -153,23 +157,20 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
     }
 
     /**
+     * Updates existing post in database
      *
-     * TODO: correct this.
-     * @param post_id
-     * @param correctedContains
+     * @param post post object to update the exsiting post in db.
+     *             note that only the contents are updated this way.
+     *             post.id is used as to know which post to update.
      */
     @Override
-    public void updatePostContents(long post_id, String correctedContains) throws InterruptedException, SQLException {
+    public void updatePostContents(Post post) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
-            if (connection == null) {
-                log.info("Server is stopped can't persist more data.");
-                return;
-            }
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID);
-            preparedStatement.setLong(1, post_id);
-            preparedStatement.setString(1, correctedContains);
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BY_ID);
+            preparedStatement.setLong(2, post.getId());
+            preparedStatement.setString(1, post.getContents());
             preparedStatement.executeUpdate();
         }  finally {
             if (connection != null) {
@@ -184,7 +185,7 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
         try {
             connection = connectionPool.acquireConnection();
             if (connection == null) {
-                log.info("Server is stopped can't persist more data.");
+//                log.info("Server is stopped can't persist more data.");
                 return null;
             }
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);

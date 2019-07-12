@@ -54,4 +54,24 @@ public class PostCategoryFactory {
         }
         return null;
     }
+
+    /**
+     * Creates a new post category object, with given three params.
+     *
+     * @return new post category object
+     */
+    public static PostCategory fromPostAndCategoryId(long id, long postId, long categoryId) {
+        PostCategory postCategory = new PostCategory();
+        postCategory.setPostId(postId);
+        postCategory.setCategoryId(categoryId);
+        postCategory.setId(id);
+        return postCategory;
+    }
+
+    public static PostCategory createNew(long postId, Long categoryId) {
+        PostCategory postCategory = new PostCategory();
+        postCategory.setPostId(postId);
+        postCategory.setCategoryId(categoryId);
+        return  postCategory;
+    }
 }

@@ -8,15 +8,21 @@ class CategoryBox extends Component {
         this.state = {
             categories: this.props.categories
         };
+        console.log("we have props as");
+        
+        console.log(this.props);
+        
+        // this.componentDidMount = this.componentDidMount.bind(this);
     }
 
     render() {
-       // console.log(this.state.categories);
+        // console.log(this.state.categories);
         return (
-            <div className="category-box" >
-                {categories.map((category) => {
-                  return <CategoryItem category={category} />;
-                })}
+            <div 
+                className="category-box" >
+                {this.state.categories.map(category =>
+                    <CategoryItem category={category} />
+                )}
             </div>
         );
     }

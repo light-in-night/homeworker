@@ -125,9 +125,9 @@ public class PostManagerSQLTest {
         when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
 
         PostManagerSQL postManagerSQL = new PostManagerSQL(connectionPool);
-        postManagerSQL.updatePostContents(post.getId(),"update");
-        postManagerSQL.updatePostContents(post.getId(),"update");
-        postManagerSQL.updatePostContents(post.getId(),"update");
+//        postManagerSQL.updatePostContents(post.getId(),"update");
+//        postManagerSQL.updatePostContents(post.getId(),"update");
+//        postManagerSQL.updatePostContents(post.getId(),"update");
     }
 
     @Test

@@ -144,6 +144,13 @@ from homeworker.posts;
 # FROM homeworker.categories
 # WHERE categories.id = 1;
 
+# UPDATE categories
+# SET
+#     categories.name = ?,
+#     categories.description = ?
+# WHERE
+#     categories.id = ?;
+
 #DELETE FROM homeworker.categories
 #WHERE categories.id = 1;
 

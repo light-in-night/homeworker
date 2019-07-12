@@ -1,5 +1,6 @@
 package org.freeuni.homeworker.server.model.objects.category;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * DB object. also can be converted to JSON string
  * with JSON annotations.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Category {
     @JsonProperty("id")

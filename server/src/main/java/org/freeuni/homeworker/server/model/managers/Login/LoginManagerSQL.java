@@ -11,6 +11,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class handles user
+ */
+@Deprecated
 public class LoginManagerSQL implements LoginManager{
 
 	private final Logger log = LoggerFactory.getLogger(LoginManagerSQL.class);
@@ -26,19 +30,13 @@ public class LoginManagerSQL implements LoginManager{
 
 
 	@Override
-	public User getUserByEmail(String email) {
+	public User getUserByEmail(String email) throws InterruptedException, SQLException {
 		User user = null;
 		Connection connection = null;
 		try {
 			connection = connectionsPool.acquireConnection();
 			user = getUserFromDatabase(email, connection);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			log.error("Interrupted Thread");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			log.error("SQL Syntax Error");
-		} finally {
+		}  finally {
 			if(connection != null) {
 				connectionsPool.putBackConnection(connection);
 			}

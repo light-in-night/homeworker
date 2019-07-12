@@ -21,22 +21,29 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "CountPostsByCategoriesServlet", urlPatterns = "/getpost/countbycategory")
+/**
+ * Author : Tornike Onoprishvili
+ * Tested via : SoapUI
+ */
+@WebServlet(name = "CountPostsByCategoriesServlet", urlPatterns = "/categories/stats")
 public class CountPostsByCategoriesServlet extends HttpServlet {
 
     /**
      *
-     * Does not take in any arguments.
-     * Returns JSON in this format:
+     * Returns categories. can be filtered.
+     *
+     * Reads :
+     *
+     * Returns :
      * {
      *     STATUS : "OK"
      *     ERROR_MESSAGE : ""
-     *     data :
+     *     categories :
      *     [{
-     *         "categoryId" : 123, (same as categoryId)
-     *         "categoryName" : "jobs"
-     *         "description" : "where people work"
-     *         "postCount" : 3123
+     *         "id" : 123,      (id of category)
+     *         "name" : "jobs"  (name of category)
+     *         "description" : "where people work" (description of category)
+     *         "postCount" : 3123 (number of posts in that category)
      *     },
      *     {
      *       "categoryId" : 124,
@@ -46,6 +53,8 @@ public class CountPostsByCategoriesServlet extends HttpServlet {
      *     ]
      * }
      *
+     * Author : Tornike Onoprishvili
+     * Tested via : SOAPUI (EVERY METHOD)
      *
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -62,8 +71,7 @@ public class CountPostsByCategoriesServlet extends HttpServlet {
             ArrayNode arrayNode = objectMapper.createArrayNode();
 
             for(Category category : allCategories) {
-                List<Post> postsByCategory = null;
-                    postsByCategory = postCategoryManager.getPostsInCategory(category.getId());
+                List<Post> postsByCategory = postCategoryManager.getPostsInCategory(category.getId());
                 ObjectNode responseJsonObject = objectMapper.createObjectNode();
                 responseJsonObject.put("categoryId", category.getId());
                 responseJsonObject.put("categoryName", category.getName());
@@ -71,7 +79,7 @@ public class CountPostsByCategoriesServlet extends HttpServlet {
                 responseJsonObject.put("postCount", postsByCategory.size());
                 arrayNode.add(responseJsonObject);
             }
-            objectNode.set("data", arrayNode);
+            objectNode.set("categories", arrayNode);
             JacksonUtils.addStatusOk(objectNode);
         } catch (SQLException | InterruptedException e) {
             e.printStackTrace();

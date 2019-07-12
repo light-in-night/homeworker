@@ -49,6 +49,8 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
                     "JOIN homeworker.posts as post ON\n" +
                     "    postcategory.postId = post.id\n" +
                     "WHERE post.id = ?;";
+    private static final String REMOVE_BY_POSTID =
+            "DELETE FROM postcategory WHERE postId=?;";
 
 
     public PostCategoryManagerSQL(ConnectionPool connectionPool) {
@@ -137,6 +139,21 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
             preparedStatement.setLong(1, postId);
             ResultSet resultSet = preparedStatement.executeQuery();
             return CategoryFactory.listFromResultSet(resultSet);
+        }finally {
+            if (connection != null) {
+                connectionPool.putBackConnection(connection);
+            }
+        }
+    }
+
+    @Override
+    public void removeByPostId(long postId) throws InterruptedException, SQLException {
+        Connection connection = null;
+        try {
+            connection = connectionPool.acquireConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(REMOVE_BY_POSTID);
+            preparedStatement.setLong(1, postId);
+            preparedStatement.executeUpdate();
         }finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);

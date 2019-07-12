@@ -62,4 +62,6 @@ public interface PostCategoryManager {
      * @return list of all categories of given post
      */
     List<Category> getCategoriesOfPost(long postId) throws InterruptedException, SQLException;
+
+    void removeByPostId(long postId) throws InterruptedException, SQLException;
 }

@@ -35,6 +35,9 @@ public class User {
 	@JsonProperty("password")
 	private String password; // password of the user
 
+	@JsonProperty("karma")
+	private long karma;
+
 	public User() {
 	}
 
@@ -148,5 +151,13 @@ public class User {
 	@Override
 	public int hashCode() {
 		return Objects.hash(getId(), getFirstName(), getLastName(), getGender(), getEmail(), getPassword());
+	}
+
+	public long getKarma() {
+		return karma;
+	}
+
+	public void setKarma(long karma) {
+		this.karma = karma;
 	}
 }

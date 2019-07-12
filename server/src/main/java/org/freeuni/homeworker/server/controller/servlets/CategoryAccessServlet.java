@@ -6,10 +6,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.categories.CategoryManager;
 import org.freeuni.homeworker.server.model.objects.category.Category;
-import org.freeuni.homeworker.server.model.objects.post.Post;
+import org.freeuni.homeworker.server.model.objects.category.CategoryFactory;
 import org.freeuni.homeworker.server.utils.JacksonUtils;
 import org.freeuni.homeworker.server.utils.ServletUtils;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,16 +18,27 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@WebServlet(name = "CategoryAccessServlet", urlPatterns = "/getcategory")
+@WebServlet(name = "CategoryAccessServlet", urlPatterns = {"/categories"})
 public class CategoryAccessServlet extends HttpServlet {
+
     /**
-     * Returns every category in the database.
-     * Returns JSON String of all categories in this format
+     * Returns categories in database. Can be filtered.
+     * Reads :
+     * /categories              (ALL PARAMS ARE OPTIONAL)
+     * ? id=123                  (OPTIONAL)
+     * & name = "category name" (FULL MATCH) (OPTIONAL)
      *
+     * OPTIONAL PARAMS:
+     * IF ANY OF THE PARAMS ARE NOT GIVEN,
+     * RETURNED CATEGORIES WILL NOT BE FILTERED BY THEM.
+     * IF NO FILTERS ARE GIVEN, ALL OBJECTS ARE RETURNED
+     *
+     * Returns :
      * {
-     *      STATUS : "OK"
-     *      ERROR_MESSAGE : ""
+     *     STATUS : "OK"
+     *     ERROR_MESSAGE : ""
      *     categories : [{
      *              id : 1234,
      *              name : 'jobs',
@@ -36,10 +48,11 @@ public class CategoryAccessServlet extends HttpServlet {
      *     ]
      * }
      *
-     * @param request
-     * @param response
-     * @throws IOException
+     * Author : Tornike Onoprishvili
+     * Tested via : SOAPUI (All methods)
+     *
      */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ServletUtils.setCORSHeaders(response);
         ServletUtils.setJSONContentType(response);
@@ -49,11 +62,14 @@ public class CategoryAccessServlet extends HttpServlet {
         ObjectNode objectNode = objectMapper.createObjectNode();
 
         try {
-            List<Category> categories = categoryManager.getAllCategories();
-
+            List<Category> categories = categoryManager.getAllCategories().stream()
+                    .filter(cat -> request.getParameter("id") == null || cat.getId() == Long.parseLong(request.getParameter("id")))
+                    .filter(cat -> request.getParameter("name") == null || cat.getName().equals(request.getParameter("name")))
+                    //.filter(cat -> request.getParameter("partialDescription") == null || cat.getName().toLowerCase().contains(request.getParameter("partialDescription").toLowerCase()))
+                    .collect(Collectors.toList());
             ArrayNode arrayNode = objectMapper.createArrayNode();
-            for(Category post : categories) {
-                arrayNode.add(objectMapper.writeValueAsString(post));
+            for(Category category : categories) {
+                arrayNode.add(CategoryFactory.toObjectNode(category, objectMapper.createObjectNode()));
             }
             objectNode.set("categories",arrayNode);
             JacksonUtils.addStatusOk(objectNode);
@@ -63,4 +79,6 @@ public class CategoryAccessServlet extends HttpServlet {
         }
         response.getWriter().write(objectNode.toString());
     }
+
+
 }

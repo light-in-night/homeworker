@@ -5,10 +5,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
+import org.freeuni.homeworker.server.model.managers.postCategory.PostCategoryManager;
+import org.freeuni.homeworker.server.model.managers.postEdit.PostEditManager;
 import org.freeuni.homeworker.server.model.managers.posts.PostManager;
+import org.freeuni.homeworker.server.model.managers.users.UserManager;
 import org.freeuni.homeworker.server.model.objects.post.Post;
+import org.freeuni.homeworker.server.model.objects.post.PostFactory;
+import org.freeuni.homeworker.server.model.objects.postCategory.PostCategory;
+import org.freeuni.homeworker.server.model.objects.postCategory.PostCategoryFactory;
+import org.freeuni.homeworker.server.model.objects.postEdit.PostEditObject;
+import org.freeuni.homeworker.server.model.objects.user.User;
 import org.freeuni.homeworker.server.utils.JacksonUtils;
 import org.freeuni.homeworker.server.utils.ServletUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -19,26 +29,46 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Writer;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
-@WebServlet(name = "PostAccessServlet", urlPatterns = {"/getpost"})
+/**
+ * Author : Tornike Onoprishvili
+ * Tested via : SoapUI
+ */
+@WebServlet(name = "PostAccessServlet", urlPatterns = {"/posts"})
 public class PostAccessServlet extends HttpServlet {
 
     /**
-     * Returns every post from Database.
-     * requires no arguments to be passed in.
-     * The returned JSON will have a format
-     * for example like this:
-     * example : {
-     * STATUS : "OK",
-     * ERROR_MESSAGE : "",
+     * Reads:
+     * /posts
+     * ?id=123              (OPTIONAL PARAM)
+     * & userId=123         (OPTIONAL PARAM)
+     * & categoryId=123     (OPTIONAL PARAM)
+     * & t0 = 1234          (OPTIONAL PARAM) (timestamp start)
+     * & t1 = 12345         (OPTIONAL PARAM) (timestamp end)
      *
-     *  posts :
+     * OPTIONAL PARAMS :
+     * if any of the params (or any combination of them) are
+     * not null and are valid (parsable) then the returned array of posts
+     * will be filtered by them.
+     *
+     * OPTIONAL PARAMS : if any are selected,
+     * The resulting list of categories will be such that
+     * they have the given parameters.
+     * If you want to filter posts by userId, categoryId, or just Id,
+     * you must specify it in JSON params.
+     *
+     * Returns :
+     * {
+     *      STATUS : "OK" | "ERROR"
+     *      ERROR_MESSAGE : "",
+     *      posts :
      *      [{
      *          "id" : 1234,
      *          "userId" : 123,
      *          "contents" : "hello world",
-     *          "creationtimestamp" : 31234124 (just google unix epoch)
+     *          "creationTimestamp" : 31234124 (just google unix epoch)
      *      },
      *      {
      *          "id" : 13312,
@@ -48,17 +78,13 @@ public class PostAccessServlet extends HttpServlet {
      *      ...
      *      ]
      *  }
-     *  basically, we have this structure:
-     *  {
-     *     status :""
-     *     error_message: ""
-     *     posts :[
-     *      {postJson_0},
-     *      {postJson_1},
-     *      {postJson_2},
-     *      ...
-     *      ]
-     *  }
+     *
+     *  Access to this method is not filtered.
+     *  It can be accessed freely.
+     *
+     *  Author : Tornike onoprishvili
+     *  Tested via : SOAPUI. (EVERY METHOD)
+     *
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -68,13 +94,25 @@ public class PostAccessServlet extends HttpServlet {
         PostManager postManager = (PostManager) request.getServletContext().getAttribute(ContextKeys.POST_MANAGER);
         ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         ObjectNode objectNode = objectMapper.createObjectNode();
+        PostCategoryManager postCategoryManager = (PostCategoryManager) request.getServletContext().getAttribute(ContextKeys.POST_CATEGORY_MANAGER);
 
-        List<Post> postList = null;
         try {
-            postList = postManager.getAllPosts();
+            List<Post> postList = postManager.getAllPosts().stream()
+                    .filter(post -> request.getParameter("id") == null || post.getId() == Long.parseLong(request.getParameter("id")))
+                    .filter(post -> request.getParameter("userId") == null || post.getUserId() == Long.parseLong(request.getParameter("userId")))
+                    .filter(post -> {
+                        try {
+                            return request.getParameter("categoryId") == null || postCategoryManager.getByPostId(post.getId()).stream()
+                                    .anyMatch(postCategory -> postCategory.getCategoryId() == Long.parseLong(request.getParameter("categoryId")));
+                        } catch (InterruptedException | SQLException e) { e.printStackTrace(); }
+                        return false;
+                    })
+                    .filter(post -> request.getParameter("t0") == null ||  (post.getCreationTimestamp().getTime() >=  Long.parseLong(request.getParameter("t0"))))
+                    .filter(post -> request.getParameter("t1") == null || (post.getCreationTimestamp().getTime() <  Long.parseLong(request.getParameter("t1"))))
+                    .collect(Collectors.toList());
             ArrayNode arrayNode = objectMapper.createArrayNode();
             for(Post post : postList) {
-                arrayNode.add(objectMapper.writeValueAsString(post));
+                    arrayNode.add(PostFactory.toObjectNode(post, objectMapper.createObjectNode()));
             }
             objectNode.set("posts", arrayNode);
             JacksonUtils.addStatusOk(objectNode);
@@ -85,4 +123,5 @@ public class PostAccessServlet extends HttpServlet {
 
         response.getWriter().write(objectNode.toString());
     }
+
 }

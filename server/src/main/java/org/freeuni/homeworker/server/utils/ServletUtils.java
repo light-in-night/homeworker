@@ -14,7 +14,7 @@ public class ServletUtils {
 
     public static void setCORSHeaders(HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "GET,POST");
+        response.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
     }
 
     public static void setJSONContentType(HttpServletResponse response) {
@@ -29,11 +29,10 @@ public class ServletUtils {
             while ((line = reader.readLine()) != null){
                 str.append(line);
             }
-            return str.toString();
         } catch (Exception e) {
             log.error("Error occurred during reading request content.", e);
         }
-        return null;
+        return str.toString();
     }
 
 }

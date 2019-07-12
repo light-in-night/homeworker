@@ -1,5 +1,7 @@
 package org.freeuni.homeworker.server.model.objects.user;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.freeuni.homeworker.server.model.objects.post.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,6 +71,26 @@ public class UserFactory {
 		user.setGender(resultSet.getString(4));
 		user.setEmail(resultSet.getString(5));
 		user.setPassword(resultSet.getString(6));
+		user.setKarma(resultSet.getLong(7));
 		return user;
 	}
+
+	/**
+	 * Wraps user object in objectNode and returns node.
+	 *
+	 * @param user post object that you want to convert add to given ObjectNode
+	 * @param node the given objectNode that you want to use
+	 * @return filled node
+	 */
+	public static ObjectNode toObjectNode(User user, ObjectNode node) {
+		node.put("id", user.getId());
+		node.put("firstName", user.getFirstName());
+		node.put("lastName", user.getLastName());
+		node.put("gender", user.getGender());
+		node.put("email", user.getEmail());
+		node.put("password", user.getPassword());
+		node.put("karma", user.getKarma());
+		return node;
+	}
+
 }

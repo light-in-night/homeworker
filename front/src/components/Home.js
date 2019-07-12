@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import '../App.css';
-import CategoryBox from './CategoryBox'
-import CB from './CB'
+import { Link } from 'react-router-dom'
+
 class Home extends Component{
     constructor(props){
         super(props);
         this.state = {
-            items : [],
-            isLoaded : false
+            STATUS : "loading",
+            ERROR_MESSAGE : "",
+            categories : [],
+            
+            searchInput : "",
         }
         this.componentDidMount = this.componentDidMount.bind(this);
     }
@@ -19,40 +22,50 @@ class Home extends Component{
     fetchCategoriesAndPosts = () => {
         fetch("http://localhost/getpost/countbycategory")
         .then(result =>  result.json() )
-        .then((jsonResult) => {
-            this.setState({items : jsonResult.data, isLoaded : true})
-            console.log(this.state.items);
+        .then(jsonResult => {
+            this.setState(jsonResult)
         })
         .catch(error => {
             console.log(error);
         })
     }
 
+    changeSearch = (event) => {
+        this.setState({searchInput : event.target.value});
+    }
+
     render() {
-        console.log(this.state.items);
-        // if(this.state.isLoaded) {
-        //     return (
-        //         <div className="App">
-        //             <CategoryBox categories={this.state.items}/>
-        //         </div>
-        //     );
-        // } else {
-        //     return (<div className="App">
-        //         <h1>Still loading...</h1>
-        //     </div>);
-        // }
-        var items = this.state.categories.filter(
-            (post) =>{return post.name.toLowerCase().indexOf(this.state.search.toLowerCase())!==-1});
-            console.log(items);
         return (
-            <div className="App">
-                
-                <b><label>Filter Posts : </label></b><input type='text' onChange={this.changeSearch.bind(this)} />
-                <CategoryBox items={items}/>  
-                                                                                    
+            <div>
+                <b><label>Filter Posts : </label></b>
+                <input 
+                    type='text' 
+                    onChange={this.changeSearch} />
+                {this.screen(this.state.STATUS)}                                  
             </div>
-            
         );
     }
+
+    screen = (status) => {
+        if(status === "OK") {
+            return (<div className="category-box">
+                    {this.state.categories
+                        .filter(category => category.categoryName.toLowerCase().indexOf(this.state.searchInput.toLowerCase()) > -1)
+                        .map(category => 
+                            <Link to={{pathname : '/posts', state : {source: `http://localhost:80/getpost/bycategory?categoryId=${category.categoryId}`, } }} 
+                                style={{ textDecoration: 'none'}}>
+                                    <div className="category-item">
+                                        <p>{category.categoryName}</p>
+                                        <p>{category.postCount} post{category.postCount !== 1 ? "s" : ""}</p>
+                                    </div>
+                            </Link> 
+                        )}
+                </div>)
+        } else if(status === "ERROR") {
+            return <b><label>Server-side error has occured. Please retry again later.</label></b>
+        } else if(status === "loading") {
+            return <b><label>Still loading, please wait</label></b>
+        }
+    }   
 }
 export default Home

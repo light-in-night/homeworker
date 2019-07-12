@@ -2,6 +2,9 @@ package org.freeuni.homeworker.server.model.managers.postLikes;
 
 import org.freeuni.homeworker.server.model.objects.postLike.PostLike;
 
+import java.sql.SQLException;
+import java.util.List;
+
 /**
  * Manages the postLike entries in the database
  *
@@ -9,22 +12,11 @@ import org.freeuni.homeworker.server.model.objects.postLike.PostLike;
  */
 public interface PostLikeManager {
 
-    /**
-     * Adds a new entry in postLike table. Adds Like Information In DataBase.
-     *
-     * note: postLike connects user to post. many to many relationship.
-     * @param postLikeObject new entry to postLike object
-     * @return true on successful addition false otherwise
-     */
-    boolean like(PostLike postLikeObject); // User Like Method
+    void rateFirstTime(PostLike postLikeObject) throws InterruptedException, SQLException; // User Like Method
 
-    /**
-     * Removes Post Like Information From DataBase
-     * note: postLike connects user to post. many to many relationship.
-     *
-     * @param postLikeObject new entry to postLike object
-     * @return true on successful addition false otherwise
-     */
-    boolean unLike(PostLike postLikeObject); // User Unlike Method
+    PostLike getByUserAndPost(long userId, long postId) throws SQLException, InterruptedException;
 
+    void rateNextTime(PostLike postLike) throws InterruptedException, SQLException;
+
+    List<PostLike> getByPost(long postId) throws InterruptedException, SQLException;
 }

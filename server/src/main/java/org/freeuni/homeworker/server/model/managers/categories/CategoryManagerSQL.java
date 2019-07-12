@@ -27,6 +27,13 @@ public class CategoryManagerSQL extends GeneralManagerSQL implements CategoryMan
     private static final String SELECT_ALL =
             "SELECT  *" +
                     "FROM  homeworker.categories;";
+    private static final String UPDATE_STATEMENT =
+            "UPDATE categories\n" +
+                    "SET\n" +
+                    "    categories.name = ?,\n" +
+                    "    categories.description = ?\n" +
+                    "WHERE\n" +
+                    "    categories.id = ?;";
 
 
     public CategoryManagerSQL(ConnectionPool connectionPool) {
@@ -102,4 +109,20 @@ public class CategoryManagerSQL extends GeneralManagerSQL implements CategoryMan
         }
     }
 
+    @Override
+    public void modifyCategory(Category category) throws InterruptedException, SQLException {
+        Connection connection = null;
+        try {
+            connection = connectionPool.acquireConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_STATEMENT);
+            preparedStatement.setString(1, category.getName());
+            preparedStatement.setString(2, category.getDescription());
+            preparedStatement.setLong(3, category.getId());
+            preparedStatement.executeUpdate();
+        }  finally {
+            if (connection != null) {
+                connectionPool.putBackConnection(connection);
+            }
+        }
+    }
 }

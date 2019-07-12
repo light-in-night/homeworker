@@ -48,10 +48,17 @@ public interface PostManager {
     /**
      * updates the content of the posts.
      *
-     * @param post_id post id
-     * @param correctedContains new content
+     *
      */
-    void updatePostContents(long post_id, String correctedContains) throws InterruptedException, SQLException;
+
+    /**
+     * Updates existing post in database
+     *
+     * @param post post object to update the exsiting post in db.
+     *             note that only the contents are updated this way.
+     *             post.id is used as to know which post to update.
+     */
+    void updatePostContents(Post post) throws InterruptedException, SQLException;
 
     /**
      * Returns all posts in database

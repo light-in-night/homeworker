@@ -6,25 +6,21 @@ class CategoryItem extends Component {
     constructor(props){
         super(props);
         this.state = {
-            id : this.props.category.categoryId,
-            name: this.props.category.categoryName,
-            description: this.props.category.description,
-            numberOfPosts: this.props.category.postCount
+            category : this.props.category
         };
     }
 
     render() {
-        var name= this.props.category.name ;
-        var numberOfPosts= this.props.category.numberOfPosts ;
         return (
-            <Link 
-                to={{pathname : '/posts', state : {source: `http://localhost:80/getpost/bycategory?categoryId=${this.state.id}`, } }} 
+            <div>
+            <Link to={{pathname : '/posts', state : {source: `http://localhost:80/getpost/bycategory?categoryId=${this.state.category.categoryId}`, } }} 
                 style={{ textDecoration: 'none'}}>
                 <div className="category-item">
-                    <p>{this.state.name}</p>
-                    <p>{this.state.numberOfPosts} post{this.state.numberOfPosts !== 1 ? "s" : ""}</p>
+                    <p>{this.state.category.categoryName}</p>
+                    <p>{this.state.category.postCount} post{this.state.category.postCount !== 1 ? "s" : ""}</p>
                 </div>
             </Link>
+            </div>
         );
     }
 }

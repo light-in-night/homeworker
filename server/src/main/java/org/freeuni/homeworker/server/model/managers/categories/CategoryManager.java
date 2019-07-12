@@ -41,4 +41,6 @@ public interface CategoryManager {
      * @return list of categories
      */
     List<Category> getAllCategories() throws InterruptedException, SQLException;
+
+    void modifyCategory(Category category) throws InterruptedException, SQLException;
 }

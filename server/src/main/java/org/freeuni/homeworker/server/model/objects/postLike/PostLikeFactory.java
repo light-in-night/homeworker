@@ -61,5 +61,11 @@ public class PostLikeFactory {
     }
 
 
-
+    public static PostLike createNew(long userId, long postId, boolean b) {
+        PostLike postLike = new PostLike();
+        postLike.setLiked(b);
+        postLike.setUserID(userId);
+        postLike.setPostID(postId);
+        return postLike;
+    }
 }
