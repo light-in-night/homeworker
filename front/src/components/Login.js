@@ -9,8 +9,6 @@ class Login extends Component {
         }
     }
     
-    
-
     login (e) {
         e.preventDefault();
         if(this.validateUser() === false){
