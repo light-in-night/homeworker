@@ -8,23 +8,23 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ConcurrentSessionManager implements SessionManager {
+public class SessionManagerImpl implements SessionManager {
 	private Map<String, Session> sessionMap;
 
 	/**
 	 * Creates a SessionManager with ConcurrentHashMap.
 	 */
-	public ConcurrentSessionManager() {
+	public SessionManagerImpl() {
 		sessionMap = new ConcurrentHashMap<>();
 	}
 
 	/**
-	 * Creates a new ConcurrentSessionManager object.
+	 * Creates a new SessionManagerImpl object.
 	 *
 	 * @param sessionMap this Map <b>MUST BE THREAD SAFE</b>, in order
 	 *                    for this class to work well.
 	 */
-	public ConcurrentSessionManager(Map<String, Session> sessionMap) {
+	public SessionManagerImpl(Map<String, Session> sessionMap) {
 		this.sessionMap = sessionMap;
 	}
 

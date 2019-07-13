@@ -48,11 +48,7 @@ public class LoginServlet extends HttpServlet {
 		ServletUtils.setJSONContentType(response);
 
 		SessionManager sessionManager =(SessionManager)request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
-		//UserManager userManager = (UserManager) request.getServletContext().getAttribute(ContextKeys.USER_MANAGER);
 		ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-		String jsonFromRequest = ServletUtils.readFromRequest(request);
-
-		JsonNode requestRoot = objectMapper.readTree(jsonFromRequest);
 		ObjectNode responseRoot =  objectMapper.createObjectNode();
 
 		try {
@@ -60,6 +56,7 @@ public class LoginServlet extends HttpServlet {
 			responseRoot.put("loggedIn", sessionManager.getSession(sessionId).isLoggedIn());
 		} catch (Exception e) {
 			JacksonUtils.addStatusError(responseRoot, e.getMessage());
+			log.error("Error occurred during logging in.", e);
 		}
 		response.getWriter().write(responseRoot.toString());
 	}
@@ -114,6 +111,7 @@ public class LoginServlet extends HttpServlet {
 			}
 		} catch (Exception e) {
 			JacksonUtils.addStatusError(responseRoot, e.getMessage());
+			log.error("Error occurred.", e);
 		}
 		response.getWriter().write(responseRoot.toString());
 	}

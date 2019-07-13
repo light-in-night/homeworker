@@ -9,8 +9,9 @@ import org.freeuni.homeworker.server.model.objects.category.Category;
 import org.freeuni.homeworker.server.model.objects.category.CategoryFactory;
 import org.freeuni.homeworker.server.utils.JacksonUtils;
 import org.freeuni.homeworker.server.utils.ServletUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,8 @@ import java.util.stream.Collectors;
 
 @WebServlet(name = "CategoryAccessServlet", urlPatterns = {"/categories"})
 public class CategoryAccessServlet extends HttpServlet {
+
+    private Logger log = LoggerFactory.getLogger(CategoryAccessServlet.class);
 
     /**
      * Returns categories in database. Can be filtered.
@@ -78,7 +81,7 @@ public class CategoryAccessServlet extends HttpServlet {
             objectNode.set("categories",arrayNode);
             JacksonUtils.addStatusOk(objectNode);
         } catch (SQLException | InterruptedException e) {
-            e.printStackTrace();
+            log.error("Error occurred during getting categories.", e);
             JacksonUtils.addStatusError(objectNode, e.toString());
         }
         response.getWriter().write(objectNode.toString());
