@@ -41,6 +41,7 @@ CREATE TABLE comment(
     userId BIGINT NOT NULL,
     postId BIGINT NOT NULL,
     contents    VARCHAR(1024) NOT NULL,
+    CONSTRAINT pkId primary key (id),
 	foreign key (userId) references users(id),
 	foreign key (postId) references posts(id)
 );
@@ -192,5 +193,3 @@ from homeworker.posts;
 # SELECT postcategory.id, postcategory.postId, postcategory.categoryId
 # FROM homeworker.postcategory
 # WHERE postcategory.postId = 1;
-
-
