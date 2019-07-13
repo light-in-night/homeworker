@@ -6,6 +6,7 @@ class Login extends Component {
         this.state = {
             email : "",
             password : "",
+        
         }
     }
     
@@ -17,23 +18,20 @@ class Login extends Component {
             //Change Login header
         } else {
             let request = JSON.stringify(this.state);
-            fetch('http://localhost/users', {
+           console.log(request);
+            fetch('http://localhost/hasSession/login', {
                 method: 'POST',
-                body: request
-            }).then((response) => {
-                response.json()
-                .then((data) => {
-                    //Not TestIng sessionId... Yet;
-                    if(data.loggedIn){
-                        localStorage.setItem("userId", data.userId);
-                        //Redirect SomeWhere Else When Done
-                        this.redirectPage("/");   
-                    } else {
-                        console.log(data);
-                        let header = document.getElementsByClassName("loginHeader");   
-                        header.innerHTML = "Email Or Password Was Not Correct";
+                body: request , 
+                headers :{
+                        "sessionId":"test"
                     }
-                })
+            }).then((response) => {
+               if(response.status==="OK"){
+                    console.log("traki romqondes gadagasamirtabmvkwedi");
+               }else{
+                   console.log("eror brat");
+               }
+               
             })
             .catch((error) => {
                 console.log(error);
@@ -72,11 +70,11 @@ class Login extends Component {
                     </li>
                     <li>
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" placeholder="Enter Your Email Here" onChange={this.handleEmailChange}/>
+                        <input type="email" id="email" placeholder="Enter Your Email Here" onChange={this.handleEmailChange} required/>
                     </li>
                     <li>
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" placeholder="Enter Your Password Here" onChange={this.handlePasswordChange}/>
+                        <input type="password" id="password" placeholder="Enter Your Password Here" onChange={this.handlePasswordChange} required />
                     </li>
                     <li>
                         <button type="submit">Login</button>
