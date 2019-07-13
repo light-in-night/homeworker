@@ -14,7 +14,7 @@ class Login extends Component {
     login (e) {
         e.preventDefault();
         if(this.validateUser() === false){
-            //Change Login header 
+            //Change Login header
         } else {
             let request = JSON.stringify(this.state);
             fetch('http://localhost/hasSession/login', {
