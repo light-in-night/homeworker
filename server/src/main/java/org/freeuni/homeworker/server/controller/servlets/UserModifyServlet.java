@@ -59,7 +59,7 @@ public class UserModifyServlet extends HttpServlet {
         ObjectNode returnObjectNode = objectMapper.createObjectNode();
 
         try {
-            Session session = sessionManager.getSession(request.getHeader("sessionId"));
+            Session session = sessionManager.getSession(request.getHeader(ContextKeys.SESSION_ID));
             if(session.getUserId() == requestNode.get("id").asLong()) {
                 User oldUser = userManager.getUserById(session.getUserId());
                 if(requestNode.has("firstName")) {

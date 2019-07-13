@@ -1,39 +1,27 @@
 package org.freeuni.homeworker.server.controller.servlets;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.postCategory.PostCategoryManager;
-import org.freeuni.homeworker.server.model.managers.postEdit.PostEditManager;
 import org.freeuni.homeworker.server.model.managers.posts.PostManager;
-import org.freeuni.homeworker.server.model.managers.users.UserManager;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 import org.freeuni.homeworker.server.model.objects.post.PostFactory;
-import org.freeuni.homeworker.server.model.objects.postCategory.PostCategory;
-import org.freeuni.homeworker.server.model.objects.postCategory.PostCategoryFactory;
-import org.freeuni.homeworker.server.model.objects.postEdit.PostEditObject;
-import org.freeuni.homeworker.server.model.objects.user.User;
 import org.freeuni.homeworker.server.utils.JacksonUtils;
 import org.freeuni.homeworker.server.utils.ServletUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Writer;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Author : Tornike Onoprishvili
+ * Author : Guga Tkeshelade,Tornike Onoprishvili
  * Tested via : SoapUI
  */
 @WebServlet(name = "PostAccessServlet", urlPatterns = {"/posts"})
@@ -96,17 +84,19 @@ public class PostAccessServlet extends HttpServlet {
 
         PostManager postManager = (PostManager) request.getServletContext().getAttribute(ContextKeys.POST_MANAGER);
         ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-        ObjectNode objectNode = objectMapper.createObjectNode();
         PostCategoryManager postCategoryManager = (PostCategoryManager) request.getServletContext().getAttribute(ContextKeys.POST_CATEGORY_MANAGER);
+        ObjectNode objectNode = objectMapper.createObjectNode();
 
         try {
-            List<Post> postList = postManager.getAllPosts().stream()
+            List<Post> postList = postManager.getAllPosts()
+                    .stream()
                     .filter(post -> request.getParameter("id") == null || post.getId() == Long.parseLong(request.getParameter("id")))
                     .filter(post -> request.getParameter("userId") == null || post.getUserId() == Long.parseLong(request.getParameter("userId")))
                     .filter(post -> {
                         try {
-                            return request.getParameter("categoryId") == null || postCategoryManager.getByPostId(post.getId()).stream()
-                                    .anyMatch(postCategory -> postCategory.getCategoryId() == Long.parseLong(request.getParameter("categoryId")));
+                            return request.getParameter("categoryId") == null ||
+                                    postCategoryManager.getByPostId(post.getId()).getCategoryId()
+                                            == Long.parseLong(request.getParameter("categoryId"));
                         } catch (Exception e) { e.printStackTrace(); }
                         return false;
                     })
@@ -119,7 +109,7 @@ public class PostAccessServlet extends HttpServlet {
             }
             objectNode.set("posts", postArrayNode);
             JacksonUtils.addStatusOk(objectNode);
-        } catch (SQLException | InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             JacksonUtils.addStatusError(objectNode, e.toString());
         }

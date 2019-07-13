@@ -116,7 +116,7 @@ public class PostLikeServlet extends HttpServlet {
         JsonNode requestNode = objectMapper.readTree(jsonRequest);
 
         try {
-            long userId = sessionManager.getSession(request.getHeader("sessionId")).getUserId();
+            long userId = sessionManager.getSession(request.getHeader(ContextKeys.SESSION_ID)).getUserId();
             long postId = requestNode.get("postId").asLong();
             PostLike postLike = postLikeManager.getByUserAndPost(userId,postId);
             if(postLike == null) {

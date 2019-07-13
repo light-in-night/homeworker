@@ -33,7 +33,7 @@ public interface PostCategoryManager {
      * @param postId the postId that we are looking for
      * @return list of postsCategories that reference the given postId
      */
-    List<PostCategory> getByPostId(long postId) throws InterruptedException, SQLException;
+    PostCategory getByPostId(long postId) throws InterruptedException, SQLException;
 
 
     /**

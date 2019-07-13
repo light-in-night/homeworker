@@ -35,6 +35,14 @@ public class Post {
         this.contents = contents;
     }
 
+    public Post(int id, int userId, String contents, Timestamp creationTimestamp) {
+
+        this.id = id;
+        this.userId = userId;
+        this.contents = contents;
+        this.creationTimestamp = creationTimestamp;
+    }
+
     public String getContents() {
         return contents;
     }

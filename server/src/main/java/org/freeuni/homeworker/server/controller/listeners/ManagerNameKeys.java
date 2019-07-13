@@ -8,8 +8,6 @@ public interface ManagerNameKeys {
 
 	String POST_LIKE_MANAGER = "postLikeManager";
 
-	String POST_EDIT_MANAGER = "postEditManager";
-
 	String CATEGORY_MANAGER = "categoryManager";
 
 	String POST_CATEGORY_MANAGER = "postCategoryManager";

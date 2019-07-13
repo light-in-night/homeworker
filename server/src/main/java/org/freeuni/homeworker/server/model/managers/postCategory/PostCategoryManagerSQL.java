@@ -89,18 +89,14 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
     }
 
     @Override
-    public List<PostCategory> getByPostId(long postId) throws InterruptedException, SQLException {
-        return getPostCategories(postId, SELECT_BY_POST_ID);
-    }
-
-    private List<PostCategory> getPostCategories(long postId, String selectByPostId) throws InterruptedException, SQLException {
+    public PostCategory getByPostId(long postId) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(selectByPostId);
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_POST_ID);
             preparedStatement.setLong(1, postId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            return PostCategoryFactory.listFromResultSet(resultSet);
+            return PostCategoryFactory.postCategoryFromResultSet(resultSet);
         }  finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
@@ -110,7 +106,18 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
 
     @Override
     public List<PostCategory> getByCategoryId(long categoryId) throws InterruptedException, SQLException {
-        return getPostCategories(categoryId, SELECT_BY_CATEGORY_ID);
+        Connection connection = null;
+        try {
+            connection = connectionPool.acquireConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_CATEGORY_ID);
+            preparedStatement.setLong(1, categoryId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return PostCategoryFactory.listFromResultSet(resultSet);
+        }  finally {
+            if (connection != null) {
+                connectionPool.putBackConnection(connection);
+            }
+        }
     }
 
 

@@ -48,7 +48,7 @@ public class SessionCreationServlet extends HttpServlet {
 		SessionManager sessionManager = (SessionManager) getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
 
 		ObjectNode objectNode = objectMapper.createObjectNode();
-		objectNode.put("sessionId", sessionManager.createNewSession());
+		objectNode.put(ContextKeys.SESSION_ID, sessionManager.createNewSession());
 		JacksonUtils.addStatusOk(objectNode);
 
 		resp.getWriter().write(objectNode.toString());

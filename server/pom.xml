@@ -8,7 +8,57 @@
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <name>server</name>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>A REST-ful web-application that
+    can be used for posting, messaging and communicating with
+    other users.</description>
+    <url>https://github.com/light-in-night/homeworker</url>
+
+    <developers>
+        <developer>
+            <name>Tornike Onoprishvili</name>
+            <email>tonop15@freeuni.edu.ge</email>
+            <organization>Free University of Georgia</organization>
+            <organizationUrl>http://freeuni.edu.ge/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Tornike Kechakhmadze</name>
+            <email>tkech17@freeuni.edu.ge</email>
+            <organization>Free University of Georgia</organization>
+            <organizationUrl>http://freeuni.edu.ge/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Givi Khartishvili </name>
+            <email>gkhar17@freeuni.edu.ge</email>
+            <organization>Free University of Georgia</organization>
+            <organizationUrl>http://freeuni.edu.ge/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Guram Tkesheladze </name>
+            <email>gtkes17@freeuni.edu.ge</email>
+            <organization>Free University of Georgia</organization>
+            <organizationUrl>http://freeuni.edu.ge/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Daviti Kokaia </name>
+            <email>dkoka17@freeuni.edu.ge</email>
+            <organization>Free University of Georgia</organization>
+            <organizationUrl>http://freeuni.edu.ge/</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/light-in-night/homeworker.git</connection>
+        <developerConnection>scm:git:ssh://github.com:light-in-night/homeworker.git</developerConnection>
+        <url>http://github.com/light-in-night/homeworker/tree/master</url>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
