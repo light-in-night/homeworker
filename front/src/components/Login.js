@@ -67,7 +67,6 @@ class Login extends Component {
                     <li>
                         <h3 className="loginHeader">Enter Your Account Information Here</h3>
                     </li>
-
                     <li>
                         <label htmlFor="email">Email</label>
                         <input type="email" id="email" placeholder="Enter Your Email Here" onChange={this.handleEmailChange} required />
