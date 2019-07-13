@@ -26,8 +26,11 @@ class Login extends Component {
                         "sessionId":"test"
                     }
             }).then((response) => {
-               if(response.status==="OK"){
+                console.log(response);
+               if(response.ok){
                     console.log("traki romqondes gadagasamirtabmvkwedi");
+                    this.redirectPage("/");
+                    
                }else{
                    console.log("eror brat");
                }

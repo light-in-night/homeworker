@@ -37,7 +37,7 @@ class Home extends Component{
     render() {
         return (
             <div>
-                <b><label>Filter Posts : </label></b>
+                <b><label>Filter Categories : </label></b>
                 <input 
                     type='text' 
                     onChange={this.changeSearch} />
@@ -52,7 +52,7 @@ class Home extends Component{
                     {this.state.categories
                         .filter(category => category.name.toLowerCase().indexOf(this.state.searchInput.toLowerCase()) > -1)
                         .map(category => 
-                            <Link to={{pathname : '/posts', state : {source: `http://localhost:80/posts/categoryId=${category.id}`, } }} 
+                            <Link to={{pathname : '/posts', state : {source: 'http://localhost:80/posts?categoryId='+category.id+'', } }} 
                                 style={{ textDecoration: 'none'}}>
                                     <div className="category-item">
                                         <p>{category.name}</p>
