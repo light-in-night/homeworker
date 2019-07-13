@@ -34,7 +34,6 @@ class App extends Component {
                     <Route path='/login' component={Login}/>
                     <Route path='/posts' component={ExpandingPostWall}/>
                     <Route path='/chooseCategories' component={ChooseCategories}/>
-                    <Route path='/Login' component={Login}/>
                     <Route path='/chatBot' component ={CB}/>
                 </div>
             </BrowserRouter>
