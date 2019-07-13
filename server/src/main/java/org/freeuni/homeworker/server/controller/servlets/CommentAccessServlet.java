@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.util.List;
 
 
-@WebServlet(name = "CommentAcessServlet")
-public class CommentAcessServlet extends HttpServlet {
+@WebServlet(name = "CommentAccessServlet")
+public class CommentAccessServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletUtils.setCORSHeaders(response);

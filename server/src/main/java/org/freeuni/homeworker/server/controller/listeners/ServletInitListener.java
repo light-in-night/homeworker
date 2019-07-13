@@ -1,19 +1,13 @@
 package org.freeuni.homeworker.server.controller.listeners;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.freeuni.homeworker.server.model.managers.comments.CommentManagerSQL;
-import org.freeuni.homeworker.server.model.managers.session.ConcurrentSessionManager;
-import org.freeuni.homeworker.server.model.managers.Login.LoginManagerSQL;
-import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
-import org.freeuni.homeworker.server.model.managers.postEdit.PostEditManager;
-
 import org.freeuni.homeworker.server.model.managers.categories.CategoryManagerSQL;
+import org.freeuni.homeworker.server.model.managers.comments.CommentManagerSQL;
 import org.freeuni.homeworker.server.model.managers.postCategory.PostCategoryManagerSQL;
-
 import org.freeuni.homeworker.server.model.managers.postLikes.PostLikeManagerSQL;
 import org.freeuni.homeworker.server.model.managers.posts.PostManagerSQL;
 import org.freeuni.homeworker.server.model.managers.session.SessionManager;
+import org.freeuni.homeworker.server.model.managers.session.SessionManagerImpl;
 import org.freeuni.homeworker.server.model.managers.users.UserManagerSQL;
 import org.freeuni.homeworker.server.model.source.ConnectionPoolFactory;
 import org.slf4j.Logger;
@@ -23,7 +17,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import java.lang.reflect.Field;
 
 /**
  * Initialises whole application.
@@ -58,7 +51,7 @@ public class ServletInitListener implements ServletContextListener {
 		servletContext.setAttribute(ContextKeys.POST_CATEGORY_MANAGER, new PostCategoryManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTION_IN_POST_CATEGORY)));
 		servletContext.setAttribute(ContextKeys.COMMENT_MANAGER, new CommentManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_COMMENT_MANAGER)));
 
-		SessionManager sessionManager = new ConcurrentSessionManager();
+		SessionManager sessionManager = new SessionManagerImpl();
 		sessionManager.createCustomSession("test");
 		servletContext.setAttribute(ContextKeys.SESSION_MANAGER, sessionManager);
 	}
