@@ -58,36 +58,36 @@ class Registration extends Component {
     render() {
         return (
             <div id='registrationForm'>
-                <form >
+                <form onSubmit={this.register} >
                  <span>pst i can help you register</span><a href='/chatBot' ><img src='chatbot.png' width={40} height={40}></img></a><br/><br/><br/>
                 
                 <ul className="regFormOuter">
                     <li>
                         <label htmlFor="first-name">First Name</label>
-                        <input type="text" id="first-name" placeholder="Enter your first name here" onChange={this.handleFirstNameChange}/>
+                        <input type="text" id="first-name" placeholder="Enter your first name here" onChange={this.handleFirstNameChange} required />
                     </li>
                     <li>
                         <label htmlFor="last-name">Last Name</label>
-                        <input type="text" id="last-name" placeholder="Enter your last name here" onChange={this.handleLastNameChange}/>
+                        <input type="text" id="last-name" placeholder="Enter your last name here" onChange={this.handleLastNameChange} required />
                     </li>
                     <li>
                         <label htmlFor="gender">Gender</label>
-                        <input type="text" id="gender" placeholder="Enter your gender here" onChange={this.handleGenderChange}/>
+                        <input type="text" id="gender" placeholder="Enter your gender here" onChange={this.handleGenderChange} required />
                     </li>
                     <li>
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" placeholder="Enter your email here" onChange={this.handleEmailChange}/>
+                        <input type="email" id="email" placeholder="Enter your email here" onChange={this.handleEmailChange} required />
                     </li>
                     <li>
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" placeholder="Enter your password here" onChange={this.handlePasswordChange}/>
+                        <input type="password" id="password" placeholder="Enter your password here" onChange={this.handlePasswordChange} required />
                     </li>
                     <li>
                         <label htmlFor="repeatPassword">Repeat Password</label>
-                        <input type="password" id="repeatPassword" placeholder="Repeat your password here" onChange={this.handleRepeatPasswordChange}/>
+                        <input type="password" id="repeatPassword" placeholder="Repeat your password here" onChange={this.handleRepeatPasswordChange} required />
                     </li>
                     <li>
-                        <button type="submit" onSubmit={this.register}>Register</button>
+                        <button type="submit" >Register</button>
                     </li>
                 </ul>
                 </form>

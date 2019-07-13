@@ -14,7 +14,7 @@ class Login extends Component {
     login (e) {
         e.preventDefault();
         if(this.validateUser() === false){
-            //Change Login header
+            //Change Login header 
         } else {
             let request = JSON.stringify(this.state);
             fetch('http://localhost/hasSession/login', {
@@ -59,8 +59,7 @@ class Login extends Component {
         this.setState({password: e.target.value});
     };
     
-    render() {
-        
+    render() {     
         return (
             <div id="loginBody">
             <form  onSubmit={this.login.bind(this)}>
@@ -68,13 +67,15 @@ class Login extends Component {
                     <li>
                         <h3 className="loginHeader">Enter Your Account Information Here</h3>
                     </li>
+
                     <li>
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" placeholder="Enter Your Email Here" onChange={this.handleEmailChange}/>
-                    </li>
+                        <input type="email" id="email" placeholder="Enter Your Email Here" onChange={this.handleEmailChange} required />
+                    </li> 
+
                     <li>
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" placeholder="Enter Your Password Here" onChange={this.handlePasswordChange}/>
+                        <input type="password" id="password" placeholder="Enter Your Password Here" onChange={this.handlePasswordChange} required />
                     </li>
                     <li>
                         <button type="submit">Login</button>
