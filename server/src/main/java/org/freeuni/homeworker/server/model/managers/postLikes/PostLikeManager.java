@@ -27,5 +27,12 @@ public interface PostLikeManager {
      */
     long numberOfPostLikes(long id) throws InterruptedException, SQLException;
 
+
+    /**
+     * Returns Number Of Post UnLikes
+     * @param id post Unique Id
+     * @return Quantity
+     */
+
     long numberOfPostUnLikes(long id) throws InterruptedException, SQLException;
 }

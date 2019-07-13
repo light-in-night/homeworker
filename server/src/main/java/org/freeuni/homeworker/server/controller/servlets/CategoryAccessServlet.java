@@ -69,11 +69,8 @@ public class CategoryAccessServlet extends HttpServlet {
         ObjectNode objectNode = objectMapper.createObjectNode();
 
         try {
-            List<Category> categories = categoryManager.getAllCategories().stream()
-                    .filter(cat -> request.getParameter("id") == null || cat.getId() == Long.parseLong(request.getParameter("id")))
-                    .filter(cat -> request.getParameter("name") == null || cat.getName().equals(request.getParameter("name")))
-                    //.filter(cat -> request.getParameter("partialDescription") == null || cat.getName().toLowerCase().contains(request.getParameter("partialDescription").toLowerCase()))
-                    .collect(Collectors.toList());
+            List<Category> categories = categoryManager.getAllCategories();
+
             ArrayNode arrayNode = objectMapper.createArrayNode();
             for(Category category : categories) {
                 arrayNode.add(CategoryFactory.toObjectNode(category, objectMapper.createObjectNode()));
