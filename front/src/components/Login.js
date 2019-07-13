@@ -21,6 +21,7 @@ class Login extends Component {
                 method: 'POST',
                 body: request
             }).then((response) => {
+<<<<<<< HEAD
                 response.json()
                 .then((data) => {
                     //Not TestIng sessionId... Yet;
@@ -34,6 +35,17 @@ class Login extends Component {
                         header.innerHTML = "Email Or Password Was Not Correct";
                     }
                 })
+=======
+                console.log(response);
+               if(response.ok){
+                    console.log("traki romqondes gadagasamirtabmvkwedi");
+                    this.redirectPage("/");
+                    
+               }else{
+                   console.log("eror brat");
+               }
+               
+>>>>>>> 6c3cfbb6056e6689d4c043cfc60f98372e10dcd1
             })
             .catch((error) => {
                 console.log(error);
