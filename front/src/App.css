@@ -535,3 +535,28 @@ button {
   width: 10em;
   height: 15em;
 }
+
+.filterCategories input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  width: 20%;
+}
+
+.filterCategories{
+  margin-left: 5px;
+
+}
+
+.filterCategories::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.filterLabel {
+  font-size: 17px;
+
+}
+
+

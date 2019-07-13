@@ -37,11 +37,12 @@ class Home extends Component{
     render() {
         return (
             <div>
-                <b><label>Filter Categories : </label></b>
-                <input 
-                    type='text' 
-                    onChange={this.changeSearch} />
-                {this.screen(this.state.STATUS)}                                  
+                <div className="filterCategories">
+                    <br/>
+                    <b><label className={"filterLabel"}>Filter Categories : </label></b>
+                    <input type='text' onChange={this.changeSearch} placeholder={"Search"} />
+                </div>
+                    {this.screen(this.state.STATUS)}
             </div>
         );
     }
