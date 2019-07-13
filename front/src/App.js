@@ -31,6 +31,8 @@ class App extends Component {
         })
     }
 
+    n = 3;
+
     render() {
         
         return (

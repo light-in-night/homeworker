@@ -545,7 +545,6 @@ button {
 
 .filterCategories{
   margin-left: 5px;
-
 }
 
 .filterCategories::after {
@@ -556,7 +555,30 @@ button {
 
 .filterLabel {
   font-size: 17px;
-
 }
 
+.thankUser{
+  margin-bottom: auto;
+  text-align: center;
+  vertical-align: middle;
+  color: #B548CB;
+  font-size: 600%;
+  background-color: yellow;
+  -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+  animation-name: example;
+  animation-duration: 4s;
+  min-height: 1669px;
+}
 
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes example {
+  from {background-color: green;}
+  to {background-color: yellow;}
+}
+
+/* Standard syntax */
+@keyframes example {
+  from {background-color: green;}
+  to {background-color: yellow;}
+}
