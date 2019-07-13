@@ -9,6 +9,8 @@ class Login extends Component {
         }
     }
     
+    
+
     login (e) {
         e.preventDefault();
         if(this.validateUser() === false){
@@ -19,21 +21,7 @@ class Login extends Component {
                 method: 'POST',
                 body: request
             }).then((response) => {
-<<<<<<< HEAD
-                response.json()
-                .then((data) => {
-                    //Not TestIng sessionId... Yet;
-                    if(data.loggedIn){
-                        localStorage.setItem("userId", data.userId);
-                        //Redirect SomeWhere Else When Done
-                        this.redirectPage("/User");   
-                    } else {
-                        console.log(data);
-                        let header = document.getElementsByClassName("loginHeader");   
-                        header.innerHTML = "Email Or Password Was Not Correct";
-                    }
-                })
-=======
+
                 console.log(response);
                if(response.ok){
                     console.log("traki romqondes gadagasamirtabmvkwedi");
@@ -43,7 +31,7 @@ class Login extends Component {
                    console.log("eror brat");
                }
                
->>>>>>> 6c3cfbb6056e6689d4c043cfc60f98372e10dcd1
+
             })
             .catch((error) => {
                 console.log(error);
