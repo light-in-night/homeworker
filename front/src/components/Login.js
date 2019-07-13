@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
 class Login extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             email : "",
             password : "",
-        
+            header: "Enter Your Account Information Here",
         }
     }
     
@@ -15,23 +15,32 @@ class Login extends Component {
     login (e) {
         e.preventDefault();
         if(this.validateUser() === false){
-            //Change Login header
+            this.setState({
+                header : "Password Should Not Be Empty"
+            });
         } else {
             let request = JSON.stringify(this.state);
-           console.log(request);
             fetch('http://localhost/hasSession/login', {
                 method: 'POST',
-                body: request , 
-                headers :{
-                        "sessionId":"test"
-                    }
+                body: request,
+                headers: new Headers({
+                    "sessionId": "test"
+                })
             }).then((response) => {
-               if(response.status==="OK"){
-                    console.log("traki romqondes gadagasamirtabmvkwedi");
-               }else{
-                   console.log("eror brat");
-               }
-               
+                response.json()
+                .then((data) => {
+                    //TODO
+                    //Not TestIng sessionId... Yet;
+                    if(data.loggedIn){
+                      //  localStorage.setItem("userId", data.userId);
+                        //Redirect SomeWhere Else When Done
+                        this.redirectPage("/");   
+                    } else {
+                        console.log(data);
+                        let header = document.getElementsByClassName("loginHeader");   
+                        header.innerHTML = "Email Or Password Was Not Correct";
+                    }
+                })
             })
             .catch((error) => {
                 console.log(error);
@@ -48,7 +57,7 @@ class Login extends Component {
         this.state.email = this.state.email.trim();
         this.state.password = this.state.password.trim();
         let valid = this.state.email.length > 0 &&
-        this.state.password.length >= 0;
+        this.state.password.length > 0;
         return valid;
     }
     
@@ -66,15 +75,15 @@ class Login extends Component {
             <form  onSubmit={this.login.bind(this)}>
                 <ul className="loginFormList">
                     <li>
-                        <h3 className="loginHeader">Enter Your Account Information Here</h3>
+                        <h3 className="loginHeader">{this.state.header}</h3>
                     </li>
                     <li>
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" placeholder="Enter Your Email Here" onChange={this.handleEmailChange} required/>
+                        <input type="email" id="email" placeholder="Enter Your Email Here" onChange={this.handleEmailChange}/>
                     </li>
                     <li>
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" placeholder="Enter Your Password Here" onChange={this.handlePasswordChange} required />
+                        <input type="password" id="password" placeholder="Enter Your Password Here" onChange={this.handlePasswordChange}/>
                     </li>
                     <li>
                         <button type="submit">Login</button>

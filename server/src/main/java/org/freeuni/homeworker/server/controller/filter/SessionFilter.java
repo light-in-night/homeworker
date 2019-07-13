@@ -23,6 +23,7 @@ import java.io.IOException;
 @WebFilter(urlPatterns =  "/hasSession/*")
 public class SessionFilter  extends HttpFilter {
 
+
     private static final Logger log = LoggerFactory.getLogger(SessionFilter.class);
 
     /**
@@ -35,16 +36,11 @@ public class SessionFilter  extends HttpFilter {
      */
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        ServletUtils.setCORSHeaders(response);
-        ServletUtils.setJSONContentType(response);
-
+        log.info("Session Filter");
         SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
         //ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         //String jsonString = ServletUtils.readFromRequest(request);
-
-        log.info("" + sessionManager.hasSession("test"));
-        log.info(request.getHeader("sessionId"));
-        if (request.getHeader("sessionId") != null && sessionManager.hasSession(request.getHeader("sessionId"))) {
+        if (sessionManager.hasSession(request.getHeader("sessionId"))) {
             chain.doFilter(request, response);
         } else {
             request.getRequestDispatcher("/illegalRequest").forward(request, response);
