@@ -6,7 +6,6 @@ class Login extends Component {
         this.state = {
             email : "",
             password : "",
-        
         }
     }
     
@@ -18,14 +17,11 @@ class Login extends Component {
             //Change Login header
         } else {
             let request = JSON.stringify(this.state);
-           console.log(request);
             fetch('http://localhost/hasSession/login', {
                 method: 'POST',
-                body: request , 
-                headers :{
-                        "sessionId":"test"
-                    }
+                body: request
             }).then((response) => {
+
                 console.log(response);
                if(response.ok){
                     console.log("traki romqondes gadagasamirtabmvkwedi");
@@ -35,6 +31,7 @@ class Login extends Component {
                    console.log("eror brat");
                }
                
+
             })
             .catch((error) => {
                 console.log(error);
@@ -73,11 +70,11 @@ class Login extends Component {
                     </li>
                     <li>
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" placeholder="Enter Your Email Here" onChange={this.handleEmailChange} required/>
+                        <input type="email" id="email" placeholder="Enter Your Email Here" onChange={this.handleEmailChange}/>
                     </li>
                     <li>
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" placeholder="Enter Your Password Here" onChange={this.handlePasswordChange} required />
+                        <input type="password" id="password" placeholder="Enter Your Password Here" onChange={this.handlePasswordChange}/>
                     </li>
                     <li>
                         <button type="submit">Login</button>

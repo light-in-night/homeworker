@@ -506,3 +506,32 @@ button {
 .contactHeader{
   margin: 0 auto;
 }
+
+
+#text{
+  color: #B548CB;
+  float: left;
+  margin-left: 10%;
+}
+
+.post-item{
+  margin: 7%;
+  border-style: dashed;
+  border-color: #f1f1f1;
+  background: lightgreen;
+  width: 40em;
+  height: 6em;
+  text-align: center;
+}
+
+#sticky{
+  border-style: dashed;
+  border-color: #f1f1f1;
+  background: lightgreen;
+  margin-top: 4%;
+  margin-left: 10%;
+  float: left;
+  position: sticky;
+  width: 10em;
+  height: 15em;
+}
