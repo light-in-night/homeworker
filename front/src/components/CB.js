@@ -8,15 +8,19 @@ import React, { Component } from 'react';
     password: "",
     repeatPassword: ""
   };
-  
-  register = () => {
-   
+  register = (e) => {
+    e.preventDefault();
+    e.target.disabled = true;
     let request = JSON.stringify(this.state);
-    fetch('http://localhost/register', {
+    fetch('http://localhost/users', {
         method: 'POST',
         body: request
     }).then((response) => {
-        console.log(response);
+        if(response.status !== "OK") {
+            console.log(response);
+        } else {
+            this.routeChange();
+        }
     })
 };
 
