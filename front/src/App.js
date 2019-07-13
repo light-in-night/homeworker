@@ -19,6 +19,18 @@ import User from './components/User'
 class App extends Component {
 
 
+    componentDidMount() {
+        fetch('http://localhost/sessions', {
+            method: 'POST',
+        }).then((res) => {
+            res.json().then((js) => {
+                console.log(js)
+            })
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
     render() {
         
         return (
