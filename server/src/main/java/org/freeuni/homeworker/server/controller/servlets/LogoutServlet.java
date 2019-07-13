@@ -51,7 +51,7 @@ public class LogoutServlet extends HttpServlet {
         ObjectNode responseRoot =  objectMapper.createObjectNode();
 
         try {
-            String sessionID = request.getHeader("sessionId");
+            String sessionID = request.getHeader(ContextKeys.SESSION_ID);
             Session session = sessionManager.getSession(sessionID);
             sessionManager.logout(sessionID, session.getUserId());
             JacksonUtils.addStatusOk(responseRoot);

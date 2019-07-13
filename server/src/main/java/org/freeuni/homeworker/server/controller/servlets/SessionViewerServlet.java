@@ -54,7 +54,7 @@ public class SessionViewerServlet extends HttpServlet {
             String sessionId = e.getKey();
             Session session = e.getValue();
             ObjectNode itemNode = objectMapper.createObjectNode();
-            itemNode.put("sessionId", sessionId);
+            itemNode.put(ContextKeys.SESSION_ID, sessionId);
             itemNode.put("userId",session.getUserId());
             itemNode.put("loggedIn",session.isLoggedIn());
             arrayNode.add(itemNode);

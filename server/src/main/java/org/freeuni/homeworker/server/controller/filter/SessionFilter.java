@@ -18,9 +18,8 @@ import java.io.IOException;
  * Author : Tornike Kechakhmadze, Tornike Onoprishvili
  * Tested via : SoapUI
  */
-@WebFilter(urlPatterns =  "/hasSession/*")
+@WebFilter(urlPatterns = "/hasSession/*")
 public class SessionFilter  extends HttpFilter {
-
 
     /**
      * Handles all /hasSession/* url calls.
@@ -35,7 +34,9 @@ public class SessionFilter  extends HttpFilter {
         SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
         //ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         //String jsonString = ServletUtils.readFromRequest(request);
-        if (sessionManager.hasSession(request.getHeader("sessionId"))) {
+
+        if (request.getHeader(ContextKeys.SESSION_ID) != null
+            && sessionManager.hasSession(request.getHeader(ContextKeys.SESSION_ID))) {
             chain.doFilter(request, response);
         } else {
             request.getRequestDispatcher("/illegalRequest").forward(request, response);

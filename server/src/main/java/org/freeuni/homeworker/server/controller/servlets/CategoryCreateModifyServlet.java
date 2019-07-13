@@ -44,22 +44,22 @@ public class CategoryCreateModifyServlet extends HttpServlet {
         ServletUtils.setJSONContentType(response);
         ServletUtils.setCORSHeaders(response);
 
-        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-        CategoryManager categoryManager = (CategoryManager) getServletContext().getAttribute(ContextKeys.CATEGORY_MANAGER);
-        ObjectNode objectNode = objectMapper.createObjectNode();
+        ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+        CategoryManager categoryManager = (CategoryManager) request.getServletContext().getAttribute(ContextKeys.CATEGORY_MANAGER);
+        ObjectNode returnNode = objectMapper.createObjectNode();
 
-        String jsonString = ServletUtils.readFromRequest(request);
-        JsonNode requestNode = objectMapper.readTree(jsonString);
-        Category category = objectMapper.readValue(jsonString, Category.class);
         try {
+            String jsonString = ServletUtils.readFromRequest(request);
+            Category category = objectMapper.readValue(jsonString, Category.class);
+            JsonNode requestNode = objectMapper.readTree(jsonString);
             long categoryId = categoryManager.add(category);
-            objectNode.put("id", categoryId);
-            JacksonUtils.addStatusOk(objectNode);
-        } catch (InterruptedException | SQLException e) {
+            returnNode.put("id", categoryId);
+            JacksonUtils.addStatusOk(returnNode);
+        } catch (Exception e) {
             e.printStackTrace();
-            JacksonUtils.addStatusError(objectNode, e.toString());
+            JacksonUtils.addStatusError(returnNode, e.toString());
         }
-        response.getWriter().write(objectNode.toString());
+        response.getWriter().write(returnNode.toString());
     }
 
     /**
@@ -81,19 +81,20 @@ public class CategoryCreateModifyServlet extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ServletUtils.setJSONContentType(resp);
         ServletUtils.setCORSHeaders(resp);
-        CategoryManager categoryManager = (CategoryManager) getServletContext().getAttribute(ContextKeys.CATEGORY_MANAGER);
-        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-        ObjectNode objectNode = objectMapper.createObjectNode();
+
+        CategoryManager categoryManager = (CategoryManager) req.getServletContext().getAttribute(ContextKeys.CATEGORY_MANAGER);
+        ObjectMapper objectMapper = (ObjectMapper) req.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+        ObjectNode responseNode = objectMapper.createObjectNode();
         String jsonString = ServletUtils.readFromRequest(req);
 
         try {
             Category category = objectMapper.readValue(jsonString, Category.class);
             categoryManager.modifyCategory(category);
-            JacksonUtils.addStatusOk(objectNode);
-        } catch (InterruptedException | SQLException e) {
-            JacksonUtils.addStatusError(objectNode, e.toString());
+            JacksonUtils.addStatusOk(responseNode);
+        } catch (Exception e) {
+            JacksonUtils.addStatusError(responseNode, e.toString());
             e.printStackTrace();
         }
-        resp.getWriter().write(objectMapper.writeValueAsString(objectNode));
+        resp.getWriter().write(responseNode.toString());
     }
 }

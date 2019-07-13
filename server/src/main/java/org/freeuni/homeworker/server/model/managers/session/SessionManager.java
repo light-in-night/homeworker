@@ -29,4 +29,5 @@ public interface SessionManager {
     Set<Map.Entry<String, Session>> getAllSessions();
 
     boolean hasSession(String sessionId);
+
 }

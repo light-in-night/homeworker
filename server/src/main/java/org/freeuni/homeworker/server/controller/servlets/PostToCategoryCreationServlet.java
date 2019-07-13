@@ -72,7 +72,7 @@ public class PostToCategoryCreationServlet extends HttpServlet {
 
         try {
             long postId = requestNode.get("postId").asLong();
-            long userId = sessionManager.getSession(request.getHeader("sessionId")).getUserId();
+            long userId = sessionManager.getSession(request.getHeader(ContextKeys.SESSION_ID)).getUserId();
             if (postManager.getById(postId).getUserId() == userId) {    //if belongs to user.
                 List<Long> categoryIds = new ArrayList<>();
                 for (int i = 0; i < requestNode.get("categories").size(); i++) {

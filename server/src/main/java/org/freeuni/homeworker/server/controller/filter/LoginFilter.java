@@ -35,8 +35,8 @@ public class LoginFilter extends HttpFilter {
 		SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
 		//ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
 		//String jsonString = ServletUtils.readFromRequest(request);
-		if (request.getHeader("sessionId") != null
-				&& sessionManager.isUserLoggedIn(request.getHeader("sessionId"))) {
+		if (request.getHeader(ContextKeys.SESSION_ID) != null
+				&& sessionManager.isUserLoggedIn(request.getHeader(ContextKeys.SESSION_ID))) {
 				chain.doFilter(request, response);
 		} else {
 			request.getRequestDispatcher("/illegalRequest").forward(request, response);

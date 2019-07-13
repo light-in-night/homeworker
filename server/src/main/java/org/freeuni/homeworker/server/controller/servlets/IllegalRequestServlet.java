@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Author : Tornike Kechakhmadze
+ * Author : Don Tkesheladze
  * Tested via : SoapUI
  */
 @WebServlet(name = "IllegalRequestServlet", urlPatterns = {"/illegalRequest"})
@@ -35,7 +35,7 @@ public class IllegalRequestServlet extends HttpServlet {
 		ServletUtils.setCORSHeaders(response);
 		ServletUtils.setJSONContentType(response);
 
-		ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+		ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
 		ObjectNode returnNode = objectMapper.createObjectNode();
 		JacksonUtils.addStatusError(returnNode, "That request is illegal.");
 		response.getWriter().write(returnNode.toString());

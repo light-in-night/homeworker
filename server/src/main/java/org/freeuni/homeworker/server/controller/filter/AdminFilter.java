@@ -33,11 +33,13 @@ public class AdminFilter extends HttpFilter {
         SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
         ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
 
-        if (request.getHeader("adminPassword") != null &&
-                request.getHeader("adminPassword").equals(ADMIN_PASSWORD)) {
-                chain.doFilter(request, response);
+        if (request.getHeader("adminPassword") == null ||
+                !ADMIN_PASSWORD.equals(request.getHeader("adminPassword")))
+        {
+            request.getRequestDispatcher("/illegalRequest")
+                    .forward(request, response);
         } else {
-            request.getRequestDispatcher("/illegalRequest").forward(request, response);
+            chain.doFilter(request, response);
         }
     }
 

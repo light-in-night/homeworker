@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
-import org.freeuni.homeworker.server.model.managers.postEdit.PostEditManager;
 import org.freeuni.homeworker.server.model.managers.users.UserManager;
 import org.freeuni.homeworker.server.model.objects.post.PostFactory;
 import org.freeuni.homeworker.server.model.objects.postEdit.PostEditObject;

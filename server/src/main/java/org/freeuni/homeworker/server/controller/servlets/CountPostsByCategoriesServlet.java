@@ -33,6 +33,7 @@ public class CountPostsByCategoriesServlet extends HttpServlet {
      * Returns categories and post counts.
      *
      * Reads :
+     *
      * Does not read.
      *
      * Returns :
@@ -62,9 +63,9 @@ public class CountPostsByCategoriesServlet extends HttpServlet {
         ServletUtils.setJSONContentType(response);
         ServletUtils.setCORSHeaders(response);
 
-        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-        PostCategoryManager postCategoryManager = (PostCategoryManager) getServletContext().getAttribute(ContextKeys.POST_CATEGORY_MANAGER);
-        CategoryManager categoryManager = (CategoryManager) getServletContext().getAttribute(ContextKeys.CATEGORY_MANAGER);
+        ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+        PostCategoryManager postCategoryManager = (PostCategoryManager) request.getServletContext().getAttribute(ContextKeys.POST_CATEGORY_MANAGER);
+        CategoryManager categoryManager = (CategoryManager) request.getServletContext().getAttribute(ContextKeys.CATEGORY_MANAGER);
         ObjectNode objectNode = objectMapper.createObjectNode();
 
         try {
@@ -74,7 +75,7 @@ public class CountPostsByCategoriesServlet extends HttpServlet {
             for(Category category : allCategories) {
                 List<Post> postsByCategory = postCategoryManager.getPostsInCategory(category.getId());
                 ObjectNode responseJsonObject = objectMapper.createObjectNode();
-                responseJsonObject.put("categoryId", category.getId());
+                responseJsonObject.put("id", category.getId());
                 responseJsonObject.put("categoryName", category.getName());
                 responseJsonObject.put("description", category.getDescription());
                 responseJsonObject.put("postCount", postsByCategory.size());

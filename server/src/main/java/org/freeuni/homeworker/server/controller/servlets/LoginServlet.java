@@ -49,16 +49,18 @@ public class LoginServlet extends HttpServlet {
 
 		SessionManager sessionManager =(SessionManager)request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
 		//UserManager userManager = (UserManager) request.getServletContext().getAttribute(ContextKeys.USER_MANAGER);
-		ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-		String jsonFromRequest = ServletUtils.readFromRequest(request);
+		ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
 
-		JsonNode requestRoot = objectMapper.readTree(jsonFromRequest);
 		ObjectNode responseRoot =  objectMapper.createObjectNode();
 
 		try {
-			String sessionId = request.getHeader("sessionId");
+			//String jsonFromRequest = ServletUtils.readFromRequest(request);
+			//JsonNode requestRoot = objectMapper.readTree(jsonFromRequest);
+			String sessionId = request.getHeader(ContextKeys.SESSION_ID);
 			responseRoot.put("loggedIn", sessionManager.getSession(sessionId).isLoggedIn());
+			JacksonUtils.addStatusOk(responseRoot);
 		} catch (Exception e) {
+			e.printStackTrace();
 			JacksonUtils.addStatusError(responseRoot, e.getMessage());
 		}
 		response.getWriter().write(responseRoot.toString());
@@ -91,7 +93,7 @@ public class LoginServlet extends HttpServlet {
 		ServletUtils.setCORSHeaders(response);
 		ServletUtils.setJSONContentType(response);
 
-		ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+		ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
 		UserManager userManager = (UserManager) request.getServletContext().getAttribute(ContextKeys.USER_MANAGER);
 		SessionManager sessionManager =(SessionManager)request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
 
@@ -102,7 +104,7 @@ public class LoginServlet extends HttpServlet {
 		try {
 			String email = requestRoot.get("email").asText();
 			String password = requestRoot.get("password").asText();
-			String sessionID = request.getHeader("sessionId");
+			String sessionID = request.getHeader(ContextKeys.SESSION_ID);
 
 			User user = userManager.getUserByEmail(email);
 			if(user.getPassword().equals(password)) {
