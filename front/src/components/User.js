@@ -6,13 +6,12 @@ class User extends Component{
     constructor(props){
         super(props);
         this.state = {
-            firstName : "dato",
-            secondName : "kokaia",
-            gender : "male",
-            email : "dkoka17",
-            karma : "5",
-            posts: [ {id : "1", userId : "2", contents : "good boy", creationTimestamp : "12:2" },
-            {id : "1", userId : "2", contents : "goosafasd boy", creationTimestamp : "12:2" }]
+            firstName : "",
+            secondName : "",
+            gender : "",
+            email : "",
+            karma : "",
+            posts: [ {id : "", userId : "", contents : "", creationTimestamp : "" }]
         }     
     }
     getPosts(){
