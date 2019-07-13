@@ -14,11 +14,11 @@ import java.util.List;
 public class PostLikeManagerSQL extends GeneralManagerSQL implements PostLikeManager {
 
     private static final String GET_BY_POSTID = "SELECT * FROM postLike WHERE postId = ?;";
-    private final String GET_BY_USERID_AND_POSTID = "SELECT * FROM postLike WHERE userId = ? AND postId = ?;";
-    private final String ADD_QUERY = "INSERT INTO postLike (userID, postID, liked) VALUES (?, ?, ?);";
-    private final String MODIFY_QUERY = "UPDATE postLike SET liked=? WHERE postId=?;";
-    private final String COUNT_POST_LIKE = "SELECT COUNT(*) FROM postLike WHERE postId = ? AND like = 1";
-    private final String COUNT_POST_UNLIKE = "SELECT COUNT(*) FROM postLike WHERE postId = ? AND like = 0";
+    private static final String GET_BY_USERID_AND_POSTID = "SELECT * FROM postLike WHERE userId = ? AND postId = ?;";
+    private static final String ADD_QUERY = "INSERT INTO postLike (userID, postID, liked) VALUES (?, ?, ?);";
+    private static final String MODIFY_QUERY = "UPDATE postLike SET liked=? WHERE postId=?;";
+    private static final String COUNT_POST_LIKE = "SELECT COUNT(*) FROM postLike WHERE postId = ? AND liked = 1";
+    private static final String COUNT_POST_UNLIKE = "SELECT COUNT(*) FROM postLike WHERE postId = ? AND liked = 0";
 
     public PostLikeManagerSQL(ConnectionPool connectionsPool){
         super(connectionsPool);
