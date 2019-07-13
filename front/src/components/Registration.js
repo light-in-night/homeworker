@@ -14,7 +14,7 @@ class Registration extends Component {
         e.preventDefault();
         e.target.disabled = true;
         let request = JSON.stringify(this.state);
-        fetch('http://localhost/register', {
+        fetch('http://localhost/users', {
             method: 'POST',
             body: request
         }).then((response) => {
