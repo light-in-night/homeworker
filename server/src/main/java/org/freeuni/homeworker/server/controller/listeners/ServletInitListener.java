@@ -47,8 +47,11 @@ public class ServletInitListener implements ServletContextListener {
 		servletContext.setAttribute(ContextKeys.USER_MANAGER, new UserManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_USER_MANAGER)));
 		servletContext.setAttribute(ContextKeys.POST_MANAGER, new PostManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTION_IN_POST_MANAGER)));
 		servletContext.setAttribute(ContextKeys.POST_LIKE_MANAGER, new PostLikeManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_POST_LIKE_DAO)));
+		servletContext.setAttribute(ContextKeys.POST_LIKE_MANAGER, new PostLikeManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_POST_LIKE_DAO)));
+		servletContext.setAttribute(ContextKeys.POST_EDIT_MANAGER, new PostLikeManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_POST_EDIT_MANAGER)));
 		servletContext.setAttribute(ContextKeys.CATEGORY_MANAGER, new CategoryManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_CATEGORY)));
 		servletContext.setAttribute(ContextKeys.POST_CATEGORY_MANAGER, new PostCategoryManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTION_IN_POST_CATEGORY)));
+		servletContext.setAttribute(ContextKeys.LOGIN_MANAGER, new PostCategoryManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTION_IN_LOGIN)));
 		servletContext.setAttribute(ContextKeys.COMMENT_MANAGER, new CommentManagerSQL(ConnectionPoolFactory.buildConnectionPool(NUMBER_OF_CONNECTIONS_IN_COMMENT_MANAGER)));
 
 		SessionManager sessionManager = new SessionManagerImpl();

@@ -30,6 +30,8 @@ public class CommentManagerSQL  extends GeneralManagerSQL implements CommentMana
             "SELECT *" +
                     "FROM homeworker.comment;";
 
+    private static final String COUNT_POST_COMMENT = "SELECT COUNT(*) FROM comment WHERE postId = ?";
+
     public CommentManagerSQL(ConnectionPool connectionPool) {
         super(connectionPool);
     }
@@ -154,4 +156,25 @@ public class CommentManagerSQL  extends GeneralManagerSQL implements CommentMana
             }
         }
     }
+
+
+
+    @Override
+    public long numberOfPostComments(long id) throws InterruptedException, SQLException {
+        Connection connection = null;
+        try{
+            connection = connectionPool.acquireConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(COUNT_POST_COMMENT);
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getLong(1);
+        } finally {
+            if(connection != null) {
+                connectionPool.putBackConnection(connection);
+            }
+        }
+    }
+
+
 }
