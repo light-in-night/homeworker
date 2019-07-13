@@ -17,7 +17,7 @@ class Login extends Component {
             //Change Login header
         } else {
             let request = JSON.stringify(this.state);
-            fetch('http://localhost/login', {
+            fetch('http://localhost/hasSession/login', {
                 method: 'POST',
                 body: request
             }).then((response) => {
@@ -27,7 +27,7 @@ class Login extends Component {
                     if(data.loggedIn){
                         localStorage.setItem("userId", data.userId);
                         //Redirect SomeWhere Else When Done
-                        this.redirectPage("/");   
+                        this.redirectPage("/User");   
                     } else {
                         console.log(data);
                         let header = document.getElementsByClassName("loginHeader");   

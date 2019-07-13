@@ -11,6 +11,8 @@ import Login from './components/Login'
 import ExpandingPostWall from './components/ExpandingPostWall'
 import ChooseCategories from './components/ChooseCategories'
 import CB from './components/CB'
+import User from './components/User'
+
 
 
 
@@ -34,8 +36,8 @@ class App extends Component {
                     <Route path='/login' component={Login}/>
                     <Route path='/posts' component={ExpandingPostWall}/>
                     <Route path='/chooseCategories' component={ChooseCategories}/>
-                    <Route path='/Login' component={Login}/>
                     <Route path='/chatBot' component ={CB}/>
+                    <Route path='/User' component = {User}/>
                 </div>
             </BrowserRouter>
            

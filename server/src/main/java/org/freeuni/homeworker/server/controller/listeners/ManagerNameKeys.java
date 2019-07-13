@@ -16,4 +16,5 @@ public interface ManagerNameKeys {
 
 	String LOGIN_MANAGER = "loginManager";
 
+	String COMMENT_MANAGER = "commentManager";
 }
