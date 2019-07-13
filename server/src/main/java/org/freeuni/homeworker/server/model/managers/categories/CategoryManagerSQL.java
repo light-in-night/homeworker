@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.List;
 
 
+
 public class CategoryManagerSQL extends GeneralManagerSQL implements CategoryManager {
     private static final String ADD_CATEGORY =
             "INSERT INTO homeworker.categories\n" +

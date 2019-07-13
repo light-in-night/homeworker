@@ -3,7 +3,6 @@ package org.freeuni.homeworker.server.controller.servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
-import org.freeuni.homeworker.server.model.objects.IllegalRequest.IllegalRequestTypes;
 import org.freeuni.homeworker.server.utils.JacksonUtils;
 import org.freeuni.homeworker.server.utils.ServletUtils;
 
@@ -15,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Author : Don Tkesheladze
+ * Author : Guram Tkesheladze
  * Tested via : SoapUI
  */
 @WebServlet(name = "IllegalRequestServlet", urlPatterns = {"/illegalRequest"})
@@ -34,7 +33,6 @@ public class IllegalRequestServlet extends HttpServlet {
 	private void response(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		ServletUtils.setCORSHeaders(response);
 		ServletUtils.setJSONContentType(response);
-
 		ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
 		ObjectNode returnNode = objectMapper.createObjectNode();
 		JacksonUtils.addStatusError(returnNode, "That request is illegal.");

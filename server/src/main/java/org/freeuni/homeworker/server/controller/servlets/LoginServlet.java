@@ -62,6 +62,7 @@ public class LoginServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			JacksonUtils.addStatusError(responseRoot, e.getMessage());
+			log.error("Error occurred during logging in.", e);
 		}
 		response.getWriter().write(responseRoot.toString());
 	}
@@ -116,6 +117,7 @@ public class LoginServlet extends HttpServlet {
 			}
 		} catch (Exception e) {
 			JacksonUtils.addStatusError(responseRoot, e.getMessage());
+			log.error("Error occurred.", e);
 		}
 		response.getWriter().write(responseRoot.toString());
 	}

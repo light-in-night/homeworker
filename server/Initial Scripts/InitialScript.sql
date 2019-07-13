@@ -36,6 +36,15 @@ CREATE TABLE postLike(
 	foreign key (userId) references users(id),
 	foreign key (postId) references posts(id)
 );
+CREATE TABLE comment(
+    id BIGINT AUTO_INCREMENT,
+    userId BIGINT NOT NULL,
+    postId BIGINT NOT NULL,
+    contents    VARCHAR(1024) NOT NULL,
+    CONSTRAINT pkId primary key (id),
+	foreign key (userId) references users(id),
+	foreign key (postId) references posts(id)
+);
 
 CREATE TABLE categories (
 	id BIGINT AUTO_INCREMENT,
@@ -123,6 +132,23 @@ VALUES
 (8,4),
 (9,4);
 
+#comment
+INSERT INTO homeworker.comment
+(userId,postId,contents)
+VALUES
+(1,1,true),
+(1,2,true),
+(2,1,true),
+(3,9,true),
+(3,6,true),
+(4,1,false),
+(4,2,false),
+(4,3,false),
+(4,4,false),
+(4,5,false),
+(4,6,false);
+
+
 #DELETE FROM homeworker.postcategory
 #WHERE postcategory.id = 1;
 
@@ -167,5 +193,3 @@ from homeworker.posts;
 # SELECT postcategory.id, postcategory.postId, postcategory.categoryId
 # FROM homeworker.postcategory
 # WHERE postcategory.postId = 1;
-
-

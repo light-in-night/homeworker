@@ -20,7 +20,7 @@ class Home extends Component{
     }
 
     fetchCategoriesAndPosts = () => {
-        fetch("http://localhost/getpost/countbycategory")
+        fetch("http://localhost/categories")
         .then(result =>  result.json() )
         .then(jsonResult => {
             this.setState(jsonResult)
@@ -37,11 +37,12 @@ class Home extends Component{
     render() {
         return (
             <div>
-                <b><label>Filter Posts : </label></b>
-                <input 
-                    type='text' 
-                    onChange={this.changeSearch} />
-                {this.screen(this.state.STATUS)}                                  
+                <div className="filterCategories">
+                    <br/>
+                    <b><label className={"filterLabel"}>Filter Categories : </label></b>
+                    <input type='text' onChange={this.changeSearch} placeholder={"Search"} />
+                </div>
+                    {this.screen(this.state.STATUS)}
             </div>
         );
     }
@@ -50,12 +51,12 @@ class Home extends Component{
         if(status === "OK") {
             return (<div className="category-box">
                     {this.state.categories
-                        .filter(category => category.categoryName.toLowerCase().indexOf(this.state.searchInput.toLowerCase()) > -1)
+                        .filter(category => category.name.toLowerCase().indexOf(this.state.searchInput.toLowerCase()) > -1)
                         .map(category => 
-                            <Link to={{pathname : '/posts', state : {source: `http://localhost:80/getpost/bycategory?categoryId=${category.categoryId}`, } }} 
+                            <Link to={{pathname : '/posts', state : {source: 'http://localhost:80/posts?categoryId='+category.id+'', } }} 
                                 style={{ textDecoration: 'none'}}>
                                     <div className="category-item">
-                                        <p>{category.categoryName}</p>
+                                        <p>{category.name}</p>
                                         <p>{category.postCount} post{category.postCount !== 1 ? "s" : ""}</p>
                                     </div>
                             </Link> 

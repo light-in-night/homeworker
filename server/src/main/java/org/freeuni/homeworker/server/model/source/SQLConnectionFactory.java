@@ -34,6 +34,10 @@ public class SQLConnectionFactory {
     public static List<Connection> getConnectionList(int numberOfConnections) throws SQLException {
         List<Connection> connections = new ArrayList<>();
         for (int i = 0; i < numberOfConnections; i++) {
+            Connection connection = getConnection();
+            if(connection == null) {
+                throw new IllegalStateException("Connection attempt was refused by database.");
+            }
             connections.add(getConnection());
         }
         return connections;

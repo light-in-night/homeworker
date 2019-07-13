@@ -1,6 +1,16 @@
-import React, { Component } from 'react';
-import PostBox from './PostBox';
+import React, {Component} from 'react';
 import '../App.css';
+
+/*
+gets postCategory id 
+
+from home categories 
+
+and goes to localhost and gets  posts by id from there 
+ 
+this.state.source will get that id
+
+*/
 
 class ExpandingPostWall extends Component{
     constructor(props){
@@ -15,8 +25,16 @@ class ExpandingPostWall extends Component{
         this.componentDidMount = this.componentDidMount.bind(this);
     
     }
-    
+
+    /*
+    fetches data from api 
+    and adds posts to state
+
+    */
+
     fetchData = () => {
+        console.log(this.state.source);
+        console.log("aqvar");
         fetch(this.state.source)
         .then(response => response.json())
         .then(jsonObj => this.setState(jsonObj))
@@ -25,9 +43,11 @@ class ExpandingPostWall extends Component{
         )
     }
 
+
     componentDidMount(){
         this.fetchData();
     }
+ 
 
     render() {
         console.log(this.state);
@@ -47,4 +67,4 @@ class ExpandingPostWall extends Component{
     }
 }
 
-export default ExpandingPostWall
+export default ExpandingPostWall ; 

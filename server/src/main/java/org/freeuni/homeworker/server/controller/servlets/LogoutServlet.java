@@ -1,15 +1,14 @@
 package org.freeuni.homeworker.server.controller.servlets;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.session.SessionManager;
-import org.freeuni.homeworker.server.model.managers.users.UserManager;
 import org.freeuni.homeworker.server.model.objects.session.Session;
-import org.freeuni.homeworker.server.model.objects.user.User;
 import org.freeuni.homeworker.server.utils.JacksonUtils;
 import org.freeuni.homeworker.server.utils.ServletUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,40 +23,38 @@ import java.io.IOException;
  */
 @WebServlet(name = "LogoutServlet", urlPatterns = "/hasSession/isLoggedIn/logout")
 public class LogoutServlet extends HttpServlet {
-    /**
-     * Marks SessionId as logged out.
-     * If it is already logged out, this does nothing.
-     *
-     * Reads :
-     *
-     * Returns :
-     * {
-     *     STATUS : OK | ERROR,
-     *     ERROR_MESSAGE
-     * }
-     *
-     *
-     */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ServletUtils.setCORSHeaders(response);
-        ServletUtils.setJSONContentType(response);
 
-        UserManager userManager = (UserManager) request.getServletContext().getAttribute(ContextKeys.USER_MANAGER);
-        SessionManager sessionManager =(SessionManager)request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
-        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-        String jsonFromRequest = ServletUtils.readFromRequest(request);
+	private static final Logger log = LoggerFactory.getLogger(LogoutServlet.class);
 
-        JsonNode requestRoot = objectMapper.readTree(jsonFromRequest);
-        ObjectNode responseRoot =  objectMapper.createObjectNode();
+	/**
+	 * Marks SessionId as logged out.
+	 * If it is already logged out, this does nothing.
+	 * <p>
+	 * Reads :
+	 * <p>
+	 * Returns :
+	 * {
+	 * STATUS : OK | ERROR,
+	 * ERROR_MESSAGE
+	 * }
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ServletUtils.setCORSHeaders(response);
+		ServletUtils.setJSONContentType(response);
 
-        try {
-            String sessionID = request.getHeader(ContextKeys.SESSION_ID);
-            Session session = sessionManager.getSession(sessionID);
-            sessionManager.logout(sessionID, session.getUserId());
-            JacksonUtils.addStatusOk(responseRoot);
-        } catch (Exception e) {
-            JacksonUtils.addStatusError(responseRoot, e.getMessage());
-        }
-        response.getWriter().write(responseRoot.toString());
-    }
+		SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
+		ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+		ObjectNode responseRoot = objectMapper.createObjectNode();
+
+		try {
+			String sessionID = request.getHeader(ContextKeys.SESSION_ID);
+			Session session = sessionManager.getSession(sessionID);
+			sessionManager.logout(sessionID, session.getUserId());
+			JacksonUtils.addStatusOk(responseRoot);
+		} catch (Exception e) {
+			JacksonUtils.addStatusError(responseRoot, e.getMessage());
+			log.error("Error occurred during logout.", e);
+		}
+		response.getWriter().write(responseRoot.toString());
+	}
 }

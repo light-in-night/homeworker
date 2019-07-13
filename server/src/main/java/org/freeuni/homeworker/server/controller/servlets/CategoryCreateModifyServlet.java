@@ -8,6 +8,8 @@ import org.freeuni.homeworker.server.model.managers.categories.CategoryManager;
 import org.freeuni.homeworker.server.model.objects.category.Category;
 import org.freeuni.homeworker.server.utils.JacksonUtils;
 import org.freeuni.homeworker.server.utils.ServletUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +25,9 @@ import java.sql.SQLException;
  */
 @WebServlet(name = "CategoryCreateModifyServlet", urlPatterns = "/admin/categories")
 public class CategoryCreateModifyServlet extends HttpServlet {
+
+    private static final Logger log = LoggerFactory.getLogger(CategoryCreateModifyServlet.class);
+
     /**
      * Creates a new Category.
      *
@@ -56,7 +61,7 @@ public class CategoryCreateModifyServlet extends HttpServlet {
             returnNode.put("id", categoryId);
             JacksonUtils.addStatusOk(returnNode);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error occurred during category creation.", e);
             JacksonUtils.addStatusError(returnNode, e.toString());
         }
         response.getWriter().write(returnNode.toString());
@@ -93,6 +98,7 @@ public class CategoryCreateModifyServlet extends HttpServlet {
             JacksonUtils.addStatusOk(responseNode);
         } catch (Exception e) {
             JacksonUtils.addStatusError(responseNode, e.toString());
+            log.error("Error occurred during category modification.", e);
             e.printStackTrace();
         }
         resp.getWriter().write(responseNode.toString());

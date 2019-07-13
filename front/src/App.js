@@ -11,16 +11,28 @@ import Login from './components/Login'
 import ExpandingPostWall from './components/ExpandingPostWall'
 import ChooseCategories from './components/ChooseCategories'
 import CB from './components/CB'
+import User from './components/User'
+
 
 
 
 class App extends Component {
 
 
-    render() {
+    componentDidMount() {
+        fetch('http://localhost/sessions', {
+            method: 'POST',
+        }).then((res) => {
+            res.json().then((js) => {
+                console.log(js)
+            })
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
 
-        localStorage.setItem("userId", null);
-        console.log(localStorage.getItem("userId"));
+    render() {
+        
         return (
               <BrowserRouter logInfo={this.state}>
                 <div className="App">
@@ -34,8 +46,8 @@ class App extends Component {
                     <Route path='/login' component={Login}/>
                     <Route path='/posts' component={ExpandingPostWall}/>
                     <Route path='/chooseCategories' component={ChooseCategories}/>
-                    <Route path='/Login' component={Login}/>
                     <Route path='/chatBot' component ={CB}/>
+                    <Route path='/User' component = {User}/>
                 </div>
             </BrowserRouter>
            

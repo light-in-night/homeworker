@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.session.SessionManager;
 import org.freeuni.homeworker.server.utils.ServletUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -21,6 +23,7 @@ import java.io.IOException;
 @WebFilter(urlPatterns = { "/hasSession/isLoggedIn/*"})
 public class LoginFilter extends HttpFilter {
 
+	private static final Logger log = LoggerFactory.getLogger(LoginFilter.class);
 
     /**
 	 * Handles all /hasSession/isLoggedIn/* url calls.
@@ -32,12 +35,12 @@ public class LoginFilter extends HttpFilter {
      */
 	@Override
 	protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+		log.info("Login Filter");
+		String sessionId = request.getHeader(ContextKeys.SESSION_ID);
 		SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
-		//ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-		//String jsonString = ServletUtils.readFromRequest(request);
-		if (request.getHeader(ContextKeys.SESSION_ID) != null
-				&& sessionManager.isUserLoggedIn(request.getHeader(ContextKeys.SESSION_ID))) {
-				chain.doFilter(request, response);
+
+		if (sessionId != null && sessionManager.isUserLoggedIn(sessionId)) {
+			chain.doFilter(request, response);
 		} else {
 			request.getRequestDispatcher("/illegalRequest").forward(request, response);
 		}
