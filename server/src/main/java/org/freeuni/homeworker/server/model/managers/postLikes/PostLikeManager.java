@@ -19,4 +19,11 @@ public interface PostLikeManager {
     void rateNextTime(PostLike postLike) throws InterruptedException, SQLException;
 
     List<PostLike> getByPost(long postId) throws InterruptedException, SQLException;
+
+    /**
+     * Returns Number Of Post Likes
+     * @param id post Unique Id
+     * @return Quantity
+     */
+    long numberOfPostLikes(long id) throws InterruptedException, SQLException;
 }

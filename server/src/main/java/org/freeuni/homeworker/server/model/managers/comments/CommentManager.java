@@ -43,4 +43,13 @@ public interface CommentManager {
      * @return list of all posts
      */
     List<Comment> getAllPosts() throws SQLException, InterruptedException;
+
+
+
+    /**
+     * Returns Number Of Post Comments
+     * @param id post Unique Id
+     * @return Quantity
+     */
+    long numberOfPostComments(long id) throws InterruptedException, SQLException;
 }

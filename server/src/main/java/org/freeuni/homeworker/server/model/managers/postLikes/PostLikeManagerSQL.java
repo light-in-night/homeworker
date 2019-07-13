@@ -17,10 +17,13 @@ public class PostLikeManagerSQL extends GeneralManagerSQL implements PostLikeMan
     private final String GET_BY_USERID_AND_POSTID = "SELECT * FROM postLike WHERE userId = ? AND postId = ?;";
     private final String ADD_QUERY = "INSERT INTO postLike (userID, postID, liked) VALUES (?, ?, ?);";
     private final String MODIFY_QUERY = "UPDATE postLike SET liked=? WHERE postId=?;";
+    private final String COUNT_POST_LIKE = "SELECT COUNT(*) FROM postLike WHERE postId = ?";
 
     public PostLikeManagerSQL(ConnectionPool connectionsPool){
         super(connectionsPool);
     }
+
+
 
 
     @Override
@@ -88,4 +91,22 @@ public class PostLikeManagerSQL extends GeneralManagerSQL implements PostLikeMan
             }
         }
     }
+
+    @Override
+    public long numberOfPostLikes(long id) throws InterruptedException, SQLException {
+        Connection connection = null;
+        try{
+            connection = connectionPool.acquireConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(COUNT_POST_LIKE);
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getLong(1);
+        } finally {
+            if(connection != null) {
+                connectionPool.putBackConnection(connection);
+            }
+        }
+    }
+
 }
