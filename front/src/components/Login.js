@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 class Login extends Component {
     constructor(){
@@ -45,8 +45,10 @@ class Login extends Component {
     }
 
     validateUser = () => {
-        this.state.email = this.state.email.trim();
-        this.state.password = this.state.password.trim();
+        this.setState( {
+            email : this.state.email.trim(),
+            password : this.state.password.trim()
+        })
         let valid = this.state.email.length > 0 &&
         this.state.password.length >= 0;
         return valid;
