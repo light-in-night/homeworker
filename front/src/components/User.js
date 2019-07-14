@@ -58,15 +58,30 @@ class User extends Component{
                 
                 <div>
                     <div id="sticky">
-                        <form>                                
-                            <p style={this.textStyle}>{this.state.firstName}</p>
-                            <p style={this.textStyle}>{this.state.lastName}</p>
-                            <p style={this.textStyle}><IoIosMail />:{this.state.email}</p>
-                            <p style={this.textStyle}>gender:{this.state.gender}</p>
-                            <p style={this.textStyle}>karma:{this.state.karma}</p>
+                        <form className={"userInfo"}>
+                            <ul className={"userInfoList"}>
+                                <li>
+                                    <p style={this.textStyle}>Name: {this.state.firstName}</p>
+                                </li>
+                                <li>
+                                    <p style={this.textStyle}>LastName: {this.state.lastName}</p>
+                                </li>
+                                <li>
+                                    <p style={this.textStyle}><IoIosMail />Mail: {this.state.email}</p>
+                                </li>
+                                <li>
+                                    <p style={this.textStyle}>gender: {this.state.gender}</p>
+                                </li>
+                                <li>
+                                    <p style={this.textStyle}>karma: {this.state.karma}</p>
+                                </li>
+                            </ul>
+
                         </form>
                     </div>
                     <div id="text">
+                        <h2 className={"userPosts"}>Posts</h2>
+
                         {this.state.posts
                             .map(post => 
                                 <Link to={{pathname : '/Post', state : {source: `http://localhost/posts?id=${post.id}`, } }} 
