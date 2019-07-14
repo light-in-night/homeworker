@@ -62,8 +62,8 @@ class ExpandingPostWall extends Component{
                                     style={{ textDecoration: 'none'}} key={post.id}>
                                         <div className="post-item">
                                             <p className={"contents"}>{post.contents}</p>
-                                                <p className={"likes"}>Likes: {post.numLikes}</p>
-                                                <p className={"comments"}>Comments: {post.numComments}</p>
+                                            <p className={"likes"}>Likes: {post.numLikes}</p>
+                                            <p className={"comments"}>Comments: {post.numComments}</p>
 
                                         </div>
                                 </Link> 

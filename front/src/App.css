@@ -1,232 +1,232 @@
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  font-family: "B612 Mono", Raleway, Arial, Helvetica, sans-serif;
-  line-height: 1.4;
-  background-color: ghostwhite;
+    font-family: "B612 Mono", Raleway, Arial, Helvetica, sans-serif;
+    line-height: 1.4;
+    background-color: ghostwhite;
 }
 
 html,body {
-height: 100%;
+    height: 100%;
 }
 
 .container {
-  width: 80%;
-  top: 50%;
-  margin: 0 auto;
+    width: 80%;
+    top: 50%;
+    margin: 0 auto;
 }
 .aboutCss{
-  min-height: 800px;
-  background: rgb(26,0,36);
-  background: linear-gradient(90deg, rgba(26,0,36,0.7343312324929971) 1%, rgba(9,121,44,0.8127626050420168) 48%, rgba(0,212,255,1) 100%);
+    min-height: 800px;
+    background: rgb(26,0,36);
+    background: linear-gradient(90deg, rgba(26,0,36,0.7343312324929971) 1%, rgba(9,121,44,0.8127626050420168) 48%, rgba(0,212,255,1) 100%);
 
 }
 .aboutCss h2,p {
-  color: white;
+    color: white;
 }
 
 header {
-  background: #2c3540;
+    background: #2c3540;
 }
 
 header h1 {
-  color: azure;
+    color: azure;
 }
 
 header h1:hover {
-  cursor: pointer;
-  color: lightgreen;
+    cursor: pointer;
+    color: lightgreen;
 }
 
 header::after {
-  content: '';
-  display: table;
-  clear: both;
+    content: '';
+    display: table;
+    clear: both;
 }
 
 .logo {
-  float: left;
-  padding: 10px 0;
+    float: left;
+    padding: 10px 0;
 }
 
 nav {
-  float: right;
+    float: right;
 }
 
 nav ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 nav li {
-  display: inline-block;
-  margin-left: 70px;
-  padding-top: 23px;
+    display: inline-block;
+    margin-left: 70px;
+    padding-top: 23px;
 
-  position: relative;
+    position: relative;
 }
 
 nav a {
-  color: azure;
-  text-decoration: none;
-  text-transform: uppercase;
-  font-size: 14px;
+    color: azure;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 14px;
 }
 
 nav a:hover {
-  color: lightgreen;
+    color: lightgreen;
 }
 
 nav a::before {
-  content: '';
-  display: block;
-  height: 5px;
-  background-color: azure;
+    content: '';
+    display: block;
+    height: 5px;
+    background-color: azure;
 
-  position: absolute;
-  top: 0;
-  width: 0;
+    position: absolute;
+    top: 0;
+    width: 0;
 
-  transition: all ease-in-out 250ms;
+    transition: all ease-in-out 250ms;
 }
 
 nav a:hover::before {
-  width: 100%;
+    width: 100%;
 }
 
 .category-box {
-  display: flex;
-  flex-wrap: wrap;
-  flex-flow: row wrap;
-  background-color: ghostwhite;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
+    background-color: ghostwhite;
+    align-items: center;
+    justify-content: center;
 }
 
 
 .AboutClassItem{
-  margin : 5%;
+    margin : 5%;
 }
 .AboutClassItem >img{
-  padding:1px;
-   border:1px solid #021a40;
+    padding:1px;
+    border:1px solid #021a40;
 }
 .PersonInfo{
-  min-height :100px;
-  border: 3px dashed #E3E551;
-  border-radius: 13px;
+    min-height :100px;
+    border: 3px dashed #E3E551;
+    border-radius: 13px;
 
 }
 
 .aboutClass{
-  display: flex;
-  flex-wrap: wrap;
-  flex-flow: row wrap;
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
 }
 .AboutClassItem{
-  margin : 5%;
+    margin : 5%;
 }
 .AboutClassItem >img{
-  padding:1px;
-   border:1px solid #021a40;
+    padding:1px;
+    border:1px solid #021a40;
 }
 .PersonInfo{
-  min-height :100px;
-  border: 3px dashed #E3E551;
-  border-radius: 13px;
+    min-height :100px;
+    border: 3px dashed #E3E551;
+    border-radius: 13px;
 
 }
 
 .aboutClass{
-  display: flex;
-  flex-wrap: wrap;
-  flex-flow: row wrap;
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
 }
 .AboutClassItem{
-  margin : 5%;
+    margin : 5%;
 }
 .AboutClassItem >img{
-  padding:1px;
-   border:1px solid #021a40;
+    padding:1px;
+    border:1px solid #021a40;
 }
 .PersonInfo{
-  min-height :100px;
-  border: 3px dashed #E3E551;
-  border-radius: 13px;
+    min-height :100px;
+    border: 3px dashed #E3E551;
+    border-radius: 13px;
 
 }
 
 .aboutClass{
-  display: flex;
-  flex-wrap: wrap;
-  flex-flow: row wrap;
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
 }
 
 .category-item {
-  transition: all .2s ease-in-out;
-  border-radius: 1.5em;
-  background: lightgreen;
-  color: ghostwhite;
-  width: 20em;
-  height: 12em;
-  margin: 1em;
+    transition: all .2s ease-in-out;
+    border-radius: 1.5em;
+    background: lightgreen;
+    color: ghostwhite;
+    width: 20em;
+    height: 12em;
+    margin: 1em;
 }
 .category-item:hover{
-  transition: all .2s ease-in-out;
-  transform: scale(1.12);
-  cursor: pointer;
+    transition: all .2s ease-in-out;
+    transform: scale(1.12);
+    cursor: pointer;
 }
 .category-item-selected {
-  transition: all .2s ease-in-out;
-  transform: scale(0.95);
-  color: rgb(95, 84, 84);
-  cursor: pointer;
+    transition: all .2s ease-in-out;
+    transform: scale(0.95);
+    color: rgb(95, 84, 84);
+    cursor: pointer;
 }
 .category-box p {
-  word-wrap: break-word;
-  text-align: center;
-  padding: 10px;
+    word-wrap: break-word;
+    text-align: center;
+    padding: 10px;
 }
 
 
 /* SIDE-MENU */
 .sidenav {
-  height: 100%; /* 100% Full-height */
-  width: 0; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
-  top: 0; /* Stay at the top */
-  left: 0;
-  background-color: #111; /* Black*/
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 60px; /* Place content 60px from the top */
-  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
 }
 
 .sidenav a {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 18px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
 }
 
 .sidenav a:hover {
-  color: #f1f1f1;
+    color: #f1f1f1;
 }
 
 .sidenav .closebtn {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -240,226 +240,226 @@ nav a:hover::before {
 
 .regFormOuter,
 .flex-inner {
-  list-style-type: none;
-  padding: 0;
+    list-style-type: none;
+    padding: 0;
 }
 
 .regFormOuter {
-  max-width: 800px;
-  margin: 0 auto;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .regFormOuter li {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 
 .regFormOuter > li:not(:last-child) {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .regFormOuter li label,
 .regFormOuter li p {
-  padding: 8px;
-  font-weight: 300;
-  letter-spacing: .09em;
-  text-transform: uppercase;
+    padding: 8px;
+    font-weight: 300;
+    letter-spacing: .09em;
+    text-transform: uppercase;
 }
 
 .regFormOuter > li > label,
 .regFormOuter li p {
-  flex: 1 0 120px;
-  max-width: 220px;
+    flex: 1 0 120px;
+    max-width: 220px;
 }
 
 .regFormOuter > li > label + * {
-  flex: 1 0 220px;
+    flex: 1 0 220px;
 }
 
 .regFormOuter li p {
-  margin: 0;
+    margin: 0;
 }
 
 .regFormOuter li input:not([type='checkbox']),
 .regFormOuter li textarea {
-  padding: 15px;
-  border: none;
+    padding: 15px;
+    border: none;
 }
 
 .regFormOuter li button {
-  margin-left: auto;
-  padding: 8px 16px;
-  border: none;
-  background: #333;
-  color: #f2f2f2;
-  text-transform: uppercase;
-  letter-spacing: .09em;
-  border-radius: 2px;
+    margin-left: auto;
+    padding: 8px 16px;
+    border: none;
+    background: #333;
+    color: #f2f2f2;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    border-radius: 2px;
 }
 .formaa {
-  height:600px;
+    height:600px;
 }
 .box{
-  background:rgb(74, 184, 218);
-  width:600px;
-  height:600px;
-  margin: 0 auto 0 auto;
-  padding:0px 0px 70px 0px;
-  text-align: center;
-  
+    background:rgb(74, 184, 218);
+    width:600px;
+    height:600px;
+    margin: 0 auto 0 auto;
+    padding:0px 0px 70px 0px;
+    text-align: center;
+
 }
 
 .email{
 
-  background:#ecf0f1;
-  border: #ccc 1px solid;
-  border-bottom: #ccc 2px solid;
-  padding: 8px;
-  width:250px;
-  color:#AAAAAA;
-  margin-top:10px;
-  font-size:1em;
-  border-radius:4px;
-  margin-bottom:5px;
-  width:300px;
-  height:50px;
-  margin-left:10px;
-  margin-bottom:30px;
+    background:#ecf0f1;
+    border: #ccc 1px solid;
+    border-bottom: #ccc 2px solid;
+    padding: 8px;
+    width:250px;
+    color:#AAAAAA;
+    margin-top:10px;
+    font-size:1em;
+    border-radius:4px;
+    margin-bottom:5px;
+    width:300px;
+    height:50px;
+    margin-left:10px;
+    margin-bottom:30px;
 }
 .loginbody{
-  background-color: #1451a1;
-  min-height: 1000px;
+    background-color: #1451a1;
+    min-height: 1000px;
 }
 .createPostForm{
-margin-left:30%;
+    margin-left:30%;
 
 }
 
 .createPostLabel{
-  font-size: 30px;
-  margin-left:14%;
-  color:rgb(8, 99, 72);
+    font-size: 30px;
+    margin-left:14%;
+    color:rgb(8, 99, 72);
 }
 .createPostArea{
-  color:white;
+    color:white;
 
-  background-color: #af5757;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-sizing: border-box;
+    background-color: #af5757;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
 
 }
 .createPostSelect{
-  margin-top:20px;
+    margin-top:20px;
 
-  font-family:'Times New Roman', Times, serif;
-  font-size: 25px;
-  margin-right: 10px;
-  color:rgb(3, 61, 58);
+    font-family:'Times New Roman', Times, serif;
+    font-size: 25px;
+    margin-right: 10px;
+    color:rgb(3, 61, 58);
 }
 .createPostButton{
-  background:#1816ad;
-  width:125px;
-  padding-top:5px;
-  padding-bottom:5px;
-  color:white;
-  border-radius:4px;
-  border: #33a8d6 1px solid;
-  margin-top:20px;
-  margin-bottom:20px;
-  font-weight:800;
-  font-size:0.8em;
-  width:120x;
-  height:33px;
+    background:#1816ad;
+    width:125px;
+    padding-top:5px;
+    padding-bottom:5px;
+    color:white;
+    border-radius:4px;
+    border: #33a8d6 1px solid;
+    margin-top:20px;
+    margin-bottom:20px;
+    font-weight:800;
+    font-size:0.8em;
+    width:120px;
+    height:33px;
 
 }
 .createPostButton:hover{
-  background:rgb(237, 243, 240);
-  color:rgb(86, 167, 233);
- cursor:grab;
+    background:rgb(237, 243, 240);
+    color:rgb(86, 167, 233);
+    cursor:grab;
 }
 .createPostOption{
-  color:rgb(14, 14, 102);
-  background-color: #3498db;
-  margin-right:10px;
+    color:rgb(14, 14, 102);
+    background-color: #3498db;
+    margin-right:10px;
 }
 
 .makePostDiv{
-  background-color: rgb(71, 160, 233);
-  min-height: 1000px;
+    background-color: rgb(71, 160, 233);
+    min-height: 1000px;
 }
 .password{
-  border-radius:4px;
-  background:#ecf0f1;
-  border: #ccc 1px solid;
-  padding: 8px;
-  width:250px;
-  font-size:1em;
-  width:300px;
-  height:50px;
-  margin-bottom:20px;
+    border-radius:4px;
+    background:#ecf0f1;
+    border: #ccc 1px solid;
+    padding: 8px;
+    width:250px;
+    font-size:1em;
+    width:300px;
+    height:50px;
+    margin-bottom:20px;
 }
 
 
 .btn{
-  background:#2ecc71;
-  width:125px;
-  padding-top:5px;
-  padding-bottom:5px;
-  color:white;
-  border-radius:4px;
-  border: #27ae60 1px solid;
-  
-  margin-top:20px;
-  margin-bottom:20px;
-  float:left;
-  margin-left:16px;
-  font-weight:800;
-  font-size:0.8em;
-  margin-left:30%;
-  width:120x;
-  height:33px;
-  margin-left:40%;
+    background:#2ecc71;
+    width:125px;
+    padding-top:5px;
+    padding-bottom:5px;
+    color:white;
+    border-radius:4px;
+    border: #27ae60 1px solid;
+
+    margin-top:20px;
+    margin-bottom:20px;
+    float:left;
+    margin-left:16px;
+    font-weight:800;
+    font-size:0.8em;
+    margin-left:30%;
+    width:120px;
+    height:33px;
+    margin-left:40%;
 }
 .log{
-  margin-left: 20px;
- color:rgb(20, 12, 94);
-  margin-bottom: 20px;
+    margin-left: 20px;
+    color:rgb(20, 12, 94);
+    margin-bottom: 20px;
 }
 .btn:hover{
-  background:rgb(25, 126, 68);
-  cursor: grab;
+    background:rgb(25, 126, 68);
+    cursor: grab;
 }
 
 #btn2{
-  float:left;
-  background:#3498db;
-  width:125px;  padding-top:5px;
-  padding-bottom:5px;
-  color:white;
-  border-radius:4px;
-  border: #2980b9 1px solid;
-  
-  margin-top:20px;
-  margin-bottom:20px;
-  margin-left:10px;
-  font-weight:800;
-  font-size:0.8em;
+    float:left;
+    background:#3498db;
+    width:125px;  padding-top:5px;
+    padding-bottom:5px;
+    color:white;
+    border-radius:4px;
+    border: #2980b9 1px solid;
+
+    margin-top:20px;
+    margin-bottom:20px;
+    margin-left:10px;
+    font-weight:800;
+    font-size:0.8em;
 }
 
-#btn2:hover{ 
-background:#3594D2;
-cursor: pointer;
+#btn2:hover{
+    background:#3594D2;
+    cursor: pointer;
 }
 
 .homeLink {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 #registrationForm {
-  padding: 10em;
+    padding: 10em;
 }
 
 
@@ -467,310 +467,301 @@ cursor: pointer;
 
 .loginFormList,
 .flex-inner {
-  list-style-type: none;
-  padding: 0;
+    list-style-type: none;
+    padding: 0;
 }
 
 .loginFormList {
-  max-width: 800px;
-  margin: 0 auto;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .loginFormList li {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 
 .loginFormList > li:not(:last-child) {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .loginFormList li label,
 .loginFormList li p {
-  padding: 8px;
-  font-weight: 300;
-  letter-spacing: .09em;
-  text-transform: uppercase;
+    padding: 8px;
+    font-weight: 300;
+    letter-spacing: .09em;
+    text-transform: uppercase;
 }
 
 .loginFormList > li > label,
 .loginFormList li p {
-  flex: 1 0 120px;
-  max-width: 250px;
+    flex: 1 0 120px;
+    max-width: 250px;
 }
 
 
 .loginFormList > li > label + * {
-  flex: 1 0 220px;
+    flex: 1 0 220px;
 }
 
 .loginFormList li p {
-  margin: 0;
+    margin: 0;
 }
 
 .loginFormList li input:not([type='checkbox']),
 .loginFormList li textarea {
-  padding: 15px;
-  border: none;
+    padding: 15px;
+    border: none;
 }
 
 .loginFormList li button {
-  margin-left: auto;
-  padding: 8px 16px;
-  border: none;
-  background: #333;
-  color: #f2f2f2;
-  text-transform: uppercase;
-  letter-spacing: .09em;
-  border-radius: 2px;
+    margin-left: auto;
+    padding: 8px 16px;
+    border: none;
+    background: #333;
+    color: #f2f2f2;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    border-radius: 2px;
 }
 
 
 #loginBody {
-  padding: 2em;
+    padding: 2em;
 }
 
 .hit-the-floor{
-  color: #B548CB; font-size: 48px; font-family: 'Signika', sans-serif; padding-bottom: 10px;
+    color: #B548CB; font-size: 48px; font-family: 'Signika', sans-serif; padding-bottom: 10px;
 
 }
 .drop-the-floor{
-  font-family: Georgia,"Times New Roman",serif;
+    font-family: Georgia,"Times New Roman",serif;
 
- font-weight: bold;
- color:white;
- line-height: 22px;
- margin: 0;
- letter-spacing: 1px
+    font-weight: bold;
+    color:white;
+    line-height: 22px;
+    margin: 0;
+    letter-spacing: 1px
 }
 
 .hit-the-floor{
-  color: #B548CB; font-size: 48px; font-family: 'Signika', sans-serif; padding-bottom: 10px;
+    color: #B548CB; font-size: 48px; font-family: 'Signika', sans-serif; padding-bottom: 10px;
 
 }
 .drop-the-floor{
-  font-family: Georgia,"Times New Roman",serif;
+    font-family: Georgia,"Times New Roman",serif;
 
- font-weight: bold;
- color:white;
- line-height: 22px;
- margin: 0;
- letter-spacing: 1px
+    font-weight: bold;
+    color:white;
+    line-height: 22px;
+    margin: 0;
+    letter-spacing: 1px
 }
 
 .loginHeader{
-  margin : auto;
+    margin : auto;
 }
 
 .hit-the-floor{
-  color: #B548CB; font-size: 48px; font-family: 'Signika', sans-serif; padding-bottom: 10px;
+    color: #B548CB; font-size: 48px; font-family: 'Signika', sans-serif; padding-bottom: 10px;
 
 }
 .drop-the-floor{
-  font-family: Georgia,"Times New Roman",serif;
+    font-family: Georgia,"Times New Roman",serif;
 
- font-weight: bold;
- color:white;
- line-height: 22px;
- margin: 0;
- letter-spacing: 1px
+    font-weight: bold;
+    color:white;
+    line-height: 22px;
+    margin: 0;
+    letter-spacing: 1px
 }
 .chatbot{
-  margin:0% 20%;
+    margin:0% 20%;
 }
 
 /* For ALl Button */
 
 button {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .menuBar li:hover{
-  cursor: pointer;
+    cursor: pointer;
 }
 
 /* CONTACT FORM */
 
 .contactList,
 .flex-inner {
-  list-style-type: none;
-  padding: 0;
+    list-style-type: none;
+    padding: 0;
 }
 
 .contactList {
-  max-width: 800px;
-  margin: 0 auto;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .contactList li {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 
 .contactList > li:not(:last-child) {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .contactList li label,
 .contactList li p {
-  padding: 8px;
-  font-weight: 300;
-  letter-spacing: .09em;
-  text-transform: uppercase;
+    padding: 8px;
+    font-weight: 300;
+    letter-spacing: .09em;
+    text-transform: uppercase;
 }
 
 .contactList > li > label,
 .contactList li p {
-  flex: 1 0 120px;
-  max-width: 220px;
+    flex: 1 0 120px;
+    max-width: 220px;
 }
 
 .contactList > li > label + * {
-  flex: 1 0 220px;
+    flex: 1 0 220px;
 }
 
 .contactList li p {
-  margin: 0;
+    margin: 0;
 }
 
 .contactList li input:not([type='checkbox']),
 .contactList li textarea {
-  padding: 15px;
-  border: none;
+    padding: 15px;
+    border: none;
 }
 
 .contactList li button {
-  margin-left: auto;
-  padding: 8px 16px;
-  border: none;
-  background: #333;
-  color: #f2f2f2;
-  text-transform: uppercase;
-  letter-spacing: .09em;
-  border-radius: 2px;
+    margin-left: auto;
+    padding: 8px 16px;
+    border: none;
+    background: #333;
+    color: #f2f2f2;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    border-radius: 2px;
 }
 
 #contactForm {
-  padding: 10em;
+    padding: 10em;
 }
 
 .contactHeader{
-  margin: 0 auto;
+    margin: 0 auto;
 }
 
 
 #text{
-  float: left;
-  margin-left: 10%;
+    float: left;
+    margin-left: 10%;
 }
-
 
 
 #sticky{
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 400px;
-  text-align: center;
-  font-family: arial;
-  margin-top: 4%;
-  margin-left: 10%;
-  float: left;
-  position: sticky;
-  text-decoration: none;
-  font-size: 22px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    text-align: center;
+    font-family: arial;
+    margin-top: 4%;
+    margin-left: 10%;
+    float: left;
+    position: sticky;
+    text-decoration: none;
+    font-size: 22px;
 }
 
 .filterCategories input[type=text] {
-  padding: 10px;
-  font-size: 17px;
-  border: 1px solid grey;
-  width: 20%;
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    width: 20%;
 }
 
 .filterCategories{
-  margin-left: 5px;
+    margin-left: 5px;
 }
 
 .filterCategories::after {
-  content: "";
-  clear: both;
-  display: table;
+    content: "";
+    clear: both;
+    display: table;
 }
 
 .filterLabel {
-  font-size: 17px;
+    font-size: 17px;
 }
 
 .thankUser{
-  margin-bottom: auto;
-  text-align: center;
-  vertical-align: middle;
-  color: #B548CB;
-  font-size: 600%;
-  background-color: yellow;
-  -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
-  -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
-  animation-name: example;
-  animation-duration: 4s;
-  min-height: 1669px;
+    margin-bottom: auto;
+    text-align: center;
+    vertical-align: middle;
+    color: #B548CB;
+    font-size: 600%;
+    background-color: yellow;
+    -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+    animation-name: example;
+    animation-duration: 4s;
+    min-height: 1669px;
 }
 
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes example {
-  from {background-color: green;}
-  to {background-color: yellow;}
+    from {background-color: green;}
+    to {background-color: yellow;}
 }
 
 /* Standard syntax */
 @keyframes example {
-  from {background-color: green;}
-  to {background-color: yellow;}
+    from {background-color: green;}
+    to {background-color: yellow;}
 }
 
 .userInfo {
-text-align: left;
+    text-align: left;
 }
-
 .contents{
-  margin-left: 40%;
-  margin-right: auto;
+    margin-left: 40%;
+    margin-right: auto;
 }
 
 .comments{
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-style: italic;
-  margin-top: 7%;
-  margin-right: 0px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-style: italic;
+    margin-top: 7%;
+    margin-right: 0px;
 
 }
 
 .likes{
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-style: italic;
-  margin-top: 7%;
-  margin-right: 0px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-style: italic;
+    margin-top: 7%;
+    margin-right: 0px;
 }
 
-.post-item{
+.post-item {
+    border-radius: 20px;
+    border: 2px solid #73AD21;
+    display: flex;
+    margin: 7%;
+    border-style: dashed;
+    border-color: #f1f1f1;
+    background: lightgreen;
+    width: 40em;
+    height: 6em;
+    text-align: center;
+    margin-right: 20px;
 }
-.post-item{
-  border-radius: 20px;
-  border: 2px solid #73AD21;
-  display: flex;
-  margin: 7%;
-  border-style: dashed;
-  border-color: #f1f1f1;
-  background: lightgreen;
-  width: 40em;
-  height: 6em;
-  text-align: center;
-  margin-right: 20px;
-
-
-
-
-
-
