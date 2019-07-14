@@ -33,7 +33,7 @@ public class UserAccessServlet extends HttpServlet {
      *
      * Reads GET parameters:
      * /users
-     * ?    id : 123, (OPTIONAL)
+     * ?    id : 123, (REQUIRED, TODO : Null Pointer exception is thrown if not present.)
      *  &   firstName : "Jon"        (OPTIONAL)
      *  &   lastName : "Snow"        (OPTIONAL)
      *  &   gender : "male"          (OPTIONAL)
@@ -89,7 +89,7 @@ public class UserAccessServlet extends HttpServlet {
             }
             resultNode.set("users", userArray);
             JacksonUtils.addStatusOk(resultNode);
-        } catch (InterruptedException | SQLException e) {
+        } catch (Exception e) {
             JacksonUtils.addStatusError(resultNode, e.toString());
             e.printStackTrace();
         }

@@ -30,8 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
@@ -137,7 +136,7 @@ public class PostAccessServletTest {
         postList = Arrays.asList(
                 post0,post1
         );
-        when(postManager.getAllPosts())
+        when(postManager.getPosts(any(),any()))
                 .thenReturn(postList);
         testCategoryId = 1L;
         when(testPostCategory.getCategoryId())
@@ -159,7 +158,7 @@ public class PostAccessServletTest {
 
 
     @Test
-    public void doGetFail1() throws IOException, SQLException, InterruptedException {
+    public void doGetFail()  throws IOException, SQLException, InterruptedException {
         when(request.getParameter(anyString()))
                 .thenReturn(null);
         when(request.getParameter("categoryId"))
@@ -170,37 +169,7 @@ public class PostAccessServletTest {
         postList = Arrays.asList(
                 post0,post1
         );
-        when(postManager.getAllPosts())
-                .thenReturn(postList);
-        testCategoryId = 1L;
-        when(testPostCategory.getCategoryId())
-                .thenReturn(testCategoryId);
-
-        postAccessServlet.doGet(request, response);
-
-        JsonNode responseNode = objectMapper.readTree(resultingJSON);
-        assertTrue(responseNode.has("STATUS"));
-        assertEquals("OK", responseNode.get("STATUS").asText());
-        assertEquals(0, responseNode
-                .get("posts")
-                .size());
-
-    }
-
-
-    @Test
-    public void doGetFail2() throws IOException, SQLException, InterruptedException {
-        when(request.getParameter(anyString()))
-                .thenReturn(null);
-        when(request.getParameter("categoryId"))
-                .thenReturn("abc");
-
-        post0 = new Post(0, 1, "test",new Timestamp(123L));
-        post1 = new Post(1, 2, "test2", new Timestamp(123L));
-        postList = Arrays.asList(
-                post0,post1
-        );
-        when(postManager.getAllPosts())
+        when(postManager.getPosts(any(),any()))
                 .thenReturn(null);
         testCategoryId = 1L;
         when(testPostCategory.getCategoryId())
@@ -212,5 +181,36 @@ public class PostAccessServletTest {
         assertTrue(responseNode.has("STATUS"));
         assertEquals("ERROR", responseNode.get("STATUS").asText());
 
+    }
+
+    @Test
+    public void doGetOK() throws IOException, SQLException, InterruptedException {
+        when(request.getParameter(anyString()))
+                .thenReturn("asd");
+
+        post0 = new Post(0, 1, "test",new Timestamp(123L));
+        post1 = new Post(1, 2, "test2", new Timestamp(123L));
+        postList = Arrays.asList(
+                post0,post1
+        );
+        when(postManager.getPosts(any(),any()))
+                .thenReturn(postList);
+        testCategoryId = 1L;
+        when(testPostCategory.getCategoryId())
+                .thenReturn(testCategoryId);
+
+        postAccessServlet.doGet(request, response);
+
+        JsonNode responseNode = objectMapper.readTree(resultingJSON);
+        assertTrue(responseNode.has("STATUS"));
+        assertEquals("OK", responseNode.get("STATUS").asText());
+        assertEquals(2, responseNode
+                .get("posts")
+                .size());
+        assertEquals("test2", responseNode
+                .get("posts")
+                .get(1)
+                .get("contents")
+                .asText());
     }
 }

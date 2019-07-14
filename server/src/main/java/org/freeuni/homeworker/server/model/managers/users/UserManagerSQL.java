@@ -7,7 +7,6 @@ import org.freeuni.homeworker.server.model.objects.user.UserFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.jws.soap.SOAPBinding;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

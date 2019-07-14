@@ -115,11 +115,14 @@ public class CategoryCreateModifyServletTest {
                 .thenReturn(null);
 
         inputString = "{ \"name\" : \"test name\", \"description\" : \"test desc\" }";
-
+        when(reader.readLine())
+                .thenReturn(inputString)
+                .thenReturn(null);
         when(categoryManager.add(any()))
                 .thenThrow(new SQLException());
 
         categoryCreateModifyServlet.doPost(request, response);
+
         JsonNode responseNode = objectMapper.readTree(resultingJSON);
 
         assertTrue(responseNode.has("STATUS"));

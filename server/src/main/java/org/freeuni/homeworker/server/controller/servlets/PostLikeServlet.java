@@ -32,7 +32,7 @@ public class PostLikeServlet extends HttpServlet {
      * TODO : DOES NOT WORK because PostLikeManager uses PostManager that does not work.
      * Reads :
      * /hasSession/isLoggedIn/likeThePost
-     * ? postId=123
+     * ? postId=123 (REQUIRED)
      *
      * Returns :
      * {
@@ -56,11 +56,12 @@ public class PostLikeServlet extends HttpServlet {
         ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
         PostLikeManager postLikeManager = (PostLikeManager) request.getServletContext().getAttribute(ContextKeys.POST_LIKE_MANAGER);
+
         String jsonRequest = ServletUtils.readFromRequest(request);
         ObjectNode responseNode = objectMapper.createObjectNode();
-        JsonNode requestNode = objectMapper.readTree(jsonRequest);
 
         try {
+            JsonNode requestNode = objectMapper.readTree(jsonRequest);
             long postId = Long.parseLong(request.getParameter("postId"));
             List<PostLike> postLikes = postLikeManager.getByPost(postId);
 
@@ -80,6 +81,7 @@ public class PostLikeServlet extends HttpServlet {
             JacksonUtils.addStatusOk(responseNode);
         } catch (Exception e) {
             JacksonUtils.addStatusError(responseNode, e.getMessage());
+            e.printStackTrace();
         }
 
         response.getWriter().write(responseNode.toString());
@@ -129,6 +131,7 @@ public class PostLikeServlet extends HttpServlet {
             JacksonUtils.addStatusOk(responseNode);
         } catch (Exception e) {
             JacksonUtils.addStatusError(responseNode, e.getMessage());
+            e.printStackTrace();
         }
 
         response.getWriter().write(responseNode.toString());

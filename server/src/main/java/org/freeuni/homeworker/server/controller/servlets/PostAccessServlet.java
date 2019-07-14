@@ -107,7 +107,7 @@ public class PostAccessServlet extends HttpServlet {
             }
             objectNode.set("posts", postArrayNode);
             JacksonUtils.addStatusOk(objectNode);
-        } catch (SQLException | InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             JacksonUtils.addStatusError(objectNode, e.toString());
         }

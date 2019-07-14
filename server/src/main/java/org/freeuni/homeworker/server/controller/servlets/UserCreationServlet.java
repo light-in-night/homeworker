@@ -54,19 +54,19 @@ public class UserCreationServlet extends HttpServlet {
         ServletUtils.setCORSHeaders(resp);
         ServletUtils.setJSONContentType(resp);
 
-        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-        UserManager userManager = (UserManager) getServletContext().getAttribute(ContextKeys.USER_MANAGER);
+        ObjectMapper objectMapper = (ObjectMapper) req.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+        UserManager userManager = (UserManager) req.getServletContext().getAttribute(ContextKeys.USER_MANAGER);
         ObjectNode resultObjectNode = objectMapper.createObjectNode();
 
         try {
             User user = objectMapper.readValue(ServletUtils.readFromRequest(req), User.class);
             userManager.addUser(user);
             JacksonUtils.addStatusOk(resultObjectNode);
-        }   catch (InterruptedException | SQLException e) {
+        }   catch (Exception e) {
             JacksonUtils.addStatusError(resultObjectNode, e.toString());
             e.printStackTrace();
         }
-        resp.getWriter().write(objectMapper.writeValueAsString(resultObjectNode));
+        resp.getWriter().write((resultObjectNode).toString());
     }
 
 

@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Spy;
+import org.mockito.internal.matchers.NotNull;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.servlet.ServletContext;
@@ -30,20 +31,16 @@ public class ServletInitListenerTest {
     ServletInitListener listener;
 
     @Test
-    public void contextInitialized() {
+    public void contextInitialized() throws IllegalAccessException {
         //ArgumentCaptor<Object> argumentCaptor = ArgumentCaptor.forClass(Obbje.class);
         when(event.getServletContext())
                 .thenReturn(context);
 
         listener = new ServletInitListener();
         listener.contextInitialized(event);
-
-        for(Field field : ManagerNameKeys.class.getFields()) {
-            try {
-                verify(context)
-                        .setAttribute(eq((String)field.get(ManagerNameKeys.class)), anyObject());
-            } catch (IllegalAccessException e) { e.printStackTrace(); }
-        }
+        verify(context,atLeast(
+                ManagerNameKeys.class.getFields().length
+        )).setAttribute(anyString(),notNull());
 
     }
 

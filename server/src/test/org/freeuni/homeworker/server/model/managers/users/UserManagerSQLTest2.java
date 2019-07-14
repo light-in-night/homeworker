@@ -36,8 +36,8 @@ public class UserManagerSQLTest2 {
         when(preparedStatement.getResultSet()).thenReturn(resultSet);
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
 
-        user = new User(1,"dato","koka","male","dkoka","password");
-        user2 = new User(2,"davit","kokaia","male","dkoka17","pass");
+        user = new User(1L,"dato","koka","male","dkoka","password");
+        user2 = new User(2L,"davit","kokaia","male","dkoka17","pass");
 
         when(resultSet.getLong(1)).thenReturn(user.getId()).thenReturn(user2.getId());
         when(resultSet.getString(2)).thenReturn(user.getFirstName()).thenReturn(user2.getFirstName());
