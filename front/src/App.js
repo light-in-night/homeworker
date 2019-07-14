@@ -52,6 +52,19 @@ class App extends Component {
             cookies.save('userSessionId', newSessionId, { path: '/' });
         });
     }
+    static logout(){
+       
+        App.getUserSessionId((sessionId) => {
+            console.log(sessionId);
+        })
+        App.getUserSessionId( (sessionId) =>
+            fetch('http://localhost/hasSession/isLoggedIn/logout', {
+                method: 'POST',
+                headers: { 'sessionId': sessionId },
+            }).then((response) => {
+                console.log(response);
+            }))
+    }
 
     static getNewUserSessionId(callback) {
         fetch('http://localhost/sessions', {method: 'POST'})
