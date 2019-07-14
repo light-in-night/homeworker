@@ -108,6 +108,9 @@ public class LoginServlet extends HttpServlet {
 			String sessionID = request.getHeader(ContextKeys.SESSION_ID);
 
 			User user = userManager.getUserByEmail(email);
+			if (user == null) {
+				throw new Exception("User is not logged in.");
+			}
 			if(user.getPassword().equals(password)) {
 				sessionManager.login(sessionID, user.getId());
 				JacksonUtils.addStatusOk(responseRoot);

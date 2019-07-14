@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
+import App from "../App";
 
 class Login extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             email : "",
             password : "",
@@ -17,28 +18,22 @@ class Login extends Component {
             //Change Login header
         } else {
             let request = JSON.stringify(this.state);
-            fetch('http://localhost/hasSession/login', {
-                method: 'POST',
-                body: request
-            }).then((response) => {
-
-                console.log(response);
-               if(response.ok){
-                    console.log("traki romqondes gadagasamirtabmvkwedi");
-                    this.redirectPage("/");
-                    
-               }else{
-                   console.log("eror brat");
-               }
-               
-
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        }       
-        
-    };
+            App.getUserSessionId( (sessionId) =>
+                fetch('http://localhost/hasSession/login', {
+                    method: 'POST',
+                    headers: { 'sessionId': sessionId },
+                    body: request
+                }).then((response) => {
+                    response.json().then((data) => {
+                        if (data.STATUS === 'OK') {
+                            console.log('User has been logged successfully');
+                        } else {
+                            console.log('User was not logged in, ' + data.ERROR_MESSAGE);
+                        }
+                    })
+                }))
+        }
+    }
     
     redirectPage(page){
         this.props.history.push(page);

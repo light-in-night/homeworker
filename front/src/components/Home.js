@@ -54,7 +54,7 @@ class Home extends Component{
                         .filter(category => category.name.toLowerCase().indexOf(this.state.searchInput.toLowerCase()) > -1)
                         .map(category => 
                             <Link to={{pathname : '/posts', state : {source: 'http://localhost:80/posts?categoryId='+category.id+'', } }} 
-                                style={{ textDecoration: 'none'}}>
+                                style={{ textDecoration: 'none'}} key = {category.id}>
                                     <div className="category-item">
                                         <p>{category.name}</p>
                                         <p>{category.postCount} post{category.postCount !== 1 ? "s" : ""}</p>

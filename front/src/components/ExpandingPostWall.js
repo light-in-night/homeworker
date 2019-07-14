@@ -21,7 +21,7 @@ class ExpandingPostWall extends Component{
 
             source : props.location.state.source,
             posts : [],
-        }
+        };
         this.componentDidMount = this.componentDidMount.bind(this);
     
     }
@@ -33,31 +33,28 @@ class ExpandingPostWall extends Component{
     */
 
     fetchData = () => {
-        console.log(this.state.source);
-        console.log("aqvar");
         fetch(this.state.source)
         .then(response => response.json())
         .then(jsonObj => this.setState(jsonObj))
         .catch(error => 
             console.log(error)
         )
-    }
+    };
 
 
     componentDidMount(){
         this.fetchData();
     }
- 
+
 
     render() {
-        console.log(this.state);
-        
+
         return (
           <div>
               <div className="category-box" >
                 {this.state.posts
                     .map(post => 
-                            <div className="category-item">
+                            <div className="category-item" key={Math.random()}>
                                 <p>{post.contents}</p>
                             </div>)
                 }
