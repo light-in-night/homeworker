@@ -515,6 +515,9 @@ button {
 }
 
 .post-item{
+  border-radius: 25px;
+  border: 2px solid #73AD21;
+  display: flex;
   margin: 7%;
   border-style: dashed;
   border-color: #f1f1f1;
@@ -525,15 +528,17 @@ button {
 }
 
 #sticky{
-  border-style: dashed;
-  border-color: #f1f1f1;
-  background: lightgreen;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  text-align: center;
+  font-family: arial;
   margin-top: 4%;
   margin-left: 10%;
   float: left;
   position: sticky;
-  width: 10em;
-  height: 15em;
+  text-decoration: none;
+  font-size: 22px;
+  
 }
 
 .filterCategories input[type=text] {

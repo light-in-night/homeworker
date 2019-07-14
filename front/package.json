@@ -11,6 +11,7 @@
     "react-chatbot": "0.0.1",
     "react-cookies": "^0.1.1",
     "react-dom": "^16.8.6",
+    "react-icons": "^3.7.0",
     "react-scripts": "3.0.1",
     "react-simple-chatbot": "^0.6.1",
     "styled-components": "^4.3.2"
