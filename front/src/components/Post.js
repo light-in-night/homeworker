@@ -32,8 +32,8 @@ class Post extends Component{
             
         })
         .then(x=>{
-            url = 'http://localhost/users?id='+this.state.userId;
-            console.log(url);
+            url = 'http://localhost/users/abla?id='+this.state.userId;
+            console.log('http://localhost/?id=1');
             fetch(url,{
                 method: 'GET'
             })

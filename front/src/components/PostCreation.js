@@ -62,13 +62,13 @@ class PostCreation extends Component{
 
     render() {
         return (
-            <div>
+            <div class="makePostDiv">
             
-            <form onSubmit={this.makePost.bind(this)}>
-                <b><label>write post</label></b><br></br>
-                <textarea rows="10" cols="50" onChange={this.handleContentChange.bind(this)} required /><br/>
-                <label>select categories :</label>
-                <select name="cars" onChange={this.oncl.bind(this)}>
+            <form class="createPostForm" onSubmit={this.makePost.bind(this)}>
+                <b><label class="createPostLabel">Add post</label></b><br></br>
+                <textarea rows="10" class="createPostArea" cols="50" onChange={this.handleContentChange.bind(this)} required /><br/>
+                <label class="createPostSelect">select categories :</label>
+                <select class="createPostOption" name="cars" onChange={this.oncl.bind(this)}>
                     {
                         this.state.allCategories.map((category) => 
                                 <option  value={category.id} >{category.name}</option>
@@ -77,7 +77,7 @@ class PostCreation extends Component{
                         
                 </select>
 
-                <input type="submit" value="Submit" />
+                <input class="createPostButton" type="submit" value="Submit" />
 
 
             </form>
