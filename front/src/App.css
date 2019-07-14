@@ -308,7 +308,7 @@ nav a:hover::before {
   margin: 0 auto 0 auto;
   padding:0px 0px 70px 0px;
   text-align: center;
-
+  
 }
 
 .email{
@@ -330,6 +330,65 @@ nav a:hover::before {
 }
 .loginbody{
   background-color: #1451a1;
+  min-height: 1000px;
+}
+.createPostForm{
+margin-left:30%;
+
+}
+
+.createPostLabel{
+  font-size: 30px;
+  margin-left:14%;
+  color:rgb(8, 99, 72);
+}
+.createPostArea{
+  color:white;
+
+  background-color: #af5757;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+
+}
+.createPostSelect{
+  margin-top:20px;
+
+  font-family:'Times New Roman', Times, serif;
+  font-size: 25px;
+  margin-right: 10px;
+  color:rgb(3, 61, 58);
+}
+.createPostButton{
+  background:#1816ad;
+  width:125px;
+  padding-top:5px;
+  padding-bottom:5px;
+  color:white;
+  border-radius:4px;
+  border: #33a8d6 1px solid;
+  margin-top:20px;
+  margin-bottom:20px;
+  font-weight:800;
+  font-size:0.8em;
+  width:120x;
+  height:33px;
+
+}
+.createPostButton:hover{
+  background:rgb(237, 243, 240);
+  color:rgb(86, 167, 233);
+ cursor:grab;
+}
+.createPostOption{
+  color:rgb(14, 14, 102);
+  background-color: #3498db;
+  margin-right:10px;
+}
+
+.makePostDiv{
+  background-color: rgb(71, 160, 233);
+  min-height: 1000px;
 }
 .password{
   border-radius:4px;
@@ -343,6 +402,7 @@ nav a:hover::before {
   margin-bottom:20px;
 }
 
+
 .btn{
   background:#2ecc71;
   width:125px;
@@ -351,7 +411,7 @@ nav a:hover::before {
   color:white;
   border-radius:4px;
   border: #27ae60 1px solid;
-
+  
   margin-top:20px;
   margin-bottom:20px;
   float:left;
@@ -359,7 +419,7 @@ nav a:hover::before {
   font-weight:800;
   font-size:0.8em;
   margin-left:30%;
-  width: 120px;
+  width:120x;
   height:33px;
   margin-left:40%;
 }
@@ -370,6 +430,7 @@ nav a:hover::before {
 }
 .btn:hover{
   background:rgb(25, 126, 68);
+  cursor: grab;
 }
 
 #btn2{
@@ -380,7 +441,7 @@ nav a:hover::before {
   color:white;
   border-radius:4px;
   border: #2980b9 1px solid;
-
+  
   margin-top:20px;
   margin-bottom:20px;
   margin-left:10px;
@@ -388,8 +449,9 @@ nav a:hover::before {
   font-size:0.8em;
 }
 
-#btn2:hover{
+#btn2:hover{ 
 background:#3594D2;
+cursor: pointer;
 }
 
 .homeLink {
@@ -708,4 +770,7 @@ text-align: left;
   margin-right: 20px;
 
 
-}
+
+
+
+
