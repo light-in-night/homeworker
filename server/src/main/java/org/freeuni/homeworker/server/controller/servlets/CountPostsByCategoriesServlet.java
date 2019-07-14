@@ -90,4 +90,10 @@ public class CountPostsByCategoriesServlet extends HttpServlet {
 
         response.getWriter().write(objectNode.toString());
     }
+
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ServletUtils.setCORSHeaders(resp);
+        resp.setStatus(200);
+    }
 }

@@ -348,3 +348,5 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+MyDBInfo.java*

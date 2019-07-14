@@ -1,12 +1,16 @@
 package org.freeuni.homeworker.server.model.managers.message;
 
+import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.freeuni.homeworker.server.model.objects.message.Message;
+import org.freeuni.homeworker.server.model.source.ConnectionPool;
 
 import java.util.List;
 
-public class MessageManagerSQL implements MessageManager {
+public class MessageManagerSQL extends GeneralManagerSQL implements MessageManager {
 
-
+	public MessageManagerSQL(ConnectionPool connectionPool) {
+		super(connectionPool);
+	}
 
 	@Override
 	public List<Message> getChatOf(long firstUserId, long secondUserId) {

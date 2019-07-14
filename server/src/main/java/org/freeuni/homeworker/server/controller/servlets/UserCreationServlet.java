@@ -70,4 +70,9 @@ public class UserCreationServlet extends HttpServlet {
     }
 
 
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ServletUtils.setCORSHeaders(resp);
+        resp.setStatus(200);
+    }
 }

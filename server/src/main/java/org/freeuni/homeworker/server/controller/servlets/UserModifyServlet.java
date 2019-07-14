@@ -87,4 +87,10 @@ public class UserModifyServlet extends HttpServlet {
 
         response.getWriter().write(returnObjectNode.toString());
     }
+
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ServletUtils.setCORSHeaders(resp);
+        resp.setStatus(200);
+    }
 }

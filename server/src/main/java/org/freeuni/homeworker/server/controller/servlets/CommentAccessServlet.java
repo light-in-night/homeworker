@@ -52,4 +52,10 @@ public class CommentAccessServlet extends HttpServlet {
         response.getWriter().write(responseNode.toString());
 
     }
+
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ServletUtils.setCORSHeaders(resp);
+        resp.setStatus(200);
+    }
 }

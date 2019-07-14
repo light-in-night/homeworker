@@ -11,6 +11,7 @@ import org.freeuni.homeworker.server.model.objects.user.UserFactory;
 import org.freeuni.homeworker.server.utils.JacksonUtils;
 import org.freeuni.homeworker.server.utils.ServletUtils;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -120,5 +121,10 @@ public class UserAccessServlet extends HttpServlet {
         return user;
     }
 
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ServletUtils.setCORSHeaders(resp);
+        resp.setStatus(200);
+    }
 
 }

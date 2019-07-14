@@ -1,10 +1,8 @@
 package org.freeuni.homeworker.server.controller.filter;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
+import org.freeuni.homeworker.server.controller.servlets.SessionServlet;
 import org.freeuni.homeworker.server.model.managers.session.SessionManager;
-import org.freeuni.homeworker.server.utils.ServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +29,7 @@ public class LoginFilter extends HttpFilter {
 	 * must have header called sessionId
      * with a value of string.
 	 *
-	 * @see org.freeuni.homeworker.server.controller.servlets.SessionCreationServlet for creating sessions.
+	 * @see SessionServlet for creating sessions.
      */
 	@Override
 	protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {

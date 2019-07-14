@@ -57,4 +57,10 @@ public class LogoutServlet extends HttpServlet {
 		}
 		response.getWriter().write(responseRoot.toString());
 	}
+
+	@Override
+	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ServletUtils.setCORSHeaders(resp);
+		resp.setStatus(200);
+	}
 }
