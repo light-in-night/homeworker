@@ -37,17 +37,9 @@ public class UserManagerSQLTest2 {
     public void setUp() throws InterruptedException, SQLException {
         when(preparedStatement.getResultSet()).thenReturn(resultSet);
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
-//
-//<<<<<<< HEAD
-//        user = new User(1L,"dato","koka","male","dkoka","password");
-//        user2 = new User(2L,"davit","kokaia","male","dkoka17","pass");
-//=======
+
         user = new User(1L,"dato","koka","male","dkoka","password");
         user2 = new User(2L,"davit","kokaia","male","dkoka17","pass");
-        long k =4;
-        user.setKarma(k);
-        user2.setKarma(k);
-//>>>>>>> 2afb33fe24f69576ded02e8bbbac6cf59dfa1d22
 
         when(resultSet.getLong(1)).thenReturn(user.getId()).thenReturn(user2.getId());
         when(resultSet.getString(2)).thenReturn(user.getFirstName()).thenReturn(user2.getFirstName());
