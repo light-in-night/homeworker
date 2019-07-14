@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * Author : Tornike Kechakmadze, Tornike Onoprishvili,  (add here)
  * Tested via : SoapUI (EVERY METHOD)
  */
-@WebServlet(name = "UserAccessServlet", urlPatterns = {"/users"})
+@WebServlet(name = "UserAccessServlet", urlPatterns = {"/users/abla"})
 public class UserAccessServlet extends HttpServlet {
 
     /**
@@ -33,7 +33,7 @@ public class UserAccessServlet extends HttpServlet {
      *
      * Reads GET parameters:
      * /users
-     * ?    id : 123, (REQUIRED, TODO : Null Pointer exception is thrown if not present.)
+     * ?    id : 123, (OPTIONAL)
      *  &   firstName : "Jon"        (OPTIONAL)
      *  &   lastName : "Snow"        (OPTIONAL)
      *  &   gender : "male"          (OPTIONAL)
@@ -85,7 +85,7 @@ public class UserAccessServlet extends HttpServlet {
 
             ArrayNode userArray = mapper.createArrayNode();
             for(User user : users) {
-                userArray.add(UserFactory.toObjectNode(user, mapper.createObjectNode()));
+                userArray.add(UserFactory.toObjectNodeWithoutPassword(user, mapper.createObjectNode()));
             }
             resultNode.set("users", userArray);
             JacksonUtils.addStatusOk(resultNode);
