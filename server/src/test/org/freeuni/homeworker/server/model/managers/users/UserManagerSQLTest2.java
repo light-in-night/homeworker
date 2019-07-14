@@ -38,6 +38,9 @@ public class UserManagerSQLTest2 {
 
         user = new User(1,"dato","koka","male","dkoka","password");
         user2 = new User(2,"davit","kokaia","male","dkoka17","pass");
+        long k =4;
+        user.setKarma(k);
+        user2.setKarma(k);
 
         when(resultSet.getLong(1)).thenReturn(user.getId()).thenReturn(user2.getId());
         when(resultSet.getString(2)).thenReturn(user.getFirstName()).thenReturn(user2.getFirstName());
@@ -45,38 +48,30 @@ public class UserManagerSQLTest2 {
         when(resultSet.getString(4)).thenReturn(user.getGender()).thenReturn(user2.getGender());
         when(resultSet.getString(5)).thenReturn(user.getEmail()).thenReturn(user2.getEmail());
         when(resultSet.getString(6)).thenReturn(user.getPassword()).thenReturn(user2.getPassword());
+
     }
     @Test
     public void addUser() throws InterruptedException, SQLException {
-        when(connectionPool.acquireConnection()).thenReturn(null).thenThrow(new InterruptedException()).thenReturn(connection);
-        when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
+        when(connectionPool.acquireConnection()).thenReturn(connection);
+        when(connection.prepareStatement(any(String.class))).thenReturn(preparedStatement);
         UserManagerSQL userManagerSQL = new UserManagerSQL(connectionPool);
-        userManagerSQL.addUser(user);
-        userManagerSQL.addUser(user);
-        userManagerSQL.addUser(user);
         userManagerSQL.addUser(user);
     }
 
     @Test
     public void getUserById() throws SQLException, InterruptedException {
-        when(connectionPool.acquireConnection()).thenReturn(null).thenThrow(new InterruptedException()).thenReturn(connection);
-        when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
+        when(connectionPool.acquireConnection()).thenReturn(connection);
+        when(connection.prepareStatement(any(String.class))).thenReturn(preparedStatement);
         UserManagerSQL userManagerSQL = new UserManagerSQL(connectionPool);
-        userManagerSQL.getUserById(1);
-        userManagerSQL.getUserById(1);
-        userManagerSQL.getUserById(1);
         User help = userManagerSQL.getUserById(1);
         Assert.assertEquals(help,user);
     }
 
     @Test
     public void getUserByEmail() throws InterruptedException, SQLException {
-        when(connectionPool.acquireConnection()).thenReturn(null).thenThrow(new InterruptedException()).thenReturn(connection);
-        when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
+        when(connectionPool.acquireConnection()).thenReturn(connection);
+        when(connection.prepareStatement(any(String.class))).thenReturn(preparedStatement);
         UserManagerSQL userManagerSQL = new UserManagerSQL(connectionPool);
-        userManagerSQL.getUserByEmail("dkoka");
-        userManagerSQL.getUserByEmail("dkoka");
-        userManagerSQL.getUserByEmail("dkoka");
         User help = userManagerSQL.getUserByEmail("dkoka");
         Assert.assertEquals(help,user);
     }
@@ -87,14 +82,11 @@ public class UserManagerSQLTest2 {
         when(connectionPool.acquireConnection()).thenReturn(null).thenThrow(new InterruptedException()).thenReturn(connection);
         when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
         UserManagerSQL userManagerSQL = new UserManagerSQL(connectionPool);
-//        userManagerSQL.getUsers();
-//        userManagerSQL.getUsers();
-//        userManagerSQL.getUsers();
-//        List<User> help = userManagerSQL.getUsers();
+        List<User> help = userManagerSQL.getUsers(user);
         List<User> list = new ArrayList<>();
         list.add(user);
         list.add(user2);
-//        Assert.assertEquals(help,list);
+        Assert.assertEquals(help,list);
     }
 
     @Test
