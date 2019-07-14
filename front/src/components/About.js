@@ -60,8 +60,8 @@ class About extends Component{
           isHovering5: !state.isHovering5,
         };
       }
-    render() {
       
+    render() {    
         return (
           <div className="aboutCss">
               <div>
@@ -131,7 +131,7 @@ class About extends Component{
         {
           this.state.isHovering4 &&
           <div>
-           <PersonInfo text="Humble human being and a great programmer , we are lucky to have such an extraordinary coder in our team" person="Guga Tkesheladze" />
+           <PersonInfo text="Humble human being and a great programmer , we are lucky to have such an extraordinary coder in our team.Self proclaimed software architect" person="Guga Tkesheladze" />
           </div>
         }
         {

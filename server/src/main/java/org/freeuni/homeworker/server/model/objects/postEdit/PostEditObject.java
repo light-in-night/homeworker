@@ -8,7 +8,10 @@ import java.io.Serializable;
 /**
  * DB object. also can be converted to JSON string
  * with JSON annotations.
+ *
+ * Deprecated : insead use PostManager.updatePostContents
  */
+@Deprecated
 public class PostEditObject implements Serializable {
     // ID of the post
     @JsonProperty("id")

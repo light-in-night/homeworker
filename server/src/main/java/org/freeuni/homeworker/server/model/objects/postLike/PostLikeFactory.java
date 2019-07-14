@@ -28,7 +28,6 @@ public class PostLikeFactory {
         }
 
         try {
-            resultSet.next();
             PostLike postLike = new PostLike();
             postLike.setId(resultSet.getLong("id"));
             postLike.setUserID(resultSet.getLong("userId"));
@@ -47,6 +46,7 @@ public class PostLikeFactory {
      * @param resultSet resultSet of the object
      * @return list of objects on successful conversion, null otherwise
      */
+    //TODO test
     public static List<PostLike> listFromResultSet(ResultSet resultSet) {
         List<PostLike> result = new ArrayList<>();
         try {
@@ -61,5 +61,11 @@ public class PostLikeFactory {
     }
 
 
-
+    public static PostLike createNew(long userId, long postId, boolean b) {
+        PostLike postLike = new PostLike();
+        postLike.setLiked(b);
+        postLike.setUserID(userId);
+        postLike.setPostID(postId);
+        return postLike;
+    }
 }

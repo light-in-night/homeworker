@@ -1,105 +1,82 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import App from "../App";
 
 class Login extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
-            firstName : "",
-            lastName : "",
-            phoneNumber : "",
             email : "",
             password : "",
-            repeatedPassword : "", 
         }
-
     }
     
     
 
-    login = (e) => {
+    login (e) {
         e.preventDefault();
         if(this.validateUser() === false){
-            //Inform That Data Is Not Enough
-            return;
+            //Change Login header
+        } else {
+            let request = JSON.stringify(this.state);
+            App.getUserSessionId( (sessionId) =>
+                fetch('http://localhost/hasSession/login', {
+                    method: 'POST',
+                    headers: { 'sessionId': sessionId },
+                    body: request
+                }).then((response) => {
+                    response.json().then((data) => {
+                        if (data.STATUS === 'OK') {
+                            console.log('User has been logged successfully');
+                        } else {
+                            console.log('User was not logged in, ' + data.ERROR_MESSAGE);
+                        }
+                    })
+                }))
         }
-        if(this.state.password !== this.state.repeatedPassword){
-            //Inform That Password Mismatch
-            return;
-        }
-        let request = JSON.stringify(this.state);
-        console.log(request);
-        return;
-
-        fetch('http://localhost/login', {
-            method: 'POST',
-            body: request
-        }).then((response) => {
-            console.log(response);
-        })
-    };
+    }
     
+    redirectPage(page){
+        this.props.history.push(page);
+    }
+
     validateUser = () => {
-        let valid = this.state.firstName !== "";
-        valid = valid && this.state.lastName !== "";
-        valid = valid && this.state.phoneNumber !== "";
-        valid = valid && this.state.email !== "";  
-        valid = valid && this.state.password !== "";
-        valid = valid && this.state.repeatedPassword !== "";
+        this.setState( {
+            email : this.state.email.trim(),
+            password : this.state.password.trim()
+        })
+        let valid = this.state.email.length > 0 &&
+        this.state.password.length >= 0;
         return valid;
     }
     
-    handleFirstNameChange = (e) => {
-        this.setState({firstName: e.target.value});
-    };
-    handleLastNameChange = (e) => {
-        this.setState({lastName: e.target.value});
-    };
-    handlePhoneNumberChange = (e) => {
-        this.setState({lastName : e.target.value});
-    }
     handleEmailChange = (e) => {
         this.setState({email: e.target.value});
     };
     handlePasswordChange = (e) => {
         this.setState({password: e.target.value});
     };
-    handleRepeatPasswordChange = (e) => {
-        this.setState({password : e.target.value});
-    }
     
-    render() {
+    render() {     
         return (
             <div id="loginBody">
-            <form>
-            <ul className="loginFormList">
-                <li>
-                    <label htmlFor="first-name">First Name</label>
-                    <input type="text" id="first-name" placeholder="Enter your Firstname Here" onChange={this.handleFirstNameChange}/>
-                </li>
-                <li>
-                    <label htmlFor="last-name">Last Name</label>
-                    <input type="text" id="last-name" placeholder="Enter Your Lastname Here" onChange={this.handleLastNameChange}/>
-                </li>
-                <li>
-                    <label htmlFor="phone-number">Phone Number</label>
-                    <input type="text" id="phone-number" placeholder="Enter Your Phone Number Here" onChange={this.handlePhoneNumberChange}/>
-                </li>
-                <li>
-                    <label htmlFor="email">Email</label>
-                    <input type="email" id="email" placeholder="Enter Your Email Here" onChange={this.handleEmailChange}/>
-                </li>
-                <li>
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter Your Password Here" onChange={this.handlePasswordChange}/>
-                </li>
-                <li>
-                    <label htmlFor="repeat-password">Repeat Password</label>
-                    <input type="password" id="repeat-password" placeholder="Repeat Your Password Here" onChange={this.handleRepeatPasswordChange}/>
-                </li>
-                <li>
-                <button type="submit" onClick={this.login}>Login</button>
-                </li>
-            </ul>
+            <form  onSubmit={this.login.bind(this)}>
+                <ul className="loginFormList">
+                    <li>
+                        <h3 className="loginHeader">Enter Your Account Information Here</h3>
+                    </li>
+                    <li>
+                        <label htmlFor="email">Email</label>
+                        <input type="email" id="email" placeholder="Enter Your Email Here" onChange={this.handleEmailChange} required />
+                    </li> 
+
+                    <li>
+                        <label htmlFor="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter Your Password Here" onChange={this.handlePasswordChange} required />
+                    </li>
+                    <li>
+                        <button type="submit">Login</button>
+                    </li>
+                </ul>
             </form>
             </div>
         );

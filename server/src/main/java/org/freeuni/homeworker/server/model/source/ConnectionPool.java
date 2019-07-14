@@ -77,7 +77,7 @@ public class ConnectionPool {
 				}
 				break;
 			}
-			sleepThreadSafely(1000);
+			sleepThreadSafely(500);
 		}
 	}
 

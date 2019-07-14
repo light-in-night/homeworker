@@ -22,14 +22,8 @@ public class Post {
     @JsonProperty("contents")
     private String contents;
 
-    @JsonProperty("rating")
-    private long rating;
-
     @JsonProperty("creationTimestamp")
     private Timestamp creationTimestamp;
-
-    @JsonProperty("category")
-    private String category;
 
     public Post() {
 
@@ -39,6 +33,14 @@ public class Post {
         this.id = id;
         this.userId = userId;
         this.contents = contents;
+    }
+
+    public Post(int id, int userId, String contents, Timestamp creationTimestamp) {
+
+        this.id = id;
+        this.userId = userId;
+        this.contents = contents;
+        this.creationTimestamp = creationTimestamp;
     }
 
     public String getContents() {
@@ -82,19 +84,4 @@ public class Post {
         this.creationTimestamp = creationTimestamp;
     }
 
-    public long getRating() {
-        return rating;
-    }
-
-    public void setRating(long rating) {
-        this.rating = rating;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
 }

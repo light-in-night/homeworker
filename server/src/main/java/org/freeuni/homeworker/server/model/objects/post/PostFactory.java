@@ -1,5 +1,7 @@
 package org.freeuni.homeworker.server.model.objects.post;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.freeuni.homeworker.server.model.objects.category.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,35 +22,43 @@ public class PostFactory {
      * @param resultSet resultSet of the object
      * @return object on successful conversion, null otherwise
      */
-    public static Post fromResultSet(ResultSet resultSet)  {
-        try {
-            Post post = new Post();
-            post.setId(resultSet.getLong("id"));
-            post.setUserId(resultSet.getLong("userId"));
-            post.setContents(resultSet.getString("content"));
-            post.setCreationTimestamp(resultSet.getTimestamp("creationtimestamp"));
-            post.setCategory(resultSet.getString("category"));
-            return post;
-        } catch (SQLException e) {
-            log.error("Invalid result set was passed to post factory.", e);
-        }
-        return null;
+    public static Post fromResultSet(ResultSet resultSet) throws SQLException {
+        Post post = new Post();
+        post.setId(resultSet.getLong("id"));
+        post.setUserId(resultSet.getLong("userId"));
+        post.setContents(resultSet.getString("contents"));
+        post.setCreationTimestamp(resultSet.getTimestamp("creationTimestamp"));
+//        post.setId(resultSet.getLong(1));
+//        post.setUserId(resultSet.getLong(2));
+//        post.setContents(resultSet.getString(3));
+//        post.setCreationTimestamp(resultSet.getTimestamp(4));
+        return post;
     }
     /**
      * Makes a list of objects from resultSet.
      * @param resultSet resultSet of the object
      * @return list of objects on successful conversion, null otherwise
      */
-    public static List<Post> listFromResultSet(ResultSet resultSet) {
+    public static List<Post> listFromResultSet(ResultSet resultSet) throws SQLException {
         List<Post> result = new ArrayList<>();
-        try {
-            while (resultSet.next()) {
-                result.add(fromResultSet(resultSet));
-            }
-            return result;
-        } catch (SQLException e) {
-            log.error("Error occurred during transforming result set into list of posts.", e);
+        while (resultSet.next()) {
+            result.add(fromResultSet(resultSet));
         }
-        return null;
+        return result;
+    }
+
+    /**
+     * Wraps post object in objectNode and returns node.
+     *
+     * @param post post object that you want to convert add to given ObjectNode
+     * @param node the given objectNode that you want to use
+     * @return filled node
+     */
+    public static ObjectNode toObjectNode(Post post, ObjectNode node) {
+        node.put("id", post.getId());
+        node.put("userId", post.getUserId());
+        node.put("contents", post.getContents());
+        node.put("creationTimestamp", post.getCreationTimestamp().getTime());
+        return node;
     }
 }

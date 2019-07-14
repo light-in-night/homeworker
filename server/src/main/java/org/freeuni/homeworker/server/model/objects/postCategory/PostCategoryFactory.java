@@ -29,6 +29,7 @@ public class PostCategoryFactory {
             PostCategory postCategory = new PostCategory();
             postCategory.setId(resultSet.getLong("id"));
             postCategory.setPostId(resultSet.getLong("postId"));
+            postCategory.setCategoryId(resultSet.getLong("categoryId"));
             return postCategory;
         } catch (SQLException e) {
             log.error("Error occurred during transforming result set to post category.", e);
@@ -52,5 +53,25 @@ public class PostCategoryFactory {
             log.info("Error occurred during transforming result set to list of post category list.");
         }
         return null;
+    }
+
+    /**
+     * Creates a new post category object, with given three params.
+     *
+     * @return new post category object
+     */
+    public static PostCategory fromPostAndCategoryId(long id, long postId, long categoryId) {
+        PostCategory postCategory = new PostCategory();
+        postCategory.setPostId(postId);
+        postCategory.setCategoryId(categoryId);
+        postCategory.setId(id);
+        return postCategory;
+    }
+
+    public static PostCategory createNew(long postId, Long categoryId) {
+        PostCategory postCategory = new PostCategory();
+        postCategory.setPostId(postId);
+        postCategory.setCategoryId(categoryId);
+        return  postCategory;
     }
 }

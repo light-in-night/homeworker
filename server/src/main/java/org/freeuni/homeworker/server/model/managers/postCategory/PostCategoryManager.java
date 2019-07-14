@@ -4,6 +4,7 @@ import org.freeuni.homeworker.server.model.objects.category.Category;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 import org.freeuni.homeworker.server.model.objects.postCategory.PostCategory;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -18,13 +19,13 @@ public interface PostCategoryManager {
      *
      * @param postCategory new postCategory object to add
      */
-    void add(PostCategory postCategory);
+    void add(PostCategory postCategory) throws InterruptedException, SQLException;
 
     /**
      * removes the category by id
      * @param id category id
      */
-    void removeById(long id);
+    void removeById(long id) throws InterruptedException, SQLException;
 
     /**
      * gets all postCategory-entries that reference the given postId.
@@ -32,7 +33,7 @@ public interface PostCategoryManager {
      * @param postId the postId that we are looking for
      * @return list of postsCategories that reference the given postId
      */
-    List<PostCategory> getByPostId(long postId);
+    PostCategory getByPostId(long postId) throws InterruptedException, SQLException;
 
 
     /**
@@ -41,7 +42,7 @@ public interface PostCategoryManager {
      * @param categoryId the categoryId that we are looking for
      * @return list of postsCategories that reference the given categoryId
      */
-    List<PostCategory> getByCategoryId(long categoryId);
+    List<PostCategory> getByCategoryId(long categoryId) throws InterruptedException, SQLException;
 
     /**
      * gets all posts that have the given category.
@@ -50,7 +51,7 @@ public interface PostCategoryManager {
      * @param categoryId the category we are looking for
      * @return all posts with given category
      */
-    List<Post> getPostsInCategory(long categoryId);
+    List<Post> getPostsInCategory(long categoryId) throws InterruptedException, SQLException;
 
     /**
      * gets all categories of given post.
@@ -60,5 +61,7 @@ public interface PostCategoryManager {
      * @param postId the post we are looking for
      * @return list of all categories of given post
      */
-    List<Category> getCategoriesOfPost(long postId);
+    List<Category> getCategoriesOfPost(long postId) throws InterruptedException, SQLException;
+
+    void removeByPostId(long postId) throws InterruptedException, SQLException;
 }

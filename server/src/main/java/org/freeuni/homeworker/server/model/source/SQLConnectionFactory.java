@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * Creates a connection.
  * Fires the first statement of using the default database.
+ * @Author Guga tkesheladze refactored by Tornike Onoprishvili after git repository change
  */
 @SuppressWarnings("WeakerAccess")
 public class SQLConnectionFactory {
@@ -34,6 +35,10 @@ public class SQLConnectionFactory {
     public static List<Connection> getConnectionList(int numberOfConnections) throws SQLException {
         List<Connection> connections = new ArrayList<>();
         for (int i = 0; i < numberOfConnections; i++) {
+            Connection connection = getConnection();
+            if(connection == null) {
+                throw new IllegalStateException("Connection attempt was refused by database.");
+            }
             connections.add(getConnection());
         }
         return connections;

@@ -1,44 +1,87 @@
 package org.freeuni.homeworker.server.controller.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.categories.CategoryManager;
 import org.freeuni.homeworker.server.model.objects.category.Category;
+import org.freeuni.homeworker.server.model.objects.category.CategoryFactory;
+import org.freeuni.homeworker.server.utils.JacksonUtils;
 import org.freeuni.homeworker.server.utils.ServletUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "CategoryAccessServlet", urlPatterns = "/getcategory")
+@WebServlet(name = "CategoryAccessServlet", urlPatterns = {"/categories"})
 public class CategoryAccessServlet extends HttpServlet {
+
+    private Logger log = LoggerFactory.getLogger(CategoryAccessServlet.class);
+
     /**
-     * Returns every category in the database.
-     * Returns JSON String of categories in this format
+     * Returns categories in database. Can be filtered.
+     * Reads :
+     * /categories              (ALL PARAMS ARE OPTIONAL)
+     * ? id=123                  (OPTIONAL)
+     * & name = "category name" (FULL MATCH) (OPTIONAL)
      *
+     * OPTIONAL PARAMS:
+     * IF ANY OF THE PARAMS ARE NOT GIVEN,
+     * RETURNED CATEGORIES WILL NOT BE FILTERED BY THEM.
+     * IF NO FILTERS ARE GIVEN, ALL OBJECTS ARE RETURNED
+     *
+     * Returns :
      * {
-     *     id : 1234,
-     *     name : 'jobs',
-     *     description : 'posts about jobs'
+     *     STATUS : "OK"
+     *     ERROR_MESSAGE : ""
+     *     categories : [
+     *          {
+     *                  id : 1234,
+     *                  name : 'jobs',
+     *                  description : 'posts about jobs'
+     *          },
+     *          {
+     *              ...
+     *          },
+     *          ...
+     *     ]
      * }
      *
-     * @param request
-     * @param response
-     * @throws IOException
+     * Author : Tornike Onoprishvili
+     * Tested via : SOAPUI (All methods)
+     *
      */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ServletUtils.setCORSHeaders(response);
         ServletUtils.setJSONContentType(response);
 
-        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-        CategoryManager categoryManager = (CategoryManager) getServletContext().getAttribute(ContextKeys.CATEGORY_MANAGER);
+        ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+        CategoryManager categoryManager = (CategoryManager) request.getServletContext().getAttribute(ContextKeys.CATEGORY_MANAGER);
+        ObjectNode objectNode = objectMapper.createObjectNode();
 
-        List<Category> categories = categoryManager.getAllCategories();
-        String text = objectMapper.writeValueAsString(categories);
-        response.getWriter().write(text);
+        try {
+            List<Category> categories = categoryManager.getAllCategories();
+
+            ArrayNode arrayNode = objectMapper.createArrayNode();
+            for(Category category : categories) {
+                arrayNode.add(CategoryFactory.toObjectNode(category, objectMapper.createObjectNode()));
+            }
+            objectNode.set("categories",arrayNode);
+            JacksonUtils.addStatusOk(objectNode);
+        } catch (SQLException | InterruptedException e) {
+            log.error("Error occurred during getting categories.", e);
+            JacksonUtils.addStatusError(objectNode, e.toString());
+        }
+        response.getWriter().write(objectNode.toString());
     }
+
+
 }

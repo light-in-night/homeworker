@@ -1,19 +1,22 @@
 package org.freeuni.homeworker.server.model.managers.posts;
 
-import org.freeuni.homeworker.server.controller.servlets.UserRegistrationServlet;
+import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 import org.freeuni.homeworker.server.model.objects.post.PostFactory;
+import org.freeuni.homeworker.server.model.objects.user.User;
 import org.freeuni.homeworker.server.model.source.ConnectionPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class PostManagerSQL implements PostManager {
+public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
 
     private static final String ADD_POST =
-            "INSERT INTO posts (userId, content) \n" +
+            "INSERT INTO posts (userId, contents) \n" +
                     "VALUES \n" +
                     "(?,?);";
     private static final String SELECT_BY_ID =
@@ -29,22 +32,18 @@ public class PostManagerSQL implements PostManager {
                     "FROM posts\n" +
                     "WHERE posts.creationtimestamp >= ? AND posts.creationtimestamp < ?;";
 
-    private static final String UPDATE_RATING =
-            "UPDATE posts\n" +
-                    "SET rating = rating + ?\n" +
-                    "WHERE id = ?;";
     private static final String SELECT_ALL =
             "SELECT *" +
                     "FROM homeworker.posts;";
+    private static final String UPDATE_BY_ID =
+            "UPDATE posts \n" +
+                    "SET posts.contents = ? \n" +
+                    "WHERE posts.id = ?;";
 
-
-    private final ConnectionPool connectionPool;
-
-    private static Logger log = LoggerFactory.getLogger(UserRegistrationServlet.class);
-
+//    private static Logger log = LoggerFactory.getLogger(UserRegistrationServlet.class);
 
     public PostManagerSQL(ConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
+        super(connectionPool);
     }
 
     /**
@@ -52,22 +51,24 @@ public class PostManagerSQL implements PostManager {
      * Underlying MySQL database
      *
      * @param post post object to add.
+     * @return id of the inserted post
      */
     @Override
-    public void add(Post post) {
+    public long add(Post post) throws SQLException, InterruptedException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
-            if (connection == null) {
-                log.info("Server is stopped can't persist more data.");
-                return;
-            }
-            PreparedStatement preparedStatement = connection.prepareStatement(ADD_POST);
+            PreparedStatement preparedStatement = connection.prepareStatement(ADD_POST, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setLong(1, post.getUserId());
             preparedStatement.setString(2, post.getContents());
             preparedStatement.executeUpdate();
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return (generatedKeys.getLong(1));
+                } else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
         } finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
@@ -78,30 +79,28 @@ public class PostManagerSQL implements PostManager {
     /**
      * Returns single post with given post id
      *
-     * @param post_id posts's id
+     * @param postId posts's id
      * @return one post with given id
      */
     @Override
-    public Post getById(long post_id) {
+    public Post getById(long postId) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
-            if (connection == null) {
-                log.info("Server is stopped can't get more data.");
-                return null;
-            }
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID);
-            preparedStatement.setLong(1, post_id);
+            preparedStatement.setLong(1, postId);
             ResultSet resultSet = preparedStatement.executeQuery();
+//            ResultSetMetaData rsmd= resultSet.getMetaData();
+//            String[] arr = new String[5];
+//            for (int i = 1; i < 4; i++) {
+//                arr[i] = rsmd.getColumnName(i);
+//            }
             return PostFactory.fromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
-        return null;
     }
 
     /**
@@ -112,26 +111,23 @@ public class PostManagerSQL implements PostManager {
      * @return List of all posts by user
      */
     @Override
-    public List<Post> getPostsByUser(long user_id) {
+    public List<Post> getPostsByUser(long user_id) throws SQLException, InterruptedException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
             if (connection == null) {
-                log.info("Server is stopped can't persist more data.");
+//                log.info("Server is stopped can't persist more data.");
                 return null;
             }
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_USER_ID);
             preparedStatement.setLong(1, user_id);
             ResultSet resultSet = preparedStatement.executeQuery();
             return PostFactory.listFromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
         } finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
-        return null;
     }
 
     /**
@@ -143,12 +139,12 @@ public class PostManagerSQL implements PostManager {
      * @return List of posts created within interval
      */
     @Override
-    public List<Post> getPostsBetweenTimes(Timestamp start, Timestamp end) {
+    public List<Post> getPostsBetweenTimes(Timestamp start, Timestamp end) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
             if (connection == null) {
-                log.info("Server is stopped can't persist more data.");
+//                log.info("Server is stopped can't persist more data.");
                 return null;
             }
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BETWEEN_TIMES);
@@ -156,37 +152,7 @@ public class PostManagerSQL implements PostManager {
             preparedStatement.setTimestamp(2, end);
             ResultSet resultSet = preparedStatement.executeQuery();
             return PostFactory.listFromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                connectionPool.putBackConnection(connection);
-            }
-        }
-        return null;
-    }
-
-    /**
-     *
-     * @param post_id
-     * @param correctedContains
-     */
-    @Override
-    public void updatePostContents(long post_id, String correctedContains) {
-        Connection connection = null;
-        try {
-            connection = connectionPool.acquireConnection();
-            if (connection == null) {
-                log.info("Server is stopped can't persist more data.");
-                return;
-            }
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID);
-            preparedStatement.setLong(1, post_id);
-            preparedStatement.setString(1, correctedContains);
-            preparedStatement.executeUpdate();
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
@@ -194,28 +160,22 @@ public class PostManagerSQL implements PostManager {
     }
 
     /**
-     * updates the post rating with the given difference
+     * Updates existing post in database
      *
-     * @param post_id id of the updated post
-     * @param diff DIFFERENCE of ratings the new and old posts
+     * @param post post object to update the exsiting post in db.
+     *             note that only the contents are updated this way.
+     *             post.id is used as to know which post to update.
      */
     @Override
-    public void updatePostRating(long post_id, long diff) {
+    public void updatePostContents(Post post) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
-            if (connection == null) {
-                log.info("Server is stopped can't persist more data.");
-                return;
-            }
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement(UPDATE_RATING);
-            preparedStatement.setLong(1, diff);
-            preparedStatement.setLong(2, post_id);
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BY_ID);
+            preparedStatement.setLong(2, post.getId());
+            preparedStatement.setString(1, post.getContents());
             preparedStatement.executeUpdate();
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
@@ -223,29 +183,58 @@ public class PostManagerSQL implements PostManager {
     }
 
     @Override
-    public List<Post> getAllPosts() {
+    public List<Post> getAllPosts() throws SQLException, InterruptedException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
             if (connection == null) {
-                log.info("Server is stopped can't persist more data.");
+//                log.info("Server is stopped can't persist more data.");
                 return null;
             }
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
             ResultSet resultSet = preparedStatement.executeQuery();
             return PostFactory.listFromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
         } finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
-        return null;
     }
 
     @Override
-    public void destroyManager() {
-        connectionPool.destroy();
+    public List<Post> getPosts(Long id, Long userId) throws InterruptedException, SQLException {
+        String sql = generateSQLStringForSelect(id, userId);
+        Connection connection = null;
+        try {
+            connection = connectionPool.acquireConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return PostFactory.listFromResultSet(resultSet);
+        } finally {
+            if (connection != null) {
+                connectionPool.putBackConnection(connection);
+            }
+        }
     }
+
+
+    private static String generateSQLStringForSelect(Long id, Long userId) {
+        StringBuilder getUsers = new StringBuilder("SELECT * FROM posts WHERE 1 = 1 ");
+        Map<String, Long> properties = new HashMap<>();
+
+        if(id != null){
+            properties.put("id", id);
+        }
+        if(userId != null){
+            properties.put("userId", userId);
+        }
+
+        for(String elem : properties.keySet()){
+            getUsers.append("AND " + elem + " = " + properties.get(elem) + " ");
+        }
+        getUsers.append(";");
+        return getUsers.toString();
+    }
+
+
 }

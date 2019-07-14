@@ -4,19 +4,13 @@ package org.freeuni.homeworker.server.controller.listeners;
  * Saves context keys fro getContext.getAttribute method.
  *
  */
-public interface ContextKeys {
+public interface ContextKeys extends ManagerNameKeys {
 
 	String OBJECT_MAPPER = "objectMapper";
 
-	String USER_MANAGER = "userManager";
+	String SESSION_MANAGER = "sessionManager";
 
-	String POST_MANAGER = "postManager";
+	String SESSION_ID = "sessionId";
 
-	String POST_LIKE_MANAGER = "postLikeManager";
-
-	String POST_EDIT_MANAGER = "postEditManager";
-
-	String CATEGORY_MANAGER = "categoryManager";
-
-	String POST_CATEGORY_MANAGER = "postCategoryManager";
+	String ILLEGAL_REQUEST =  "/illegalRequest";
 }

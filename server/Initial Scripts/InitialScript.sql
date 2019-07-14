@@ -13,17 +13,16 @@ CREATE TABLE users (
     gender VARCHAR(100) default 'unspecified',
     email VARCHAR(100) NOT NULL,
     password VARCHAR(100) NOT NULL,
-    karma BIGINT default 0,
-    constraint pkId primary key (id)
+    karma bigint default 0,
+    constraint pkId primary key (id),
+	unique key (email)
 );
 
 CREATE TABLE posts (
    id         BIGINT AUTO_INCREMENT,
    userId  	  BIGINT,
-   content    VARCHAR(1024) NOT NULL,
-   rating     BIGINT default 0,
+   contents    VARCHAR(1024) NOT NULL,
    creationTimestamp timestamp default CURRENT_TIMESTAMP,
-   category  varchar(64) default '',
    foreign key (userId) references users(id),
    primary key (id)
 );
@@ -33,6 +32,15 @@ CREATE TABLE postLike(
     userId BIGINT NOT NULL,
     postId BIGINT NOT NULL,
     liked BOOLEAN NOT NULL,
+    CONSTRAINT pkId primary key (id),
+	foreign key (userId) references users(id),
+	foreign key (postId) references posts(id)
+);
+CREATE TABLE comment(
+    id BIGINT AUTO_INCREMENT,
+    userId BIGINT NOT NULL,
+    postId BIGINT NOT NULL,
+    contents    VARCHAR(1024) NOT NULL,
     CONSTRAINT pkId primary key (id),
 	foreign key (userId) references users(id),
 	foreign key (postId) references posts(id)
@@ -81,19 +89,19 @@ VALUES
 
 #POSTS
 INSERT INTO  homeworker.posts
-(userId , content , rating )
+(userId , contents )
 VALUES
-(1, 'hello world!', 3),
-(1, 'learning c++!', 0),
-(1, 'i hate java', -1),
-(2, 'i am high!',0),
-(2, 'go to the door!',1),
-(2, 'fluck!',1),
-(3, 'miscusi!',2),
-(3, 'fluck!',2),
-(3, 'mother of god!',10),
-(4, 'ashmalaxa!',0),
-(5, 'morte mio!',10);
+(1, 'hello world!'),
+(1, 'learning c++!'),
+(1, 'i hate java'),
+(2, 'i am high!'),
+(2, 'go to the door!'),
+(2, 'fluck!'),
+(3, 'miscusi!'),
+(3, 'fluck!'),
+(3, 'mother of god!'),
+(4, 'ashmalaxa!'),
+(5, 'morte mio!');
 
 #POST LIKES
 INSERT INTO homeworker.postlike
@@ -135,19 +143,35 @@ VALUES
 (8,4),
 (9,4);
 
+#comment
+INSERT INTO homeworker.comment
+(userId,postId,contents)
+VALUES
+(1,1,true),
+(1,2,true),
+(2,1,true),
+(3,9,true),
+(3,6,true),
+(4,1,false),
+(4,2,false),
+(4,3,false),
+(4,4,false),
+(4,5,false),
+(4,6,false);
+
+
 #DELETE FROM homeworker.postcategory
 #WHERE postcategory.id = 1;
-
-
-
 
 ########################SELECTS############################
 
 #POSTS
-#select *
-#from homeworker.posts;
-#USERS
+select *
+from homeworker.posts;
 
+#USERS
+ select *
+ from homeworker.users;
 #POST LIKES
 
 
@@ -157,20 +181,26 @@ VALUES
 # FROM homeworker.categories
 # WHERE categories.id = 1;
 
+# UPDATE categories
+# SET
+#     categories.name = ?,
+#     categories.description = ?
+# WHERE
+#     categories.id = ?;
+
 #DELETE FROM homeworker.categories
 #WHERE categories.id = 1;
 
 #POST CATEGORIES
-# SELECT COUNT(post.id)
+#
+# SELECT post.*
 # FROM homeworker.postcategory as postcategory
 # JOIN homeworker.categories as category ON
 # 	  postcategory.categoryId = category.id
 # JOIN homeworker.posts as post ON
-#     postcategory.postId = post.id
+#      postcategory.postId = post.id
 # WHERE category.id = 3;
 
 # SELECT postcategory.id, postcategory.postId, postcategory.categoryId
 # FROM homeworker.postcategory
 # WHERE postcategory.postId = 1;
-
-

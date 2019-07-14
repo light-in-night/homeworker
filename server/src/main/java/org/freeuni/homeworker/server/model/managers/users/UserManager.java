@@ -1,8 +1,8 @@
 package org.freeuni.homeworker.server.model.managers.users;
 
-import org.freeuni.homeworker.server.model.managers.AbstractManager;
 import org.freeuni.homeworker.server.model.objects.user.User;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -12,15 +12,14 @@ import java.util.List;
  * Author : Guga Tkesheladze
  *
  */
-public interface UserManager extends AbstractManager {
+public interface UserManager {
 
     /**
      * Adds a new user in the database
      *
      * @param user new user
-     * @return true on success, false otherwise
      */
-    boolean addUser(User user); // simple add user method
+    void addUser(User user) throws SQLException, InterruptedException; // simple add user method
 
     /**
      * returns a user by id.
@@ -28,19 +27,26 @@ public interface UserManager extends AbstractManager {
      * @param id user id
      * @return user object from database if such exists, null otherwise.
      */
-    User getUserById(long id); // simple user exists method that checks if there is such user in the database
+    User getUserById(long id) throws InterruptedException, SQLException; // simple user exists method that checks if there is such user in the database
 
     /**
      * returns user by email
      * @param email email of the user
      * @return user object from database if such exists, null otherwise.
      */
-    User getUserByEmail(String email);
+    User getUserByEmail(String email) throws SQLException, InterruptedException;
 
     /**
      * returns list of all users
      *
      * @return every user in database.
+	 * @param filter Filter
      */
-    List<User> getUsers();
+    List<User> getUsers(User filter) throws InterruptedException, SQLException;
+
+    /**
+     * Updates user.
+     * @param newUser new user object. only user id is same.
+     */
+    void updateUser(User newUser) throws InterruptedException, SQLException;
 }

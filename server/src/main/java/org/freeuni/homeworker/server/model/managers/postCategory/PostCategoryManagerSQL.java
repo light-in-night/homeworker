@@ -1,5 +1,6 @@
 package org.freeuni.homeworker.server.model.managers.postCategory;
 
+import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.freeuni.homeworker.server.model.objects.category.Category;
 import org.freeuni.homeworker.server.model.objects.category.CategoryFactory;
 import org.freeuni.homeworker.server.model.objects.post.Post;
@@ -14,7 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class PostCategoryManagerSQL implements PostCategoryManager {
+public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCategoryManager {
+
     private static final String ADD_POST_CATEGORY =
             "INSERT INTO homeworker.postcategory\n" +
                     "(postId,categoryId)\n" +
@@ -31,31 +33,32 @@ public class PostCategoryManagerSQL implements PostCategoryManager {
             "SELECT *\n" +
                     "FROM homeworker.postcategory\n" +
                     "WHERE postcategory.categoryId = ?;";
-    private static final String COUNT_POSTS_BY_CATEGORY =
-            "SELECT COUNT(postcategory.id)\n" +
+    private static final String SELECT_POSTS_BY_CATEGORY =
+            "SELECT post.*\n" +
                     "FROM homeworker.postcategory as postcategory\n" +
                     "JOIN homeworker.categories as category ON\n" +
                     "\t  postcategory.categoryId = category.id\n" +
                     "JOIN homeworker.posts as post ON\n" +
                     "    postcategory.postId = post.id\n" +
                     "WHERE category.id = ?;";
-    private static final String COUNT_CATEGORIES_BY_POST =
-            "SELECT COUNT(postcategory.id)\n" +
+    private static final String SELECT_CATEGORIES_BY_POST =
+            "SELECT category.*\n" +
                     "FROM homeworker.postcategory as postcategory\n" +
                     "JOIN homeworker.categories as category ON\n" +
                     "\t  postcategory.categoryId = category.id\n" +
                     "JOIN homeworker.posts as post ON\n" +
                     "    postcategory.postId = post.id\n" +
                     "WHERE post.id = ?;";
+    private static final String REMOVE_BY_POSTID =
+            "DELETE FROM postcategory WHERE postId=?;";
 
-    private final ConnectionPool connectionPool;
 
     public PostCategoryManagerSQL(ConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
+        super(connectionPool);
     }
 
     @Override
-    public void add(PostCategory postCategory) {
+    public void add(PostCategory postCategory) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
@@ -63,9 +66,7 @@ public class PostCategoryManagerSQL implements PostCategoryManager {
             preparedStatement.setLong(1, postCategory.getPostId());
             preparedStatement.setLong(2, postCategory.getCategoryId());
             preparedStatement.executeUpdate();
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
@@ -73,16 +74,14 @@ public class PostCategoryManagerSQL implements PostCategoryManager {
     }
 
     @Override
-    public void removeById(long id) {
+    public void removeById(long id) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(REMOVE_POST_CATEGORY);
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
@@ -90,26 +89,23 @@ public class PostCategoryManagerSQL implements PostCategoryManager {
     }
 
     @Override
-    public List<PostCategory> getByPostId(long postId) {
+    public PostCategory getByPostId(long postId) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_POST_ID);
             preparedStatement.setLong(1, postId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            return PostCategoryFactory.listFromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+            return PostCategoryFactory.postCategoryFromResultSet(resultSet);
+        }  finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
-        return null;
     }
 
     @Override
-    public List<PostCategory> getByCategoryId(long categoryId) {
+    public List<PostCategory> getByCategoryId(long categoryId) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
@@ -117,52 +113,58 @@ public class PostCategoryManagerSQL implements PostCategoryManager {
             preparedStatement.setLong(1, categoryId);
             ResultSet resultSet = preparedStatement.executeQuery();
             return PostCategoryFactory.listFromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
-        return null;
     }
 
 
     @Override
-    public List<Post> getPostsInCategory(long categoryId) {
+    public List<Post> getPostsInCategory(long categoryId) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(COUNT_POSTS_BY_CATEGORY);
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_POSTS_BY_CATEGORY);
             preparedStatement.setLong(1, categoryId);
             ResultSet resultSet = preparedStatement.executeQuery();
             return PostFactory.listFromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }  finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
-        return null;
     }
 
     @Override
-    public List<Category> getCategoriesOfPost(long postId) {
+    public List<Category> getCategoriesOfPost(long postId) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(COUNT_CATEGORIES_BY_POST);
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CATEGORIES_BY_POST);
             preparedStatement.setLong(1, postId);
             ResultSet resultSet = preparedStatement.executeQuery();
             return CategoryFactory.listFromResultSet(resultSet);
-        } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
-        return null;
+    }
+
+    @Override
+    public void removeByPostId(long postId) throws InterruptedException, SQLException {
+        Connection connection = null;
+        try {
+            connection = connectionPool.acquireConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(REMOVE_BY_POSTID);
+            preparedStatement.setLong(1, postId);
+            preparedStatement.executeUpdate();
+        }finally {
+            if (connection != null) {
+                connectionPool.putBackConnection(connection);
+            }
+        }
     }
 }

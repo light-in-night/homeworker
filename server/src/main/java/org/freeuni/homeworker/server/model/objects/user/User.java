@@ -1,6 +1,5 @@
 package org.freeuni.homeworker.server.model.objects.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,6 +10,7 @@ import java.util.Objects;
 /**
  * Simple user class that can save all the information about user
  * can be converted to and from JSON very easily using JACKSON
+ * @Author Guga Tkesheladze
  */
 @SuppressWarnings("WeakerAccess")
 @JsonInclude(JsonInclude.Include.NON_NULL) // annotation to include null values when converted to json
@@ -18,7 +18,7 @@ import java.util.Objects;
 public class User {
 
 	@JsonProperty("id")
-	private long id; // id of the user will be primary key in the database . this is automatically assigned to user by database after persist.
+	private Long id; // id of the user will be primary key in the database . this is automatically assigned to user by database after persist.
 
 	@JsonProperty("firstName")
 	private String firstName; // first name of the user
@@ -35,6 +35,9 @@ public class User {
 	@JsonProperty("password")
 	private String password; // password of the user
 
+	@JsonProperty("karma")
+	private Long karma;
+
 	public User() {
 	}
 
@@ -47,11 +50,11 @@ public class User {
 		this.password = password;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -131,7 +134,7 @@ public class User {
 		if (this == o) return true;
 		if (!(o instanceof User)) return false;
 		User user = (User) o;
-		return getId() == user.getId() &&
+		return getId().equals(user.getId()) &&
 				getFirstName().equals(user.getFirstName()) &&
 				getLastName().equals(user.getLastName()) &&
 				Objects.equals(getGender(), user.getGender()) &&
@@ -148,5 +151,13 @@ public class User {
 	@Override
 	public int hashCode() {
 		return Objects.hash(getId(), getFirstName(), getLastName(), getGender(), getEmail(), getPassword());
+	}
+
+	public Long getKarma() {
+		return karma;
+	}
+
+	public void setKarma(Long karma) {
+		this.karma = karma;
 	}
 }

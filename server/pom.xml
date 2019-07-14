@@ -8,7 +8,57 @@
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <name>server</name>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>A REST-ful web-application that
+    can be used for posting, messaging and communicating with
+    other users.</description>
+    <url>https://github.com/light-in-night/homeworker</url>
+
+    <developers>
+        <developer>
+            <name>Tornike Onoprishvili</name>
+            <email>tonop15@freeuni.edu.ge</email>
+            <organization>Free University of Georgia</organization>
+            <organizationUrl>http://freeuni.edu.ge/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Tornike Kechakhmadze</name>
+            <email>tkech17@freeuni.edu.ge</email>
+            <organization>Free University of Georgia</organization>
+            <organizationUrl>http://freeuni.edu.ge/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Givi Khartishvili </name>
+            <email>gkhar17@freeuni.edu.ge</email>
+            <organization>Free University of Georgia</organization>
+            <organizationUrl>http://freeuni.edu.ge/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Guram Tkesheladze </name>
+            <email>gtkes17@freeuni.edu.ge</email>
+            <organization>Free University of Georgia</organization>
+            <organizationUrl>http://freeuni.edu.ge/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Daviti Kokaia </name>
+            <email>dkoka17@freeuni.edu.ge</email>
+            <organization>Free University of Georgia</organization>
+            <organizationUrl>http://freeuni.edu.ge/</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/light-in-night/homeworker.git</connection>
+        <developerConnection>scm:git:ssh://github.com:light-in-night/homeworker.git</developerConnection>
+        <url>http://github.com/light-in-night/homeworker/tree/master</url>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,12 +72,6 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.8.5</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -86,7 +130,13 @@
             <artifactId>tomcat-servlet-api</artifactId>
             <version>9.0.21</version>
         </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
 
     <build>
         <finalName>server</finalName>
@@ -123,5 +173,15 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-    </build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>8</source>
+					<target>8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

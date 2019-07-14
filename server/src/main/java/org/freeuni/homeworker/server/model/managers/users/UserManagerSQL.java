@@ -1,181 +1,164 @@
 package org.freeuni.homeworker.server.model.managers.users;
 
-import org.apache.commons.codec.digest.DigestUtils;
+import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.freeuni.homeworker.server.model.source.ConnectionPool;
 import org.freeuni.homeworker.server.model.objects.user.User;
 import org.freeuni.homeworker.server.model.objects.user.UserFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jws.soap.SOAPBinding;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*
  * This class is implementation of
  * @code UserManager interface
  */
-@SuppressWarnings({"SqlDialectInspection", "SqlNoDataSourceInspection"})
-public class UserManagerSQL implements UserManager {
+public class UserManagerSQL extends GeneralManagerSQL implements UserManager {
 
 	private static Logger log = LoggerFactory.getLogger(UserManagerSQL.class);
 
-	private static final String ADD_USER = "INSERT INTO users (first_name, last_name, gender, email, password) VALUES (?,?,?,?,?)"; // query literal used for adding new user into the  database.
+	private static final String ADD_USER = "INSERT INTO users (first_name, last_name, gender, email, password) VALUES (?,?,?,?,?);"; // query literal used for adding new user into the  database.
 
-	private static final String FIND_USER_BY_ID = "SELECT id, first_name, last_name, gender, email, password FROM users WHERE id = ?"; // query literal used for querying users by id
+	private static final String FIND_USER_BY_ID = "SELECT * FROM users WHERE id = ?;"; // query literal used for querying users by id
 
-	private static final String FIND_USER_BY_EMAIL = "SELECT id, first_name, last_name, gender, email, password FROM users WHERE email = ?"; // query literal used for querying users by email
+	private static final String FIND_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?;"; // query literal used for querying users by email
 
-	private static final String GET_ALL_USERS = "SELECT id, first_name, last_name, gender, email, password FROM users";
-
-	// connection pool
-	private ConnectionPool connectionPool;
+	private static final String GET_ALL_USERS = "SELECT * FROM users;";
 
 	public UserManagerSQL(ConnectionPool connectionPool) {
-		if (connectionPool != null) {
-			this.connectionPool = connectionPool;
-		} else {
-			throw new IllegalStateException("Illegal state during creation of UserManagerSQL class.");
-		}
+		super(connectionPool);
 	}
 
 	@Override
-    public boolean addUser(User user) {
-    	if (user.isValid()) {
-    		user.setPassword(DigestUtils.sha256Hex(user.getPassword())); // encrypt received user password before saving it into database
+    public void addUser(User user) throws SQLException, InterruptedException {
+//    	if (user.isValid()) {
+//    		user.setPassword(DigestUtils.sha256Hex(user.getPassword())); // encrypt received user password before saving it into database
+//		This must happen before calling UserManager.addUser.
+//		Because it is not UserManager's job to encrypt something.
+//		also, this makes testing a lot more harder.
+		Connection connection = null;
 
-    		Connection connection;
-
-    		try {
-				connection = connectionPool.acquireConnection(); // try to acquire connection
-				if (connection == null) {
-					log.info("Server is stopped can't persist more data.");
-					return false;
-				}
-			} catch (InterruptedException e) {
-    			log.info("Thread was interrupted.", e);  // if thread is interrupted return false
-				return false;
-			}
-
-    		try {
-				PreparedStatement insertStatement = connection.prepareStatement(ADD_USER);
-				insertStatement.setString(1, user.getFirstName());
-				insertStatement.setString(2, user.getLastName()); // insert new row
-				insertStatement.setString(3, user.getGender());
-				insertStatement.setString(4, user.getEmail());
-				insertStatement.setString(5, user.getPassword());
-				insertStatement.executeUpdate();
-			} catch (SQLException e) {
-				log.info("Sql exception was cached.", e);
+		try {
+			connection = connectionPool.acquireConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(ADD_USER);
+			preparedStatement.setString(1, user.getFirstName());
+			preparedStatement.setString(2, user.getLastName()); // insert new row
+			preparedStatement.setString(3, user.getGender());
+			preparedStatement.setString(4, user.getEmail());
+			preparedStatement.setString(5, user.getPassword());
+			preparedStatement.executeUpdate();
+		} finally {
+			if(connection != null) {
 				connectionPool.putBackConnection(connection); // put back  connection if there is an exception
-				return false;
 			}
-
-    		connectionPool.putBackConnection(connection); // return connection to pool
-    		return true;
-		}  else {
-    		log.info("Received user was not a valid one.");
-    		log.info(user.toString());
-    		return false;
 		}
 	}
 
     @Override
-    public User getUserById(long id) {
-		Connection connection;
-
+    public User getUserById(long id) throws InterruptedException, SQLException {
+		Connection connection = null;
 		try {
 			connection = connectionPool.acquireConnection();
-			if (connection == null) {
-				log.info("Server is stopped can't persist more data.");
-				return null;
-			}
-		} catch (InterruptedException e) {
-			log.info("Thread was interrupted.", e);
-			return null;
-		}
-
-		ResultSet resultSet;
-
-		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_BY_ID);
 			preparedStatement.setLong(1, id);
-			resultSet = preparedStatement.executeQuery();
-		} catch (SQLException e) {
-			log.info("Sql exception was caught.", e);
-			connectionPool.putBackConnection(connection);
-			return null;
+			return UserFactory.fromResultSet(preparedStatement.executeQuery());
+		} finally {
+			if (connection != null) {
+				connectionPool.putBackConnection(connection);
+			}
 		}
-
-		connectionPool.putBackConnection(connection);
-		return UserFactory.fromResultSet(resultSet);
 	}
 
 	@Override
-	public User getUserByEmail(String email) {
-		Connection connection;
-
+	public User getUserByEmail(String email) throws InterruptedException, SQLException {
+		Connection connection = null;
 		try {
 			connection = connectionPool.acquireConnection();
-			if (connection == null) {
-				log.info("Server is stopped can't get more data.");
-				return null;
-			}
-		} catch (InterruptedException e) {
-			log.info("Thread was interrupted.", e);
-			return null;
-		}
-
-		ResultSet resultSet;
-
-		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_BY_EMAIL);
 			preparedStatement.setString(1, email);
-			resultSet = preparedStatement.executeQuery();
-		} catch (SQLException e) {
-			log.info("Sql exception was cached.", e);
-			connectionPool.putBackConnection(connection);
-			return null;
+			ResultSet resultSet = preparedStatement.executeQuery();
+			return UserFactory.fromResultSet(resultSet);
+		} finally {
+			if(connection != null) {
+				connectionPool.putBackConnection(connection);
+			}
 		}
-
-		connectionPool.putBackConnection(connection);
-		return UserFactory.fromResultSet(resultSet);
 	}
 
-	@Override
-	public List<User> getUsers() {
-		Connection connection;
 
+	@Override
+	public List<User> getUsers(User filter) throws InterruptedException, SQLException {
+		String getUsers = generateSQLStringForSelect(filter);
+
+		return getUsers(getUsers);
+	}
+
+	protected List<User> getUsers(String getUsers) throws InterruptedException, SQLException {
+		Connection connection = null;
 		try {
 			connection = connectionPool.acquireConnection();
-			if (connection == null) {
-				log.info("Server is stopped can't get more data.");
-				return null;
+			PreparedStatement preparedStatement = connection.prepareStatement(getUsers);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			return UserFactory.usersFromResultSet(resultSet);
+		} finally {
+			if (connection != null) {
+				connectionPool.putBackConnection(connection);
 			}
-		} catch (InterruptedException e) {
-			log.info("Thread was interrupted.", e);
-			return null;
 		}
-
-		ResultSet resultSet;
-
-		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_USERS);
-			resultSet = preparedStatement.executeQuery();
-		} catch (SQLException e) {
-			log.info("Sql exception was cached.", e);
-			connectionPool.putBackConnection(connection);
-			return null;
-		}
-
-		connectionPool.putBackConnection(connection);
-		return UserFactory.usersFromResultSet(resultSet);
 	}
 
+	/**
+	 * Generates SQL Select String
+	 * @param filter filter Object Based On Filter Is Made
+	 * @return SQL String
+	 */
+	private String generateSQLStringForSelect(User filter) {
+		StringBuilder getUsers = new StringBuilder("SELECT * FROM users WHERE 1 = 1 ");
+		Map<String, Object> properties = new HashMap<>();
+
+
+		if(filter.getId() != null){
+			properties.put("id", filter.getId());
+		}
+		if(filter.getFirstName() != null){
+			properties.put("firstName", filter.getFirstName());
+		}
+		if(filter.getLastName() != null){
+			properties.put("lastName", filter.getLastName());
+		}
+		if(filter.getGender() != null){
+			properties.put("gender", filter.getGender());
+		}
+		if(filter.getEmail() != null){
+			properties.put("email", filter.getEmail());
+		}
+		if(filter.getPassword() != null){
+			properties.put("password", filter.getPassword());
+		}
+		if(filter.getKarma() != null){
+			properties.put("karma", filter.getKarma());
+		}
+		for(String elem : properties.keySet()){
+			getUsers.append("AND " + elem + " = " + properties.get(elem) + " ");
+		}
+		getUsers.append(";");
+		return getUsers.toString();
+	}
+
+
+	/**
+	 * TODO : implement this!
+	 * @param newUser new user object. only user id is same.
+	 */
 	@Override
-	public void destroyManager() {
-		connectionPool.destroy();
+	public void updateUser(User newUser) throws InterruptedException, SQLException {
+		throw new UnsupportedOperationException();
 	}
 }

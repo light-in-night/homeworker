@@ -1,5 +1,7 @@
 package org.freeuni.homeworker.server.model.objects.category;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,5 +53,19 @@ public class CategoryFactory {
             log.error("Error occurred during transforming result set to list of categories.", e);
         }
         return null;
+    }
+
+    /**
+     * Wraps category object in objectNode and returns node.
+     *
+     * @param category category object that you want to convert to JSON
+     * @param node ObjectNode that will be filled with category JSON
+     * @return same node, with added JSON
+     */
+    public static ObjectNode toObjectNode(Category category, ObjectNode node) {
+        node.put("id", category.getId());
+        node.put("name", category.getName());
+        node.put("description", category.getDescription());
+        return node;
     }
 }

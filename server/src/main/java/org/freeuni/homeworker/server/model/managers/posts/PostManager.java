@@ -1,8 +1,8 @@
 package org.freeuni.homeworker.server.model.managers.posts;
 
-import org.freeuni.homeworker.server.model.managers.AbstractManager;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -12,12 +12,13 @@ import java.util.List;
  *
  * Author : Tornike Onoprishvili
  */
-public interface PostManager extends AbstractManager {
+public interface PostManager {
     /**
      * Adds a selected post into the database
      * @param post post to add
+     * @return
      */
-    void add(Post post);
+    long add(Post post) throws SQLException, InterruptedException;
 
     /**
      * returns a post object with the given id.
@@ -25,7 +26,7 @@ public interface PostManager extends AbstractManager {
      * @param post_id id of post
      * @return post object if such exists in the DB, null otherwise
      */
-    Post getById(long post_id);
+    Post getById(long post_id) throws InterruptedException, SQLException;
 
     /**
      * returns all posts that a single user had posted.
@@ -33,7 +34,7 @@ public interface PostManager extends AbstractManager {
      * @param user_id user id
      * @return list of that user's posts
      */
-    List<Post> getPostsByUser(long user_id);
+    List<Post> getPostsByUser(long user_id) throws SQLException, InterruptedException;
 
     /**
      * returns all posts that were created between those two timestamps
@@ -42,27 +43,30 @@ public interface PostManager extends AbstractManager {
      * @param end end time (exclusive)
      * @return list of posts between those two timestamps
      */
-    List<Post> getPostsBetweenTimes(Timestamp start, Timestamp end);
+    List<Post> getPostsBetweenTimes(Timestamp start, Timestamp end) throws InterruptedException, SQLException;
 
     /**
      * updates the content of the posts.
      *
-     * @param post_id post id
-     * @param correctedContains new content
+     *
      */
-    void updatePostContents(long post_id, String correctedContains);
 
     /**
-     * updates rating of the post.
+     * Updates existing post in database
      *
-     * @param post_id post id
-     * @param diff DIFFERENCE, of the new rating to the old one.
+     * @param post post object to update the exsiting post in db.
+     *             note that only the contents are updated this way.
+     *             post.id is used as to know which post to update.
      */
-    void updatePostRating(long post_id, long diff);
+    void updatePostContents(Post post) throws InterruptedException, SQLException;
 
     /**
      * Returns all posts in database
      * @return list of all posts
      */
-    List<Post> getAllPosts();
+    List<Post> getAllPosts() throws SQLException, InterruptedException;
+
+
+
+    List<Post> getPosts(Long id, Long userId) throws InterruptedException, SQLException;
 }

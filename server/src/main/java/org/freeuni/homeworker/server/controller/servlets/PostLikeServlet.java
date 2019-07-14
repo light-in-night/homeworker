@@ -1,84 +1,136 @@
 package org.freeuni.homeworker.server.controller.servlets;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.postLikes.PostLikeManager;
+import org.freeuni.homeworker.server.model.managers.session.SessionManager;
 import org.freeuni.homeworker.server.model.objects.postLike.PostLike;
-import org.freeuni.homeworker.server.model.objects.response.Response;
-import org.freeuni.homeworker.server.model.objects.response.ResponseStatus;
+import org.freeuni.homeworker.server.model.objects.postLike.PostLikeFactory;
+import org.freeuni.homeworker.server.utils.JacksonUtils;
 import org.freeuni.homeworker.server.utils.ServletUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 
-
-@WebServlet("/postLikeServlet")
+/**
+ * Author : The Givi, Tornike Onopra
+ * Tested via : SoapUI (PARTIAL TESTED)
+ */
+@WebServlet(name = "PostLikeServlet", urlPatterns = {"/hasSession/isLoggedIn/likeThePost"})
 public class PostLikeServlet extends HttpServlet {
 
-    private static Logger log = LoggerFactory.getLogger(UserRegistrationServlet.class);
-
-
+    /**
+     * TODO : DOES NOT WORK because PostLikeManager uses PostManager that does not work.
+     * Reads :
+     * /hasSession/isLoggedIn/likeThePost
+     * ? postId=123
+     *
+     * Returns :
+     * {
+     *     STATUS : OK | ERROR
+     *     ERROR_MESSAGE : ""
+     *     users : {
+     *         liked : [
+     *             1,2,3    (userId)
+     *         ],
+     *         disliked : [
+     *              4,5     (userId)
+     *         ]
+     *     }
+     * }
+     */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletUtils.setCORSHeaders(response);
         ServletUtils.setJSONContentType(response);
-        String jSonObject = ServletUtils.readFromRequest(request);
-        executeRequest(request, response, jSonObject);
+
+        ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+        SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
+        PostLikeManager postLikeManager = (PostLikeManager) request.getServletContext().getAttribute(ContextKeys.POST_LIKE_MANAGER);
+        String jsonRequest = ServletUtils.readFromRequest(request);
+        ObjectNode responseNode = objectMapper.createObjectNode();
+        JsonNode requestNode = objectMapper.readTree(jsonRequest);
+
+        try {
+            long postId = Long.parseLong(request.getParameter("postId"));
+            List<PostLike> postLikes = postLikeManager.getByPost(postId);
+
+            ArrayNode likesArray = objectMapper.createArrayNode();
+            ArrayNode dislikesArray = objectMapper.createArrayNode();
+            ObjectNode usersNode = objectMapper.createObjectNode();
+            for(PostLike postLike : postLikes) {
+                if(postLike.isLiked()) {
+                    likesArray.add(postLike.getUserID());
+                } else {
+                    dislikesArray.add(postLike.getUserID());
+                }
+            }
+            usersNode.set("liked", likesArray);
+            usersNode.set("disliked", dislikesArray);
+            responseNode.set("users", usersNode);
+            JacksonUtils.addStatusOk(responseNode);
+        } catch (Exception e) {
+            JacksonUtils.addStatusError(responseNode, e.getMessage());
+        }
+
+        response.getWriter().write(responseNode.toString());
     }
 
     /**
-     * Executes Given Request
+     * TESTED, WORKS.
+     * Adds likes to post.
+     * if already added, this inverts the like to dislike.
+     * userId is deduced from sessionId.
      *
-     * @param request @code HttpServletRequest
-     * @param response @code HttpServletResponse
-     * @param jSonObject JSon @code String
-     * @throws @code IOException.class
+     * Reads :
+     * {
+     *     postId : 123 (post id)
+     * }
+     *
+     * Returns :
+     * {
+     *     STATUS : OK | ERROR
+     *     ERROR_MESSAGE : ""
+     * }
      */
-    private void executeRequest(HttpServletRequest request, HttpServletResponse response, String jSonObject) {
-        Response resp = new Response();
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ServletUtils.setCORSHeaders(response);
+        ServletUtils.setJSONContentType(response);
+
+        String jsonRequest = ServletUtils.readFromRequest(request);
+        PostLikeManager postLikeManager = (PostLikeManager) request.getServletContext().getAttribute(ContextKeys.POST_LIKE_MANAGER);
+        ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+        SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
+
+        ObjectNode responseNode = objectMapper.createObjectNode();
+        JsonNode requestNode = objectMapper.readTree(jsonRequest);
+
         try {
-            ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-            PostLike postLikeObject = objectMapper.readValue(jSonObject, PostLike.class);
-            if(invalidJSon(postLikeObject)){
-                resp.setMessage("Invalid JSon");
-                resp.setStatus(ResponseStatus.ERROR.name());
-                response.getWriter().write(objectMapper.writeValueAsString(resp));
+            long userId = sessionManager.getSession(request.getHeader(ContextKeys.SESSION_ID)).getUserId();
+            long postId = requestNode.get("postId").asLong();
+            PostLike postLike = postLikeManager.getByUserAndPost(userId,postId);
+            if(postLike == null) {
+                postLike = PostLikeFactory.createNew(userId,postId,true);
+                postLikeManager.rateFirstTime(postLike);
             } else {
-                PostLikeManager likeModuleManager = (PostLikeManager) request.getServletContext().getAttribute(ContextKeys.POST_LIKE_MANAGER);
-                if (postLikeObject.isLiked()) {
-                    if (likeModuleManager.like(postLikeObject)) {
-                        resp.setMessage("Request Executed Without Fail");
-                        resp.setStatus(ResponseStatus.OK.name());
-                    } else {
-                        resp.setMessage("Error During Adding Post Like");
-                        resp.setStatus(ResponseStatus.ERROR.name());
-                    }
-                } else {
-                    if (likeModuleManager.unLike(postLikeObject)) {
-                        resp.setStatus(ResponseStatus.OK.name());
-                        resp.setMessage("Request Executed Without Fail");
-                    } else {
-                        resp.setStatus(ResponseStatus.ERROR.name());
-                        resp.setMessage("Error During Post Dislike");
-                    }
-                }
-                response.getWriter().write(objectMapper.writeValueAsString(resp));
-
+                postLike.setLiked(!postLike.isLiked());
+                postLikeManager.rateNextTime(postLike);
             }
-        } catch (IOException e) {
-            log.error("Error Occurred, IO Exception, Caused By Either Database Connection, Or Bad JSON.", e);
+            JacksonUtils.addStatusOk(responseNode);
+        } catch (Exception e) {
+            JacksonUtils.addStatusError(responseNode, e.getMessage());
         }
-    }
 
-    private boolean invalidJSon(PostLike postLikeObject) {
-        return postLikeObject == null || postLikeObject.containsNullFields();
+        response.getWriter().write(responseNode.toString());
     }
 }
