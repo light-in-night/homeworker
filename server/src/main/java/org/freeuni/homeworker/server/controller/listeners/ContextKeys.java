@@ -12,5 +12,5 @@ public interface ContextKeys extends ManagerNameKeys {
 
 	String SESSION_ID = "sessionId";
 
-	String ADMIN_PASSWORD = "adminPassword";
+	String ILLEGAL_REQUEST =  "/illegalRequest";
 }

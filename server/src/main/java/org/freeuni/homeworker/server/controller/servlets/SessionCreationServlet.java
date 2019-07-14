@@ -17,7 +17,7 @@ import java.io.IOException;
 
 /**
  *
- * Author : Tornike Kechakhmadze, Tornike Onoprishvili
+ * Author : Guram Tkesheladze, Tornike Onoprishvili
  * Tested via : SoapUI
  */
 @WebServlet(name = "SessionCreationServlet", urlPatterns = {"/sessions"})

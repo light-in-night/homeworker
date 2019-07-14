@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * Creates a connection.
  * Fires the first statement of using the default database.
+ * @Author Guga tkesheladze refactored by Tornike Onoprishvili after git repository change
  */
 @SuppressWarnings("WeakerAccess")
 public class SQLConnectionFactory {

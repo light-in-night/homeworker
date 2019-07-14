@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * Static factory class. every "new" opeation goes here.
  * can also create lists when needed.
+ * @Author Guga Tkesheladze
  */
 public class UserFactory {
 

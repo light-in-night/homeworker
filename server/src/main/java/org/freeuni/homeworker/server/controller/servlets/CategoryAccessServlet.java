@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @WebServlet(name = "CategoryAccessServlet", urlPatterns = {"/categories"})
 public class CategoryAccessServlet extends HttpServlet {
