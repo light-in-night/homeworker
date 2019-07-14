@@ -18,6 +18,9 @@ class Login extends Component {
             //Change Login header
         } else {
             let request = JSON.stringify(this.state);
+            App.getUserSessionId((sessionId) => {
+                console.log(sessionId);
+            })
             App.getUserSessionId( (sessionId) =>
                 fetch('http://localhost/hasSession/login', {
                     method: 'POST',
@@ -25,8 +28,10 @@ class Login extends Component {
                     body: request
                 }).then((response) => {
                     response.json().then((data) => {
+                        console.log(data);
                         if (data.STATUS === 'OK') {
                             console.log('User has been logged successfully');
+                            this.redirectPage('/User');
                         } else {
                             console.log('User was not logged in, ' + data.ERROR_MESSAGE);
                         }

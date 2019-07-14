@@ -93,8 +93,6 @@ public class PostAccessServlet extends HttpServlet {
         try {
 
             List<Post> postList = getPostsList(request, postManager);
-
-
             ArrayNode postArrayNode = objectMapper.createArrayNode();
             for(Post post : postList) {
                 postArrayNode.add(PostFactory.toObjectNode(post, objectMapper.createObjectNode()));

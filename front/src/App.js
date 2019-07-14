@@ -13,6 +13,7 @@ import ChooseCategories from './components/ChooseCategories'
 import CB from './components/CB'
 import User from './components/User'
 import cookies from 'react-cookies'
+import Post from './components/Post'
 
 
 
@@ -81,6 +82,8 @@ class App extends Component {
                     <Route path='/chooseCategories' component={ChooseCategories}/>
                     <Route path='/chatBot' component ={CB}/>
                     <Route path='/User' component = {User}/>
+                    <Route path='/Post' component = {Post}/>
+                    
                 </div>
             </BrowserRouter>
            
