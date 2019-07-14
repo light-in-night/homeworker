@@ -48,13 +48,19 @@ public class LoginServlet extends HttpServlet {
 		ServletUtils.setJSONContentType(response);
 
 		SessionManager sessionManager =(SessionManager)request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
-		ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+		//UserManager userManager = (UserManager) request.getServletContext().getAttribute(ContextKeys.USER_MANAGER);
+		ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+
 		ObjectNode responseRoot =  objectMapper.createObjectNode();
 
 		try {
-			String sessionId = request.getHeader("sessionId");
+			//String jsonFromRequest = ServletUtils.readFromRequest(request);
+			//JsonNode requestRoot = objectMapper.readTree(jsonFromRequest);
+			String sessionId = request.getHeader(ContextKeys.SESSION_ID);
 			responseRoot.put("loggedIn", sessionManager.getSession(sessionId).isLoggedIn());
+			JacksonUtils.addStatusOk(responseRoot);
 		} catch (Exception e) {
+			e.printStackTrace();
 			JacksonUtils.addStatusError(responseRoot, e.getMessage());
 			log.error("Error occurred during logging in.", e);
 		}
@@ -88,7 +94,7 @@ public class LoginServlet extends HttpServlet {
 		ServletUtils.setCORSHeaders(response);
 		ServletUtils.setJSONContentType(response);
 
-		ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+		ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
 		UserManager userManager = (UserManager) request.getServletContext().getAttribute(ContextKeys.USER_MANAGER);
 		SessionManager sessionManager =(SessionManager)request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
 
@@ -99,9 +105,12 @@ public class LoginServlet extends HttpServlet {
 		try {
 			String email = requestRoot.get("email").asText();
 			String password = requestRoot.get("password").asText();
-			String sessionID = request.getHeader("sessionId");
+			String sessionID = request.getHeader(ContextKeys.SESSION_ID);
 
 			User user = userManager.getUserByEmail(email);
+			if (user == null) {
+				throw new Exception("User is not logged in.");
+			}
 			if(user.getPassword().equals(password)) {
 				sessionManager.login(sessionID, user.getId());
 				JacksonUtils.addStatusOk(responseRoot);

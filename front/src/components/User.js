@@ -11,18 +11,17 @@ class User extends Component{
             gender : "",
             email : "",
             karma : "",
-            posts: [ {id : "", userId : "", contents : "", creationTimestamp : "" }]
+            posts: []
         }     
     }
     getPosts(){
         var url = 'http://localhost/posts?userId='+localStorage.userId;
         fetch(url,{
                 method: 'GET'
-            }).then((response) =>{
-                return response.json();
-            })
-            .then(function(myJson) {
-                this.posts.setState(myJson);
+            }).then((response) => response.json())
+            .then(myJson=> {
+                console.log(myJson);
+                this.setState(myJson);
               })
             .catch((error) => {
                 console.log(error);
@@ -33,10 +32,9 @@ class User extends Component{
         var url = 'http://localhost/admin/users?userId='+localStorage.userId;
         fetch(url,{
                 method: 'GET'
-            }).then((response) =>{
-                return response.json();
-            })
-            .then(function(myJson) {
+            }).then((response) => response.json())
+            .then(myJson=> {
+                console.log(myJson);
                 this.setState(myJson);
               })
             .catch((error) => {
@@ -44,12 +42,16 @@ class User extends Component{
             });
             
     }
-    render() {    
+    componentDidMount(){
+        this.getUser();
+        this.getPosts();
+    }
+    render() {   
+
         return (
                 
                 <div>
                     <div id="sticky">
-                        {this.getUser()} 
                         <form>                                
                             <p>name:{this.state.firstName} {this.state.secondName}</p>
                             <p>email:{this.state.email}</p>
@@ -58,7 +60,6 @@ class User extends Component{
                         </form>
                     </div>
                     <div id="text">
-                        {this.getPosts()} 
                         {this.state.posts
                             .map(post => 
                                 <Link to={{pathname : '/posts', state : {source: `http://localhost/posts?postId=${post.postId}`, } }} 
@@ -70,6 +71,7 @@ class User extends Component{
                             )}
                     </div>
                </div>
+               
         );
     }
 }

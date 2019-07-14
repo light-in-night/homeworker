@@ -38,6 +38,7 @@ public class LoginFilter extends HttpFilter {
 		log.info("Login Filter");
 		String sessionId = request.getHeader(ContextKeys.SESSION_ID);
 		SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
+
 		if (sessionId != null && sessionManager.isUserLoggedIn(sessionId)) {
 			chain.doFilter(request, response);
 		} else {

@@ -10,7 +10,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.junit.Before;
 
@@ -32,6 +33,8 @@ public class PostCategoryManagerSQLTest {
     @Mock
     private ResultSet resultSet;
 
+    PostCategoryManagerSQL postCategoryManagerSQL;
+
     private PostCategory postCategory;
     private PostCategory postCategory2;
 
@@ -47,46 +50,47 @@ public class PostCategoryManagerSQLTest {
         when(resultSet.getLong("id")).thenReturn(postCategory.getId()).thenReturn(postCategory2.getId());
         when(resultSet.getLong("postId")).thenReturn(postCategory.getPostId()).thenReturn(postCategory2.getPostId());
         when(resultSet.getLong("categoryId")).thenReturn(postCategory.getCategoryId()).thenReturn(postCategory2.getCategoryId());
+        when(connection.prepareStatement(any(String.class)))
+                .thenThrow(new SQLException())
+                .thenReturn(preparedStatement);
+        when(resultSet.next())
+                .thenReturn(true)
+                .thenReturn(false);
+        postCategoryManagerSQL = new PostCategoryManagerSQL(connectionPool);
 
     }
 
     @Test
     public void add() throws SQLException, InterruptedException {
-        when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
-        PostCategoryManagerSQL postCategoryManagerSQL = new PostCategoryManagerSQL(connectionPool);
-        postCategoryManagerSQL.add(postCategory);
+        try {postCategoryManagerSQL.add(postCategory);}
+        catch (Exception e) {}
         postCategoryManagerSQL.add(postCategory);
     }
 
     @Test
     public void removeById() throws SQLException, InterruptedException {
-        when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
-        PostCategoryManagerSQL postCategoryManagerSQL = new PostCategoryManagerSQL(connectionPool);
-        postCategoryManagerSQL.removeById(1);
+        try {postCategoryManagerSQL.removeById(1);}
+        catch (Exception e) {}
         postCategoryManagerSQL.removeById(1);
     }
 
     @Test
     public void getByPostId() throws SQLException, InterruptedException {
-        when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
-        when(resultSet.next()).thenReturn(true).thenReturn(false);
-        PostCategoryManagerSQL postCategoryManagerSQL = new PostCategoryManagerSQL(connectionPool);
-        postCategoryManagerSQL.getByPostId(1);
-        List<PostCategory> help = postCategoryManagerSQL.getByPostId(1);
-        System.out.println(help.get(0).getId());
-        System.out.println(help.get(0).getPostId());
-        System.out.println(help.get(0).getCategoryId());
-        if(help.get(0).getId()!=postCategory.getId()||help.get(0).getPostId()!=postCategory.getPostId()||help.get(0).getCategoryId()!=postCategory.getCategoryId()){
-            assert (1==2);
-        }
+
+        try {PostCategory postCategory = postCategoryManagerSQL.getByPostId(1);}
+        catch (Exception e) {}
+
+        postCategory = postCategoryManagerSQL.getByPostId(1);
+        verify(preparedStatement)
+                .setLong(eq(1), eq(1L));
+        verify(preparedStatement)
+                .executeQuery();
     }
 
     @Test
     public void getByCategoryId() throws SQLException, InterruptedException {
-        when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
-        when(resultSet.next()).thenReturn(true).thenReturn(false);
-        PostCategoryManagerSQL postCategoryManagerSQL = new PostCategoryManagerSQL(connectionPool);
-        postCategoryManagerSQL.getByCategoryId(3);
+        try{postCategoryManagerSQL.getByCategoryId(3);}
+        catch (Exception e) {}
         List<PostCategory> help = postCategoryManagerSQL.getByCategoryId(3);
         if(help.get(0).getId()!=postCategory.getId()||help.get(0).getPostId()!=postCategory.getPostId()||help.get(0).getCategoryId()!=postCategory.getCategoryId()){
             assert (0==1);
@@ -95,7 +99,6 @@ public class PostCategoryManagerSQLTest {
 
     @Test
     public void getPostsInCategory() throws SQLException, InterruptedException {
-        when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
         List<Post> list = new ArrayList<>();
         Post post = new Post(2,4,"post");
         Post post2 = new Post(4,4,"post");
@@ -103,11 +106,16 @@ public class PostCategoryManagerSQLTest {
         list.add(post2);
 
         when(resultSet.next()).thenReturn(true).thenReturn(true).thenReturn(false);
-        when(resultSet.getLong("id")).thenReturn(post.getId()).thenReturn(post2.getId());
-        when(resultSet.getLong("userId")).thenReturn(post.getUserId()).thenReturn(post2.getUserId());
+        when(resultSet.getLong("id"))
+                .thenReturn(post.getId())
+                .thenReturn(post2.getId());
+        when(resultSet.getLong("userId"))
+                .thenReturn(post.getUserId())
+                .thenReturn(post2.getUserId());
 
-        PostCategoryManagerSQL postCategoryManagerSQL = new PostCategoryManagerSQL(connectionPool);
-        postCategoryManagerSQL.getPostsInCategory(3);
+        try { postCategoryManagerSQL.getPostsInCategory(3); }
+        catch (Exception e) {}
+
         List<Post> help = postCategoryManagerSQL.getPostsInCategory(3);
         for(int i=0; i<2; i++){
             if(help.get(i).getId()!=list.get(i).getId()||help.get(i).getUserId()!=list.get(i).getUserId()){
@@ -120,8 +128,6 @@ public class PostCategoryManagerSQLTest {
 
     @Test
     public void getCategoriesOfPost() throws SQLException, InterruptedException {
-        when(connection.prepareStatement(any(String.class)))
-                .thenThrow(new SQLException()).thenReturn(preparedStatement);
         List<Category> list = new ArrayList<>();
         Category category = new Category(3,"interesting","nice");
         Category category2 = new Category(2,"notInteresting","bad");
@@ -133,13 +139,24 @@ public class PostCategoryManagerSQLTest {
         when(resultSet.getString("name")).thenReturn(category.getName()).thenReturn(category2.getName());
         when(resultSet.getString("description")).thenReturn(category.getDescription()).thenReturn(category2.getDescription());
 
-        PostCategoryManagerSQL postCategoryManagerSQL = new PostCategoryManagerSQL(connectionPool);
-        postCategoryManagerSQL.getCategoriesOfPost(1);
+         try{postCategoryManagerSQL.getCategoriesOfPost(1);}
+        catch (Exception e) {}
         List<Category> help = postCategoryManagerSQL.getCategoriesOfPost(1);
         for(int i=0; i<2; i++){
             if(help.get(i).getId()!=list.get(i).getId()||help.get(i).getName()!=list.get(i).getName()||help.get(i).getDescription()!=list.get(i).getDescription()){
                 assert(1==2);
             }
         }
+    }
+
+    @Test
+    public void removeByPostId() throws SQLException, InterruptedException {
+        try{postCategoryManagerSQL.removeByPostId(1);}
+        catch (Exception e) {}
+        postCategoryManagerSQL.removeByPostId(1);
+        verify(preparedStatement)
+                .setLong(eq(1), eq(1L));
+        verify(preparedStatement)
+                .executeUpdate();
     }
 }

@@ -65,33 +65,37 @@ public class PostCreateModifyServlet extends HttpServlet {
         ServletUtils.setCORSHeaders(response);
         ServletUtils.setJSONContentType(response);
 
-        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-        PostManager postManager = (PostManager) getServletContext().getAttribute(ContextKeys.POST_MANAGER);
+        ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+        PostManager postManager = (PostManager) request.getServletContext().getAttribute(ContextKeys.POST_MANAGER);
         PostCategoryManager postCategoryManager = (PostCategoryManager) request.getServletContext().getAttribute(ContextKeys.POST_CATEGORY_MANAGER);
         SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
 
-        String jsonStr = ServletUtils.readFromRequest(request);
-        JsonNode rootNode = objectMapper.readTree(jsonStr);
-        ObjectNode returnObjectNode = objectMapper.createObjectNode();
-        Post post = objectMapper.readValue(rootNode.get("post").toString(),Post.class);
-        Session userSession = sessionManager.getSession(request.getHeader("sessionId"));
+        ObjectNode responseNode = objectMapper.createObjectNode();
+
 
         try {
+            String jsonStr = ServletUtils.readFromRequest(request);
+            JsonNode requestNode = objectMapper.readTree(jsonStr);
+            Post post = objectMapper.readValue(requestNode.get("post").toString(),Post.class);
+            Session userSession = sessionManager.getSession(request.getHeader(ContextKeys.SESSION_ID));
+
             post.setUserId(userSession.getUserId());
             long postId = postManager.add(post);
-            returnObjectNode.put("id", postId);
-            if(rootNode.has("categories")) {
-                for (int i = 0; i < rootNode.get("categories").size(); i++) {
-                    long categoryId = rootNode.get("categories").get(i).asLong();
-                    postCategoryManager.add(PostCategoryFactory.fromPostAndCategoryId(0, postId, categoryId));
+            responseNode.put("id", postId);
+            if(requestNode.has("categories")) {
+                for (int i = 0; i < requestNode.get("categories").size(); i++) {
+                    long categoryId = requestNode.get("categories").get(i).asLong();
+                    postCategoryManager
+                            .add(PostCategoryFactory
+                                    .fromPostAndCategoryId(0, postId, categoryId));
                 }
             }
-            JacksonUtils.addStatusOk(returnObjectNode);
+            JacksonUtils.addStatusOk(responseNode);
         } catch (Exception e) {
             e.printStackTrace();
-            JacksonUtils.addStatusError(returnObjectNode, e.toString());
+            JacksonUtils.addStatusError(responseNode, e.toString());
         }
-        response.getWriter().write(returnObjectNode.toString());
+        response.getWriter().write(responseNode.toString());
     }
 
 
@@ -118,31 +122,31 @@ public class PostCreateModifyServlet extends HttpServlet {
         ServletUtils.setJSONContentType(response);
 
         PostManager postManager = (PostManager) request.getServletContext().getAttribute(ContextKeys.POST_MANAGER);
-        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+        ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
 
-        String jsonStr = ServletUtils.readFromRequest(request);
-        ObjectNode returnObjectNode = objectMapper.createObjectNode();
-        JsonNode rootNode = objectMapper.readTree(jsonStr);
+        ObjectNode responseNode = objectMapper.createObjectNode();
 
         try {
+            String jsonStr = ServletUtils.readFromRequest(request);
+            JsonNode requestNode = objectMapper.readTree(jsonStr);
             Post newPost = objectMapper.readValue(jsonStr, Post.class);
-            Session userSession = sessionManager.getSession(request.getHeader("sessionId"));
-            newPost.setUserId(userSession.getUserId());
-            newPost.setId(rootNode.get("id").asLong());
+            Session userSession = sessionManager.getSession(request.getHeader(ContextKeys.SESSION_ID));
             long userId = userSession.getUserId();
+            newPost.setUserId(userId);
+            newPost.setId(requestNode.get("id").asLong());
             if(userId == postManager.getById(newPost.getId()).getUserId()) { //if user owns the post.
                 postManager.updatePostContents(newPost);
-                JacksonUtils.addStatusOk(returnObjectNode);
+                JacksonUtils.addStatusOk(responseNode);
             } else {
-                JacksonUtils.addStatusError(returnObjectNode, "That is not your post.");
+                JacksonUtils.addStatusError(responseNode, "That is not your post.");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JacksonUtils.addStatusError(returnObjectNode, e.toString());
+            JacksonUtils.addStatusError(responseNode, e.toString());
         }
 
 
-        response.getWriter().write(returnObjectNode.toString());
+        response.getWriter().write(responseNode.toString());
     }
 }

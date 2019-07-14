@@ -59,7 +59,7 @@ class Registration extends Component {
         return (
             <div id='registrationForm'>
                 <form onSubmit={this.register} >
-                 <span>pst i can help you register</span><a href='/chatBot' ><img src='chatbot.png' width={40} height={40}></img></a><br/><br/><br/>
+                 <span>pst i can help you register</span><a href='/chatBot' ><img src='chatbot.png' width={40} height={40} alt={"Couldn't Find Resource"}/></a><br/><br/><br/>
                 
                 <ul className="regFormOuter">
                     <li>

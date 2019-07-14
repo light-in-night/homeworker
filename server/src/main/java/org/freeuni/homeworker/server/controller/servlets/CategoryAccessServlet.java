@@ -64,8 +64,8 @@ public class CategoryAccessServlet extends HttpServlet {
         ServletUtils.setCORSHeaders(response);
         ServletUtils.setJSONContentType(response);
 
-        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-        CategoryManager categoryManager = (CategoryManager) getServletContext().getAttribute(ContextKeys.CATEGORY_MANAGER);
+        ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+        CategoryManager categoryManager = (CategoryManager) request.getServletContext().getAttribute(ContextKeys.CATEGORY_MANAGER);
         ObjectNode objectNode = objectMapper.createObjectNode();
 
         try {

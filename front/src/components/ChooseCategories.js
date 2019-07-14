@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
-import {ButtonGroup, ToggleButton, ListGroup} from 'react-bootstrap';
-import CategoryItem from "./CategoryItem";
+import {ListGroup} from 'react-bootstrap';
 import '../App.css';
 
 class ChooseCategories extends Component {
