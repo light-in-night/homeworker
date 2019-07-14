@@ -36,8 +36,16 @@ public class CommentAccessServlet extends HttpServlet {
         ObjectNode responseNode = objectMapper.createObjectNode();
 
         try{
+            long commentNum;
+            try {
+                commentNum = Long.parseLong(request.getParameter("numComments"));
+            } catch (Exception e) {
+                commentNum = 1; // Default
+            }
+
             long postId = Long.parseLong(request.getParameter("postId"));
-            List<Comment> comments = commentManager.getCommentsByPost(postId);
+
+            List<Comment> comments = commentManager.getCommentsByPost(postId, commentNum);
             ArrayNode commentArray = objectMapper.createArrayNode();
             for(Comment comment : comments){
                 commentArray.add(CommentFactory.toObjectNode(comment,objectMapper.createObjectNode()));

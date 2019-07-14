@@ -24,7 +24,8 @@ public class CommentManagerSQL  extends GeneralManagerSQL implements CommentMana
     private static final String SELECT_BY_POST_ID =
             "SELECT *\n" +
                     "    FROM comment\n" +
-                    "    WHERE comment.postId = ?;";
+                    "    WHERE comment.postId = ?" +
+                    "    LIMIT ?;";
 
     private static final String SELECT_ALL =
             "SELECT *" +
@@ -118,10 +119,11 @@ public class CommentManagerSQL  extends GeneralManagerSQL implements CommentMana
      * given user_id
      *
      * @param post_id author's id
-     * @return List of all posts by user
+     * @param commentNum
+	 * @return List of all posts by user
      */
     @Override
-    public List<Comment> getCommentsByPost(long post_id) throws SQLException, InterruptedException {
+    public List<Comment> getCommentsByPost(long post_id, long commentNum) throws SQLException, InterruptedException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
@@ -130,6 +132,7 @@ public class CommentManagerSQL  extends GeneralManagerSQL implements CommentMana
             }
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_POST_ID);
             preparedStatement.setLong(1, post_id);
+            preparedStatement.setLong(2, commentNum);
             ResultSet resultSet = preparedStatement.executeQuery();
             return CommentFactory.listFromResultSet(resultSet);
         } finally {

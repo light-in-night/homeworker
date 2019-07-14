@@ -38,8 +38,8 @@ public class UserManagerSQLTest2 {
         when(preparedStatement.getResultSet()).thenReturn(resultSet);
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
 
-        user = new User(1,"dato","koka","male","dkoka","password");
-        user2 = new User(2,"davit","kokaia","male","dkoka17","pass");
+        user = new User((long)1,"dato","koka","male","dkoka","password");
+        user2 = new User((long)2,"davit","kokaia","male","dkoka17","pass");
         long k =4;
         user.setKarma(k);
         user2.setKarma(k);

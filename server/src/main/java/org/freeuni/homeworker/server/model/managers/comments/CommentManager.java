@@ -33,9 +33,10 @@ public interface CommentManager {
      * returns all comments that a single post had
      *
      * @param post_id user id
-     * @return list of that post's comments
+     * @param commentNum Number Of Comments
+	 * @return list of that post's comments
      */
-    List<Comment> getCommentsByPost(long post_id) throws SQLException, InterruptedException;
+    List<Comment> getCommentsByPost(long post_id, long commentNum) throws SQLException, InterruptedException;
 
 
     /**
