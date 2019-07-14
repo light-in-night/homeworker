@@ -61,7 +61,10 @@ class ExpandingPostWall extends Component{
                                 <Link to={{pathname : '/Post', state : {source: `http://localhost/posts?id=${post.id}`, } }} 
                                     style={{ textDecoration: 'none'}} key={post.id}>
                                         <div className="post-item">
-                                            <p>{post.contents}</p>
+                                            <p className={"contents"}>{post.contents}</p>
+                                                <p className={"likes"}>Likes: {post.numLikes}</p>
+                                                <p className={"comments"}>Comments: {post.numComments}</p>
+
                                         </div>
                                 </Link> 
                             )}

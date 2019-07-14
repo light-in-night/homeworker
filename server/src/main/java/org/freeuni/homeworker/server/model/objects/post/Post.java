@@ -2,6 +2,7 @@ package org.freeuni.homeworker.server.model.objects.post;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.sql.Timestamp;
 
@@ -24,6 +25,12 @@ public class Post {
 
     @JsonProperty("creationTimestamp")
     private Timestamp creationTimestamp;
+
+    @JsonProperty("numLikes")
+    private long numLikes;
+
+    @JsonProperty("numComments")
+    private long numComments;
 
     public Post() {
 
@@ -84,4 +91,19 @@ public class Post {
         this.creationTimestamp = creationTimestamp;
     }
 
+    public long getNumLikes() {
+        return numLikes;
+    }
+
+    public void setNumLikes(long numLikes) {
+        this.numLikes = numLikes;
+    }
+
+    public long getNumComments() {
+        return numComments;
+    }
+
+    public void setNumComments(long numComments) {
+        this.numComments = numComments;
+    }
 }

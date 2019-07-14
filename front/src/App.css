@@ -308,7 +308,7 @@ nav a:hover::before {
   margin: 0 auto 0 auto;
   padding:0px 0px 70px 0px;
   text-align: center;
-  
+
 }
 
 .email{
@@ -351,7 +351,7 @@ nav a:hover::before {
   color:white;
   border-radius:4px;
   border: #27ae60 1px solid;
-  
+
   margin-top:20px;
   margin-bottom:20px;
   float:left;
@@ -359,7 +359,7 @@ nav a:hover::before {
   font-weight:800;
   font-size:0.8em;
   margin-left:30%;
-  width:120x;
+  width: 120px;
   height:33px;
   margin-left:40%;
 }
@@ -369,7 +369,7 @@ nav a:hover::before {
   margin-bottom: 20px;
 }
 .btn:hover{
-  background:rgb(25, 126, 68); 
+  background:rgb(25, 126, 68);
 }
 
 #btn2{
@@ -380,7 +380,7 @@ nav a:hover::before {
   color:white;
   border-radius:4px;
   border: #2980b9 1px solid;
-  
+
   margin-top:20px;
   margin-bottom:20px;
   margin-left:10px;
@@ -388,8 +388,8 @@ nav a:hover::before {
   font-size:0.8em;
 }
 
-#btn2:hover{ 
-background:#3594D2; 
+#btn2:hover{
+background:#3594D2;
 }
 
 .homeLink {
@@ -606,18 +606,7 @@ button {
   margin-left: 10%;
 }
 
-.post-item{
-  border-radius: 25px;
-  border: 2px solid #73AD21;
-  display: flex;
-  margin: 7%;
-  border-style: dashed;
-  border-color: #f1f1f1;
-  background: lightgreen;
-  width: 40em;
-  height: 6em;
-  text-align: center;
-}
+
 
 #sticky{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -683,51 +672,40 @@ button {
 text-align: left;
 }
 
-
-
-
-/* Login */
-
-.userInfoList,
-.flex-inner {
-  list-style-type: none;
-  padding: 0;
+.contents{
+  margin-left: 40%;
+  margin-right: auto;
 }
 
-.userInfoList {
-  max-width: 1000px;
-  margin: 0 auto;
+.comments{
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-style: italic;
+  margin-top: 7%;
+  margin-right: 0px;
+
 }
 
-.userInfoList li {
+.likes{
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-style: italic;
+  margin-top: 7%;
+  margin-right: 0px;
+}
+
+.post-item{
+}
+.post-item{
+  border-radius: 20px;
+  border: 2px solid #73AD21;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
+  margin: 7%;
+  border-style: dashed;
+  border-color: #f1f1f1;
+  background: lightgreen;
+  width: 40em;
+  height: 6em;
+  text-align: center;
+  margin-right: 20px;
 
-
-.userInfoList > li:not(:last-child) {
-  margin-bottom: 20px;
-}
-
-.userInfoList li label,
-.userInfoList li p {
-  padding: 8px;
-  font-weight: 300;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-}
-
-.loginFormList > li > label,
-.loginFormList li p {
-  flex: 1 0 120px;
-  max-width: 250px;
-}
-
-.userPosts{
 
 }
-
-
-
-
