@@ -100,19 +100,20 @@ public class PostAccessServlet extends HttpServlet {
         PostCategoryManager postCategoryManager = (PostCategoryManager) request.getServletContext().getAttribute(ContextKeys.POST_CATEGORY_MANAGER);
 
         try {
-            List<Post> postList = postManager.getAllPosts().stream()
-                    .filter(post -> request.getParameter("id") == null || post.getId() == Long.parseLong(request.getParameter("id")))
-                    .filter(post -> request.getParameter("userId") == null || post.getUserId() == Long.parseLong(request.getParameter("userId")))
-                    .filter(post -> {
-                        try {
-                            return request.getParameter("categoryId") == null || postCategoryManager.getByPostId(post.getId()).stream()
-                                    .anyMatch(postCategory -> postCategory.getCategoryId() == Long.parseLong(request.getParameter("categoryId")));
-                        } catch (Exception e) { e.printStackTrace(); }
-                        return false;
-                    })
-                    .filter(post -> request.getParameter("t0") == null ||  (post.getCreationTimestamp().getTime() >=  Long.parseLong(request.getParameter("t0"))))
-                    .filter(post -> request.getParameter("t1") == null || (post.getCreationTimestamp().getTime() <  Long.parseLong(request.getParameter("t1"))))
-                    .collect(Collectors.toList());
+
+            Long id = null;
+            try{
+                id = Long.parseLong(request.getParameter("id"));
+            }catch (Exception ignore){ }
+
+            Long userId = null;
+            try{
+                userId = Long.parseLong(request.getParameter("userId"));
+            } catch (Exception ignore) { }
+
+
+            List<Post> postList = postManager.getPosts(id, userId);
+
             ArrayNode postArrayNode = objectMapper.createArrayNode();
             for(Post post : postList) {
                 postArrayNode.add(PostFactory.toObjectNode(post, objectMapper.createObjectNode()));

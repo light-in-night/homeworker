@@ -40,8 +40,9 @@ public interface UserManager {
      * returns list of all users
      *
      * @return every user in database.
+	 * @param filter Filter
      */
-    List<User> getUsers() throws InterruptedException, SQLException;
+    List<User> getUsers(User filter) throws InterruptedException, SQLException;
 
     /**
      * Updates user.

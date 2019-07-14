@@ -65,4 +65,8 @@ public interface PostManager {
      * @return list of all posts
      */
     List<Post> getAllPosts() throws SQLException, InterruptedException;
+
+
+
+    List<Post> getPosts(Long id, Long userId) throws InterruptedException, SQLException;
 }

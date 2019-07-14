@@ -3,12 +3,15 @@ package org.freeuni.homeworker.server.model.managers.posts;
 import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 import org.freeuni.homeworker.server.model.objects.post.PostFactory;
+import org.freeuni.homeworker.server.model.objects.user.User;
 import org.freeuni.homeworker.server.model.source.ConnectionPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
 
@@ -197,5 +200,41 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
             }
         }
     }
+
+    @Override
+    public List<Post> getPosts(Long id, Long userId) throws InterruptedException, SQLException {
+        String sql = generateSQLStringForSelect(id, userId);
+        Connection connection = null;
+        try {
+            connection = connectionPool.acquireConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return PostFactory.listFromResultSet(resultSet);
+        } finally {
+            if (connection != null) {
+                connectionPool.putBackConnection(connection);
+            }
+        }
+    }
+
+
+    private static String generateSQLStringForSelect(Long id, Long userId) {
+        StringBuilder getUsers = new StringBuilder("SELECT * FROM posts WHERE 1 = 1 ");
+        Map<String, Long> properties = new HashMap<>();
+
+        if(id != null){
+            properties.put("id", id);
+        }
+        if(userId != null){
+            properties.put("userId", userId);
+        }
+
+        for(String elem : properties.keySet()){
+            getUsers.append("AND " + elem + " = " + properties.get(elem) + " ");
+        }
+        getUsers.append(";");
+        return getUsers.toString();
+    }
+
 
 }

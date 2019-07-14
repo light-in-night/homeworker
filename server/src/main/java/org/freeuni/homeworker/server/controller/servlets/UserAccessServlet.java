@@ -1,24 +1,16 @@
 package org.freeuni.homeworker.server.controller.servlets;
 
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
-import org.freeuni.homeworker.server.model.managers.postEdit.PostEditManager;
 import org.freeuni.homeworker.server.model.managers.users.UserManager;
-import org.freeuni.homeworker.server.model.objects.post.PostFactory;
-import org.freeuni.homeworker.server.model.objects.postEdit.PostEditObject;
 import org.freeuni.homeworker.server.model.objects.user.User;
 import org.freeuni.homeworker.server.model.objects.user.UserFactory;
 import org.freeuni.homeworker.server.utils.JacksonUtils;
 import org.freeuni.homeworker.server.utils.ServletUtils;
 
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -86,17 +78,11 @@ public class UserAccessServlet extends HttpServlet {
 
         ObjectNode resultNode = mapper.createObjectNode();
         try {
-            List<User> users = userManager.getUsers().stream()
-                    .filter(user -> request.getParameter("id") == null
-                            || Long.parseLong(request.getParameter("id")) == user.getId())
-                    .filter(user -> request.getParameter("firstName") == null || request.getParameter("firstName").equals(user.getFirstName()))
-                    .filter(user -> request.getParameter("lastName") == null || request.getParameter("lastName").equals(user.getLastName()))
-                    .filter(user -> request.getParameter("gender") == null || request.getParameter("gender").equals(user.getGender()))
-                    .filter(user -> request.getParameter("email") == null || request.getParameter("email").equals(user.getEmail()))
-                    .filter(user -> request.getParameter("password") == null || request.getParameter("password").equals(user.getPassword()))
-                    .filter(user -> request.getParameter("k0") == null || (user.getKarma() >= Long.parseLong(request.getParameter("k0"))))
-                    .filter(user -> request.getParameter("k1") == null || (user.getKarma() < Long.parseLong(request.getParameter("k1"))))
-                    .collect(Collectors.toList());
+
+            User filterUser = getUserFilterFromRequest(request);
+
+            List<User> users = userManager.getUsers(filterUser);
+
             ArrayNode userArray = mapper.createArrayNode();
             for(User user : users) {
                 userArray.add(UserFactory.toObjectNode(user, mapper.createObjectNode()));
@@ -108,6 +94,24 @@ public class UserAccessServlet extends HttpServlet {
             e.printStackTrace();
         }
         response.getWriter().write(resultNode.toString());
+    }
+
+    /**
+     * Generate Filter Object Given From URL
+     * @param request
+     * @return
+     */
+    private User getUserFilterFromRequest(HttpServletRequest request) {
+        long id = Long.parseLong(request.getParameter("id"));
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String gender = request.getParameter("gender");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        long karma = Long.parseLong(request.getParameter("karma"));
+        User user = new User(id, firstName, lastName, gender, email, password);
+        user.setKarma(karma);
+        return user;
     }
 
 
