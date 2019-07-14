@@ -137,7 +137,7 @@ public class UserModifyServletTest  {
     public void doPut() throws IOException, SQLException, InterruptedException, ServletException {
         inputString = " { \"id\" : 1 } ";
         long userId = 1L;
-        
+
         setSessionParams(userId,
                 "testId",
                 true,
@@ -152,7 +152,7 @@ public class UserModifyServletTest  {
         userModifyServlet.doPut(request, response);
 
         verify(userManager,times(1))
-                .addUser(any());
+                .updateUser(any());
 
         JsonNode responseNode = objectMapper.readTree(resultingJSON);
         assertEquals("OK", responseNode.get("STATUS").asText());

@@ -115,6 +115,7 @@ VALUES
 ('Jobs', 'Hire workforce or apply for a job!'),
 ('Life and Style', 'Daily posts from other homeworkers!'),
 ('Updates', 'System updates and important notifications.'),
+('others  ' , 'everything else .'),
 ('WTF', 'Something funny.');
 
 #POST CATEGORY

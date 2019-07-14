@@ -3,21 +3,17 @@ package org.freeuni.homeworker.server.controller.listeners;
 import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.Spy;
-import org.mockito.internal.matchers.NotNull;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-
 import java.lang.reflect.Field;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ServletInitListenerTest {
@@ -38,9 +34,17 @@ public class ServletInitListenerTest {
 
         listener = new ServletInitListener();
         listener.contextInitialized(event);
+//<<<<<<< HEAD
         verify(context,atLeast(
                 ManagerNameKeys.class.getFields().length
         )).setAttribute(anyString(),notNull());
+//=======
+//        for(Field field : ManagerNameKeys.class.getFields()) {
+//            try {
+//                verify(context).setAttribute(eq((String)field.get(ManagerNameKeys.class)), anyObject());
+//            } catch (IllegalAccessException e) { e.printStackTrace(); }
+//        }
+//>>>>>>> 2afb33fe24f69576ded02e8bbbac6cf59dfa1d22
 
     }
 

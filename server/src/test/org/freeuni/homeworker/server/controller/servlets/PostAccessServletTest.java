@@ -136,7 +136,7 @@ public class PostAccessServletTest {
         postList = Arrays.asList(
                 post0,post1
         );
-        when(postManager.getPosts(any(),any()))
+        when(postManager.getPosts(any(),any(),any()))
                 .thenReturn(postList);
         testCategoryId = 1L;
         when(testPostCategory.getCategoryId())
@@ -169,7 +169,7 @@ public class PostAccessServletTest {
         postList = Arrays.asList(
                 post0,post1
         );
-        when(postManager.getPosts(any(),any()))
+        when(postManager.getPosts(any(),any(),any()))
                 .thenReturn(null);
         testCategoryId = 1L;
         when(testPostCategory.getCategoryId())
@@ -193,7 +193,7 @@ public class PostAccessServletTest {
         postList = Arrays.asList(
                 post0,post1
         );
-        when(postManager.getPosts(any(),any()))
+        when(postManager.getPosts(any(),any(),any()))
                 .thenReturn(postList);
         testCategoryId = 1L;
         when(testPostCategory.getCategoryId())

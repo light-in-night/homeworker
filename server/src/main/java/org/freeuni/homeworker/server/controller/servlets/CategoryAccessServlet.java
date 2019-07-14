@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.categories.CategoryManager;
+import org.freeuni.homeworker.server.model.managers.postCategory.PostCategoryManager;
 import org.freeuni.homeworker.server.model.objects.category.Category;
 import org.freeuni.homeworker.server.model.objects.category.CategoryFactory;
 import org.freeuni.homeworker.server.utils.JacksonUtils;
@@ -65,11 +66,15 @@ public class CategoryAccessServlet extends HttpServlet {
 
         ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         CategoryManager categoryManager = (CategoryManager) request.getServletContext().getAttribute(ContextKeys.CATEGORY_MANAGER);
+        PostCategoryManager postCategoryManager = (PostCategoryManager) request.getServletContext().getAttribute(ContextKeys.POST_CATEGORY_MANAGER);
         ObjectNode objectNode = objectMapper.createObjectNode();
 
         try {
             List<Category> categories = categoryManager.getAllCategories();
-
+            for(Category category : categories){
+                long count = postCategoryManager.getCountNumberOfPostsByCategory(category.getId());
+                category.setCount(count);
+            }
             ArrayNode arrayNode = objectMapper.createArrayNode();
             for(Category category : categories) {
                 arrayNode.add(CategoryFactory.toObjectNode(category, objectMapper.createObjectNode()));

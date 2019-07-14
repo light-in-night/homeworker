@@ -3,35 +3,35 @@ package org.freeuni.homeworker.server.controller.servlets;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.categories.CategoryManager;
+import org.freeuni.homeworker.server.model.managers.postCategory.PostCategoryManager;
 import org.freeuni.homeworker.server.model.objects.category.Category;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CategoryAccessServletTest {
@@ -50,6 +50,8 @@ public class CategoryAccessServletTest {
     private ArrayNode arrayNode;
     @Mock
     private PrintWriter writer;
+    @Mock
+    PostCategoryManager postCategoryManager;
 
     private Category cat1,cat2;
     private ObjectMapper objectMapper;
@@ -77,6 +79,8 @@ public class CategoryAccessServletTest {
                 .thenReturn(categoryManager);
         when(response.getWriter())
                 .thenReturn(writer);
+        when(servletContext.getAttribute(ContextKeys.POST_CATEGORY_MANAGER))
+                .thenReturn(postCategoryManager);
 
         doAnswer((Answer<Void>) invocation -> {
             Object[] args = invocation.getArguments();
@@ -89,15 +93,23 @@ public class CategoryAccessServletTest {
     }
 
     @Test
-    public void doGet() throws IOException {
+    public void doGet() throws IOException, SQLException, InterruptedException {
+        when(categoryManager.getAllCategories())
+                .thenReturn(Arrays
+                        .asList(new Category(1L,"test","test"),
+                                new Category(2L,"test","test")));
+        when(postCategoryManager.getCountNumberOfPostsByCategory(anyInt()))
+                .thenReturn(1L);
+
         when(request.getParameter("id"))
                 .thenReturn(null);
         when(request.getParameter("name"))
                 .thenReturn(null);
 
         categoryAccessServlet.doGet(request, response);
-        JsonNode responseNode = objectMapper.readTree(result);
 
+        JsonNode responseNode = objectMapper.readTree(result);
+        assertTrue(responseNode.get("STATUS").asText().equals("OK"));
         assertTrue(responseNode.has("categories"));
         assertEquals(2, responseNode.get("categories").size());
         assertTrue(responseNode.get("categories").get(0).has("id"));

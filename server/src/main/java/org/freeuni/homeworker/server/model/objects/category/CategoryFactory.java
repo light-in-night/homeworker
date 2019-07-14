@@ -66,6 +66,7 @@ public class CategoryFactory {
         node.put("id", category.getId());
         node.put("name", category.getName());
         node.put("description", category.getDescription());
+        node.put("count", category.getCount());
         return node;
     }
 }
