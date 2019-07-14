@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import PostBox from './PostBox';
 import '../App.css';
-
 /*
-gets postCategory id 
+gets postCategory id
 
-from home categories 
+from home categories
 
-and goes to localhost and gets  posts by id from there 
- 
+and goes to localhost and gets  posts by id from there
+
 this.state.source will get that id
 
 */
@@ -21,25 +21,27 @@ class ExpandingPostWall extends Component{
 
             source : props.location.state.source,
             posts : [],
-        };
+        }
         this.componentDidMount = this.componentDidMount.bind(this);
-    
+
     }
 
     /*
-    fetches data from api 
+    fetches data from api
     and adds posts to state
 
     */
 
     fetchData = () => {
+        console.log(this.state.source);
+        console.log("aqvar");
         fetch(this.state.source)
         .then(response => response.json())
         .then(jsonObj => this.setState(jsonObj))
-        .catch(error => 
+        .catch(error =>
             console.log(error)
         )
-    };
+    }
 
 
     componentDidMount(){
@@ -48,13 +50,14 @@ class ExpandingPostWall extends Component{
 
 
     render() {
+        console.log(this.state);
 
         return (
           <div>
               <div className="category-box" >
                 {this.state.posts
-                    .map(post => 
-                            <div className="category-item" key={Math.random()}>
+                    .map(post =>
+                            <div className="category-item">
                                 <p>{post.contents}</p>
                             </div>)
                 }
