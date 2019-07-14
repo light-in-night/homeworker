@@ -1,5 +1,5 @@
 package org.freeuni.homeworker.server.model.managers.users;
-import org.freeuni.homeworker.server.model.objects.post.Post;
+
 import org.freeuni.homeworker.server.model.objects.user.User;
 import org.freeuni.homeworker.server.model.source.ConnectionPool;
 import org.junit.Assert;
@@ -9,11 +9,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
@@ -79,9 +81,11 @@ public class UserManagerSQLTest2 {
     @Test
     public void getUsers() throws InterruptedException, SQLException {
         when(resultSet.next()).thenReturn(true).thenReturn(true).thenReturn(false);
-        when(connectionPool.acquireConnection()).thenReturn(null).thenThrow(new InterruptedException()).thenReturn(connection);
-        when(connection.prepareStatement(any(String.class))).thenThrow(new SQLException()).thenReturn(preparedStatement);
+        when(connectionPool.acquireConnection()).thenReturn(connection);
+        when(connection.prepareStatement(any(String.class))).thenReturn(preparedStatement);
         UserManagerSQL userManagerSQL = new UserManagerSQL(connectionPool);
+        userManagerSQL.addUser(user);
+        userManagerSQL.addUser(user2);
         List<User> help = userManagerSQL.getUsers(user);
         List<User> list = new ArrayList<>();
         list.add(user);

@@ -109,6 +109,10 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
+            if (connection == null) {
+//                log.info("Server is stopped can't persist more data.");
+                return null;
+            }
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_USER_ID);
             preparedStatement.setLong(1, user_id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -183,8 +187,8 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
      * Takes Posts From Database Given Statement String
      * @param sql SQL Statements String
      * @return List Of Posts
-     * @throws InterruptedException Ex
-     * @throws SQLException Ex
+     * @throws InterruptedException ex
+     * @throws SQLException ex
      */
     private List<Post> getPosts(String sql) throws InterruptedException, SQLException {
         Connection connection = null;

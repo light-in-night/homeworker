@@ -55,10 +55,6 @@ public class AdminFilterTest {
                 .thenReturn(mapper);
         when(request.getRequestDispatcher(anyString()))
                 .thenReturn(requestDispatcher);
-//        when(request.getHeader(eq("adminPassword")))
-//                .thenReturn(null)
-//                .thenReturn(adminPassword)
-//                .thenReturn(wrongPass);
         adminFilter = new AdminFilter();
     }
 

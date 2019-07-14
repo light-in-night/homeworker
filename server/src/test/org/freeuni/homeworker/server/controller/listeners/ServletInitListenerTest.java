@@ -3,20 +3,19 @@ package org.freeuni.homeworker.server.controller.listeners;
 import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-
 import java.lang.reflect.Field;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ServletInitListenerTest {
@@ -40,8 +39,7 @@ public class ServletInitListenerTest {
 
         for(Field field : ManagerNameKeys.class.getFields()) {
             try {
-                verify(context)
-                        .setAttribute(eq((String)field.get(ManagerNameKeys.class)), anyObject());
+                verify(context).setAttribute(eq((String)field.get(ManagerNameKeys.class)), anyObject());
             } catch (IllegalAccessException e) { e.printStackTrace(); }
         }
 

@@ -149,14 +149,4 @@ public class PostCategoryManagerSQLTest {
         }
     }
 
-    @Test
-    public void removeByPostId() throws SQLException, InterruptedException {
-        try{postCategoryManagerSQL.removeByPostId(1);}
-        catch (Exception e) {}
-        postCategoryManagerSQL.removeByPostId(1);
-        verify(preparedStatement)
-                .setLong(eq(1), eq(1L));
-        verify(preparedStatement)
-                .executeUpdate();
-    }
 }

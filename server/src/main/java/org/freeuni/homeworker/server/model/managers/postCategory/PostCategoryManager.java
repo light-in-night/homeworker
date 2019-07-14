@@ -71,4 +71,5 @@ public interface PostCategoryManager {
      * @throws SQLException ex
      */
     long getCountNumberOfPostsByCategory(long categoryId) throws InterruptedException, SQLException;
+
 }
