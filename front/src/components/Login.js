@@ -63,10 +63,10 @@ class Login extends Component {
     
     render() {     
         return (
-            <div>
+            <div class="loginbody">
 <form onSubmit={this.login.bind(this)} class="formaa">
 <div class="box">
-<h1>Login</h1>
+<h1 class="log">Login</h1>
 <input type="email" name="email"   class="email"  onChange={this.handleEmailChange.bind(this)} required /> <br></br>
 <input type="password" name="password"   onChange={this.handlePasswordChange.bind(this)}  class="password"  required />
   
