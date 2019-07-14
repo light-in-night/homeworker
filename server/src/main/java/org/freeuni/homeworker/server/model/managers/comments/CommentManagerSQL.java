@@ -4,6 +4,8 @@ import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.freeuni.homeworker.server.model.objects.comment.Comment;
 import org.freeuni.homeworker.server.model.objects.comment.CommentFactory;
 import org.freeuni.homeworker.server.model.source.ConnectionPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.List;
@@ -32,6 +34,8 @@ public class CommentManagerSQL  extends GeneralManagerSQL implements CommentMana
                     "FROM homeworker.comment;";
 
     private static final String COUNT_POST_COMMENT = "SELECT COUNT(*) FROM comment WHERE postId = ?";
+
+    private static final Logger log = LoggerFactory.getLogger(CommentManager.class);
 
     public CommentManagerSQL(ConnectionPool connectionPool) {
         super(connectionPool);
