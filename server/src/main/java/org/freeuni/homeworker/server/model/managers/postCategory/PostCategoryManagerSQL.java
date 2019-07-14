@@ -49,9 +49,9 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
                     "JOIN homeworker.posts as post ON\n" +
                     "    postcategory.postId = post.id\n" +
                     "WHERE post.id = ?;";
-    private static final String REMOVE_BY_POSTID =
-            "DELETE FROM postcategory WHERE postId=?;";
 
+
+    private static final String COUNT_NUM_POSTS = "SELECT COUNT(*) FROM postcategory WHERE categoryId=?;";
 
     public PostCategoryManagerSQL(ConnectionPool connectionPool) {
         super(connectionPool);
@@ -75,17 +75,7 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
 
     @Override
     public void removeById(long id) throws InterruptedException, SQLException {
-        Connection connection = null;
-        try {
-            connection = connectionPool.acquireConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(REMOVE_POST_CATEGORY);
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
-        }  finally {
-            if (connection != null) {
-                connectionPool.putBackConnection(connection);
-            }
-        }
+        executeQuery(id, REMOVE_POST_CATEGORY);
     }
 
     @Override
@@ -155,17 +145,35 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
     }
 
     @Override
-    public void removeByPostId(long postId) throws InterruptedException, SQLException {
+    public long getCountNumberOfPostsByCategory(long categoryId) throws InterruptedException, SQLException {
+        Connection connection = null;
+        try{
+            connection = connectionPool.acquireConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(COUNT_NUM_POSTS);
+            preparedStatement.setLong(1, categoryId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getLong(1);
+        } finally {
+            if(connection != null) {
+                connectionPool.putBackConnection(connection);
+            }
+        }
+    }
+
+    private void executeQuery(long postId, String removeByPostid) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(REMOVE_BY_POSTID);
+            PreparedStatement preparedStatement = connection.prepareStatement(removeByPostid);
             preparedStatement.setLong(1, postId);
             preparedStatement.executeUpdate();
-        }finally {
+        } finally {
             if (connection != null) {
                 connectionPool.putBackConnection(connection);
             }
         }
     }
+
+
 }
