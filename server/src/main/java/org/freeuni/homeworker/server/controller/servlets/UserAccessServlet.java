@@ -102,13 +102,19 @@ public class UserAccessServlet extends HttpServlet {
      * @return
      */
     private User getUserFilterFromRequest(HttpServletRequest request) {
-        long id = Long.parseLong(request.getParameter("id"));
+        Long id = null;
+        try{
+            id = Long.parseLong(request.getParameter("id"));
+        } catch (Exception ignore) {}
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String gender = request.getParameter("gender");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        long karma = Long.parseLong(request.getParameter("karma"));
+        Long karma = null;
+        try {
+            karma = Long.parseLong(request.getParameter("karma"));
+        } catch (Exception ignore) {}
         User user = new User(id, firstName, lastName, gender, email, password);
         user.setKarma(karma);
         return user;
