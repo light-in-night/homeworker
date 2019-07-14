@@ -57,7 +57,7 @@ class Home extends Component{
                                 style={{ textDecoration: 'none'}} key = {category.id}>
                                     <div className="category-item">
                                         <p>{category.name}</p>
-                                        <p>{category.postCount} post{category.postCount !== 1 ? "s" : ""}</p>
+                                        <p>{category.count} post{category.count <= 1 ? "" : "s"}</p>
                                     </div>
                             </Link> 
                         )}
