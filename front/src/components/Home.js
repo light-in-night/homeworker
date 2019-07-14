@@ -40,7 +40,7 @@ class Home extends Component{
                 <div className="filterCategories">
                     <br/>
                     <b><label className={"filterLabel"}>Filter Categories : </label></b>
-                    <input type='text' onChange={this.changeSearch} placeholder={"Search"} />
+                    <input type='text' name={"search"} onChange={this.changeSearch} placeholder={"Search"} />
                 </div>
                     {this.screen(this.state.STATUS)}
             </div>

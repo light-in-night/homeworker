@@ -671,3 +671,56 @@ button {
   from {background-color: green;}
   to {background-color: yellow;}
 }
+
+.userInfo {
+text-align: left;
+}
+
+
+
+
+/* Login */
+
+.userInfoList,
+.flex-inner {
+  list-style-type: none;
+  padding: 0;
+}
+
+.userInfoList {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.userInfoList li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+
+.userInfoList > li:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.userInfoList li label,
+.userInfoList li p {
+  padding: 8px;
+  font-weight: 300;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.loginFormList > li > label,
+.loginFormList li p {
+  flex: 1 0 120px;
+  max-width: 250px;
+}
+
+.userPosts{
+
+}
+
+
+
+
