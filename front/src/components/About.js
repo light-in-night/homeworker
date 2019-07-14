@@ -131,7 +131,7 @@ class About extends Component{
         {
           this.state.isHovering4 &&
           <div>
-           <PersonInfo text="Humble human being and a great programmer , we are lucky to have such an extraordinary coder in our team.Self proclaimed software architect" person="Guga Tkesheladze" />
+           <PersonInfo text="Humble human being and a great programmer , we are lucky to have such an extraordinary coder in our team.He will always be my  software architect" person="Guga Tkesheladze" />
           </div>
         }
         {
