@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Author : Tornike Kechakhmadze, Tornike Onoprishvili
+ * Author : Guram Tkesheladze, incorrect git entries because of file refactor by Tornkike Onoprishvili
  * Tested via : SoapUI
  */
 @WebFilter(urlPatterns = { "/hasSession/isLoggedIn/*"})
@@ -38,7 +38,6 @@ public class LoginFilter extends HttpFilter {
 		log.info("Login Filter");
 		String sessionId = request.getHeader(ContextKeys.SESSION_ID);
 		SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
-
 		if (sessionId != null && sessionManager.isUserLoggedIn(sessionId)) {
 			chain.doFilter(request, response);
 		} else {
@@ -47,5 +46,5 @@ public class LoginFilter extends HttpFilter {
 	}
 
 	@Override
-	public void destroy() { /* NOT USED */ }
+	public void destroy() { /* NOT USED   */ }
 }

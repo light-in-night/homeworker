@@ -10,6 +10,7 @@ import java.util.Objects;
 /**
  * Simple user class that can save all the information about user
  * can be converted to and from JSON very easily using JACKSON
+ * @Author Guga Tkesheladze
  */
 @SuppressWarnings("WeakerAccess")
 @JsonInclude(JsonInclude.Include.NON_NULL) // annotation to include null values when converted to json
