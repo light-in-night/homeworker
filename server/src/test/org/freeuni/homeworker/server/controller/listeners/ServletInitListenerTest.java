@@ -8,14 +8,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
-import java.lang.reflect.Field;
 
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.notNull;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ServletInitListenerTest {
@@ -29,19 +25,24 @@ public class ServletInitListenerTest {
     ServletInitListener listener;
 
     @Test
-    public void contextInitialized() {
+    public void contextInitialized() throws IllegalAccessException {
         //ArgumentCaptor<Object> argumentCaptor = ArgumentCaptor.forClass(Obbje.class);
         when(event.getServletContext())
                 .thenReturn(context);
 
         listener = new ServletInitListener();
         listener.contextInitialized(event);
-
-        for(Field field : ManagerNameKeys.class.getFields()) {
-            try {
-                verify(context).setAttribute(eq((String)field.get(ManagerNameKeys.class)), anyObject());
-            } catch (IllegalAccessException e) { e.printStackTrace(); }
-        }
+//<<<<<<< HEAD
+        verify(context,atLeast(
+                ManagerNameKeys.class.getFields().length
+        )).setAttribute(anyString(),notNull());
+//=======
+//        for(Field field : ManagerNameKeys.class.getFields()) {
+//            try {
+//                verify(context).setAttribute(eq((String)field.get(ManagerNameKeys.class)), anyObject());
+//            } catch (IllegalAccessException e) { e.printStackTrace(); }
+//        }
+//>>>>>>> 2afb33fe24f69576ded02e8bbbac6cf59dfa1d22
 
     }
 

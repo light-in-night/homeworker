@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * Author : Tornike Kechakmadze, Tornike Onoprishvili,  (add here)
  * Tested via : SoapUI (EVERY METHOD)
  */
-@WebServlet(name = "UserAccessServlet", urlPatterns = {"/admin/users"})
+@WebServlet(name = "UserAccessServlet", urlPatterns = {"/users/abla"})
 public class UserAccessServlet extends HttpServlet {
 
     /**
@@ -86,11 +86,11 @@ public class UserAccessServlet extends HttpServlet {
 
             ArrayNode userArray = mapper.createArrayNode();
             for(User user : users) {
-                userArray.add(UserFactory.toObjectNode(user, mapper.createObjectNode()));
+                userArray.add(UserFactory.toObjectNodeWithoutPassword(user, mapper.createObjectNode()));
             }
             resultNode.set("users", userArray);
             JacksonUtils.addStatusOk(resultNode);
-        } catch (InterruptedException | SQLException e) {
+        } catch (Exception e) {
             JacksonUtils.addStatusError(resultNode, e.toString());
             e.printStackTrace();
         }

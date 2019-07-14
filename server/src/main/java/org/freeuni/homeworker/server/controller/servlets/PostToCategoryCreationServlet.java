@@ -61,16 +61,16 @@ public class PostToCategoryCreationServlet extends HttpServlet {
         ServletUtils.setJSONContentType(response);
         ServletUtils.setCORSHeaders(response);
 
-        PostCategoryManager postCategoryManager = (PostCategoryManager) getServletContext().getAttribute(ContextKeys.POST_CATEGORY_MANAGER);
-        PostManager postManager = (PostManager) getServletContext().getAttribute(ContextKeys.POST_MANAGER);
-        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-        ObjectNode responseNode = objectMapper.createObjectNode();
+        PostCategoryManager postCategoryManager = (PostCategoryManager) request.getServletContext().getAttribute(ContextKeys.POST_CATEGORY_MANAGER);
+        PostManager postManager = (PostManager) request.getServletContext().getAttribute(ContextKeys.POST_MANAGER);
+        ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
 
-        String jsonString = ServletUtils.readFromRequest(request);
-        JsonNode requestNode = objectMapper.readTree(jsonString);
+        ObjectNode responseNode = objectMapper.createObjectNode();
 
         try {
+            String jsonString = ServletUtils.readFromRequest(request);
+            JsonNode requestNode = objectMapper.readTree(jsonString);
             long postId = requestNode.get("postId").asLong();
             long userId = sessionManager.getSession(request.getHeader(ContextKeys.SESSION_ID)).getUserId();
             if (postManager.getById(postId).getUserId() == userId) {    //if belongs to user.

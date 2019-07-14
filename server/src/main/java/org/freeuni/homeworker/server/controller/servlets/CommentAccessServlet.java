@@ -27,6 +27,35 @@ public class CommentAccessServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(CommentAccessServlet.class);
 
+    /**
+     * Returns comments of
+     * particular post.
+     *
+     * Reads :
+     *
+     * ? numComments=123 (OPTIONAL)
+     * & postId=123 (REQUIRED)
+     *
+     * Writes :
+     * {
+     *     STATUS : OK | ERROR
+     *     ERROR_MESSAGE : ""
+     *     comments : [
+     *          {
+     *              id : 123
+     *              userId : 123
+     *              postId : 123
+     *              contents : "some comment"
+     *          },
+     *          {
+     *              ...
+     *          }
+     *          ...
+     *     ]
+     * }
+     *
+     *
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletUtils.setCORSHeaders(response);
         ServletUtils.setJSONContentType(response);
@@ -36,9 +65,18 @@ public class CommentAccessServlet extends HttpServlet {
         ObjectNode responseNode = objectMapper.createObjectNode();
 
         try{
+            long commentNum;
+            try {
+                commentNum = Long.parseLong(request.getParameter("numComments"));
+            } catch (Exception e) {
+                commentNum = 1; // Default
+            }
+
             long postId = Long.parseLong(request.getParameter("postId"));
-            List<Comment> comments = commentManager.getCommentsByPost(postId);
-            ArrayNode commentArray = objectMapper.createArrayNode();
+
+			List<Comment> comments = commentManager.getCommentsByPost(postId, commentNum);
+
+			ArrayNode commentArray = objectMapper.createArrayNode();
             for(Comment comment : comments){
                 commentArray.add(CommentFactory.toObjectNode(comment,objectMapper.createObjectNode()));
             }

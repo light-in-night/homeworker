@@ -25,14 +25,32 @@ public class CommentCreateServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(CommentCreateServlet.class);
 
+    /**
+     * Reads :
+     * {
+     *     comment :
+     *     {
+     *         id : 123
+     *         userId : 123
+     *         postId : 122
+     *         contents : "contents"
+     *     }
+     * }
+     *
+     * Writes :
+     * {
+     *     STATUS : OK | ERROR
+     *     id : 123 (new comment id)
+     * }
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         ServletUtils.setCORSHeaders(response);
         ServletUtils.setJSONContentType(response);
 
-        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-        CommentManager commentManager = (CommentManager) getServletContext().getAttribute(ContextKeys.COMMENT_MANAGER);
+        ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
+        CommentManager commentManager = (CommentManager) request.getServletContext().getAttribute(ContextKeys.COMMENT_MANAGER);
 
         String jsonStr = ServletUtils.readFromRequest(request);
         JsonNode rootNode = objectMapper.readTree(jsonStr);
@@ -41,10 +59,12 @@ public class CommentCreateServlet extends HttpServlet {
         Comment comment = objectMapper.readValue(rootNode.get("comment").toString(),Comment.class);
         Session userSession = sessionManager.getSession(request.getHeader("sessionId"));
 
-        try{
+        try
+        {
             comment.setUserId(userSession.getUserId());
             long postId = commentManager.add(comment);
             returnObjectNode.put("id", postId);
+            JacksonUtils.addStatusOk(returnObjectNode);
         } catch (Exception e) {
             JacksonUtils.addStatusError(returnObjectNode, e.toString());
             log.error("Error occurred in comment create servlet.", e);

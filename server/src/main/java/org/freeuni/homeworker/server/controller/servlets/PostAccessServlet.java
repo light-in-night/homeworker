@@ -4,12 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
-import org.freeuni.homeworker.server.model.managers.categories.CategoryManagerSQL;
 import org.freeuni.homeworker.server.model.managers.postCategory.PostCategoryManager;
 import org.freeuni.homeworker.server.model.managers.posts.PostManager;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 import org.freeuni.homeworker.server.model.objects.post.PostFactory;
-import org.freeuni.homeworker.server.model.objects.postCategory.PostCategory;
 import org.freeuni.homeworker.server.utils.JacksonUtils;
 import org.freeuni.homeworker.server.utils.ServletUtils;
 import org.slf4j.Logger;
@@ -22,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -100,7 +97,7 @@ public class PostAccessServlet extends HttpServlet {
             }
             objectNode.set("posts", postArrayNode);
             JacksonUtils.addStatusOk(objectNode);
-        } catch (SQLException | InterruptedException e) {
+        } catch (Exception e ) {
             log.error(e.toString());
             JacksonUtils.addStatusError(objectNode, e.toString());
         }

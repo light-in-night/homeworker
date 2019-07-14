@@ -24,11 +24,14 @@ import java.io.IOException;
 @WebServlet(name = "SessionServlet", urlPatterns = {"/sessions"})
 public class SessionServlet extends HttpServlet {
 
-	/*
+	/**
 	 * This method returns if the session id is active in the server
 	 * if the session id key is invalid it returns that.
-	 * should pass id as a parameter ?sessionId=1
-	 * returns
+	 * should pass id as a parameter
+	 * Reads :
+	 * 	?sessionId=1
+	 *
+	 * Returns :
 	 * {
 	 * 	"isValid" : "true"
 	 * }
@@ -39,19 +42,20 @@ public class SessionServlet extends HttpServlet {
 		ServletUtils.setCORSHeaders(resp);
 		ServletUtils.setJSONContentType(resp);
 
-		ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-		SessionManager sessionManager = (SessionManager) getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
+		ObjectMapper objectMapper = (ObjectMapper) req.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+		SessionManager sessionManager = (SessionManager) req.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
 
 		String sessionId = req.getParameter(ContextKeys.SESSION_ID);
 		ObjectNode node = objectMapper.createObjectNode();
-		if (!StringUtils.isNotBlank(sessionId) || !sessionManager.hasSession(sessionId)) {
+		if (!StringUtils.isNotBlank(sessionId)
+				|| !sessionManager.hasSession(sessionId)) {
 			node.put("isValid", false);
 		} else {
 			Session session = sessionManager.getSession(sessionId);
 			node.put("isValid", true);
 			node.put("userId", session.getUserId());
 		}
-		resp.getWriter().write(objectMapper.writeValueAsString(node));
+		resp.getWriter().write(node.toString());
 	}
 
 	/**
@@ -76,8 +80,8 @@ public class SessionServlet extends HttpServlet {
 		ServletUtils.setCORSHeaders(resp);
 		ServletUtils.setJSONContentType(resp);
 
-		ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
-		SessionManager sessionManager = (SessionManager) getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
+		ObjectMapper objectMapper = (ObjectMapper) req.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+		SessionManager sessionManager = (SessionManager) req.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
 
 		ObjectNode objectNode = objectMapper.createObjectNode();
 		objectNode.put(ContextKeys.SESSION_ID, sessionManager.createNewSession());

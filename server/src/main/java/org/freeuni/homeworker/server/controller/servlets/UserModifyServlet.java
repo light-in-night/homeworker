@@ -27,7 +27,6 @@ import java.sql.SQLException;
 public class UserModifyServlet extends HttpServlet {
 
     /**
-     * TODO : not tested. probably does not work.
      *
      * Updates existing user account.
      * Reads :
@@ -52,13 +51,13 @@ public class UserModifyServlet extends HttpServlet {
         ServletUtils.setJSONContentType(response);
 
         UserManager userManager = (UserManager) request.getServletContext().getAttribute(ContextKeys.USER_MANAGER);
-        ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+        ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         SessionManager sessionManager = (SessionManager) request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
-        String jsonRequest = ServletUtils.readFromRequest(request);
-        JsonNode requestNode = objectMapper.readTree(jsonRequest);
         ObjectNode returnObjectNode = objectMapper.createObjectNode();
 
         try {
+            String jsonRequest = ServletUtils.readFromRequest(request);
+            JsonNode requestNode = objectMapper.readTree(jsonRequest);
             Session session = sessionManager.getSession(request.getHeader(ContextKeys.SESSION_ID));
             if(session.getUserId() == requestNode.get("id").asLong()) {
                 User oldUser = userManager.getUserById(session.getUserId());

@@ -71,13 +71,13 @@ public class ConnectionPool {
 				for (int i = 0; i < numberOfInitialConnections; i++) {
 					try {
 						connectionsPool.take().close();
-					} catch (SQLException | InterruptedException e) {
+					} catch (Exception e) {
 						log.error("Error occurred during destroying connection pool", e);
 					}
 				}
 				break;
 			}
-			sleepThreadSafely(500);
+			sleepThreadSafely(500); //TODO : UNTESTABLE!
 		}
 	}
 

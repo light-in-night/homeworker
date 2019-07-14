@@ -94,4 +94,14 @@ public class UserFactory {
 		return node;
 	}
 
+	public static ObjectNode toObjectNodeWithoutPassword(User user, ObjectNode node) {
+		node.put("id", user.getId());
+		node.put("firstName", user.getFirstName());
+		node.put("lastName", user.getLastName());
+		node.put("gender", user.getGender());
+		node.put("email", user.getEmail());
+		node.put("karma", user.getKarma());
+		return node;
+	}
+
 }

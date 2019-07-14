@@ -4,6 +4,8 @@ import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.freeuni.homeworker.server.model.objects.comment.Comment;
 import org.freeuni.homeworker.server.model.objects.comment.CommentFactory;
 import org.freeuni.homeworker.server.model.source.ConnectionPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.List;
@@ -24,13 +26,16 @@ public class CommentManagerSQL  extends GeneralManagerSQL implements CommentMana
     private static final String SELECT_BY_POST_ID =
             "SELECT *\n" +
                     "    FROM comment\n" +
-                    "    WHERE comment.postId = ?;";
+                    "    WHERE comment.postId = ?" +
+                    "    LIMIT ?;";
 
     private static final String SELECT_ALL =
             "SELECT *" +
                     "FROM homeworker.comment;";
 
     private static final String COUNT_POST_COMMENT = "SELECT COUNT(*) FROM comment WHERE postId = ?";
+
+    private static final Logger log = LoggerFactory.getLogger(CommentManager.class);
 
     public CommentManagerSQL(ConnectionPool connectionPool) {
         super(connectionPool);
@@ -118,10 +123,11 @@ public class CommentManagerSQL  extends GeneralManagerSQL implements CommentMana
      * given user_id
      *
      * @param post_id author's id
-     * @return List of all posts by user
+     * @param commentNum
+	 * @return List of all posts by user
      */
     @Override
-    public List<Comment> getCommentsByPost(long post_id) throws SQLException, InterruptedException {
+    public List<Comment> getCommentsByPost(long post_id, long commentNum) throws SQLException, InterruptedException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
@@ -130,6 +136,7 @@ public class CommentManagerSQL  extends GeneralManagerSQL implements CommentMana
             }
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_POST_ID);
             preparedStatement.setLong(1, post_id);
+            preparedStatement.setLong(2, commentNum);
             ResultSet resultSet = preparedStatement.executeQuery();
             return CommentFactory.listFromResultSet(resultSet);
         } finally {

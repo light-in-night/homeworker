@@ -27,20 +27,26 @@ public class UserPrivateInfoServlet extends HttpServlet {
 
 	private static final Logger log = LoggerFactory.getLogger(UserPrivateInfoServlet.class);
 
+	/**
+	 * MARK ZUCKERBERG MADE THIS SERVLET.
+	 *
+	 * Writes personal details of all users.
+	 *
+	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ServletUtils.setCORSHeaders(resp);
 		ServletUtils.setJSONContentType(resp);
 		String sessionId = req.getHeader(ContextKeys.SESSION_ID);
-		SessionManager sessionManager = (SessionManager) getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
-		UserManager userManager = (UserManager) getServletContext().getAttribute(ContextKeys.USER_MANAGER);
-		ObjectMapper objectMapper = (ObjectMapper) getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
+		SessionManager sessionManager = (SessionManager) req.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
+		UserManager userManager = (UserManager) req.getServletContext().getAttribute(ContextKeys.USER_MANAGER);
+		ObjectMapper objectMapper = (ObjectMapper) req.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
 
 		Session session = sessionManager.getSession(sessionId);
 		try {
 			User user = userManager.getUserById(session.getUserId());
 			resp.getWriter().write(objectMapper.writeValueAsString(user));
-		} catch (InterruptedException | SQLException e) {
+		} catch (Exception e) {
 			log.error("Error occurred during retrieval of private user data.", e);
 		}
 	}
