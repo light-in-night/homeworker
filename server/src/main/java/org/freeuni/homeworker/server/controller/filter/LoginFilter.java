@@ -20,7 +20,7 @@ import java.io.IOException;
  * Author : Tornike Kechakhmadze, Tornike Onoprishvili
  * Tested via : SoapUI
  */
-@WebFilter(urlPatterns = { "/hasSession/isLoggedIn/*"})
+@WebFilter(urlPatterns = { "/hasSession/isLoggedIn/*"}, )
 public class LoginFilter extends HttpFilter {
 
 	private static final Logger log = LoggerFactory.getLogger(LoginFilter.class);
