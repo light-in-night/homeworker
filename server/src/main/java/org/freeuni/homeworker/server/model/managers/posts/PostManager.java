@@ -67,6 +67,14 @@ public interface PostManager {
     List<Post> getAllPosts() throws SQLException, InterruptedException;
 
 
-
-    List<Post> getPosts(Long id, Long userId) throws InterruptedException, SQLException;
+    /**
+     * Return Posts Filtered By Parameters
+     * @param id post Unique Id (Optional)
+     * @param userId user Id (Optional)
+     * @param categoryId categoryId (Optional)
+     * @return List Of Posts
+     * @throws InterruptedException Thrown If Interrupted
+     * @throws SQLException Thrown If SQL Error
+     */
+    List<Post> getPosts(Long id, Long userId, Long categoryId) throws InterruptedException, SQLException;
 }

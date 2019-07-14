@@ -96,6 +96,7 @@ public class PostCategoryManagerSQL extends GeneralManagerSQL implements PostCat
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_POST_ID);
             preparedStatement.setLong(1, postId);
             ResultSet resultSet = preparedStatement.executeQuery();
+
             return PostCategoryFactory.postCategoryFromResultSet(resultSet);
         }  finally {
             if (connection != null) {

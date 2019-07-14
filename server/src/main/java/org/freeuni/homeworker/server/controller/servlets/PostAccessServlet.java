@@ -4,12 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
+import org.freeuni.homeworker.server.model.managers.categories.CategoryManagerSQL;
 import org.freeuni.homeworker.server.model.managers.postCategory.PostCategoryManager;
 import org.freeuni.homeworker.server.model.managers.posts.PostManager;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 import org.freeuni.homeworker.server.model.objects.post.PostFactory;
+import org.freeuni.homeworker.server.model.objects.postCategory.PostCategory;
 import org.freeuni.homeworker.server.utils.JacksonUtils;
 import org.freeuni.homeworker.server.utils.ServletUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,13 +21,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Author : Tornike Onoprishvili
- * Tested via : SoapUI
+ * Author : Tornike Onoprishvili, Tornike Kechakmadze
  */
-@WebServlet(name = "PostAccessServlet", urlPatterns = {"/posts"})
+@WebServlet(urlPatterns = {"/posts"})
 public class PostAccessServlet extends HttpServlet {
 
     /**
@@ -35,13 +39,10 @@ public class PostAccessServlet extends HttpServlet {
      * ?id=123              (OPTIONAL PARAM)
      * & userId=123         (OPTIONAL PARAM)
      * & categoryId=123     (OPTIONAL PARAM)
-     * & t0 = 1234          (OPTIONAL PARAM) (timestamp start)
-     * & t1 = 12345         (OPTIONAL PARAM) (timestamp end)
      *
      * OPTIONAL PARAMS :
-     * if any of the params (or any combination of them) are
-     * not null and are valid (parsable) then the returned array of posts
-     * will be filtered by them.
+     * If Optional Parameters Are Not Given,
+     * Posts Will Not Be Filtered By Them
      *
      * OPTIONAL PARAMS : if any are selected,
      * The resulting list of categories will be such that
@@ -70,12 +71,15 @@ public class PostAccessServlet extends HttpServlet {
      *  }
      *
      *  Access to this method is not filtered.
-     *  It can be accessed freely.
+     *  It can be accessed freely .
      *
-     *  Author : Tornike onoprishvili
-     *  Tested via : SOAPUI. (EVERY METHOD)
+     *  Author : Tornike onoprishvili, Tornike Kechakmadze
+     *
      *
      */
+
+    private final static Logger log = LoggerFactory.getLogger(PostAccessServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ServletUtils.setCORSHeaders(response);
@@ -88,18 +92,8 @@ public class PostAccessServlet extends HttpServlet {
 
         try {
 
-            Long id = null;
-            try{
-                id = Long.parseLong(request.getParameter("id"));
-            }catch (Exception ignore){ }
+            List<Post> postList = getPostsList(request, postManager);
 
-            Long userId = null;
-            try{
-                userId = Long.parseLong(request.getParameter("userId"));
-            } catch (Exception ignore) { }
-
-
-            List<Post> postList = postManager.getPosts(id, userId);
 
             ArrayNode postArrayNode = objectMapper.createArrayNode();
             for(Post post : postList) {
@@ -108,11 +102,39 @@ public class PostAccessServlet extends HttpServlet {
             objectNode.set("posts", postArrayNode);
             JacksonUtils.addStatusOk(objectNode);
         } catch (SQLException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.toString());
             JacksonUtils.addStatusError(objectNode, e.toString());
         }
 
         response.getWriter().write(objectNode.toString());
+
+    }
+
+    /**
+     * Gets Posts Lists Given Parameters
+     * @param request HTTP Request
+     * @param postManager Manager Class
+     * @return List
+     * @throws InterruptedException Thrown If Interrupted
+     * @throws SQLException Thrown On SQL Error
+     */
+    private List<Post> getPostsList(HttpServletRequest request, PostManager postManager) throws InterruptedException, SQLException {
+        Long id = null;
+        try{
+            id = Long.parseLong(request.getParameter("id"));
+        }catch (Exception ignore){ }
+
+        Long userId = null;
+        try{
+            userId = Long.parseLong(request.getParameter("userId"));
+        } catch (Exception ignore) { }
+
+        Long categoryId = null;
+        try {
+            categoryId = Long.parseLong(request.getParameter("categoryId"));
+        } catch (Exception ignore) { }
+
+        return postManager.getPosts(id, userId, categoryId);
     }
 
 }
