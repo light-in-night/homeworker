@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
-import { Link } from 'react-router-dom'
 import App from "../App";
+import { Link } from 'react-router-dom'
 
 class Post extends Component{
     constructor(props){
@@ -13,46 +13,60 @@ class Post extends Component{
             gender : "",
             email : "",
             karma : "",
-            posts: []
-        }     
+            posts: [],
+            userId: null,
+            comments: [],
+            text : "",
+            source: props.location.state.source
+        }
     }
     
     prepareInfo(){
-        
+        var url = this.state.source;
+        fetch(url,{
+            method: 'GET'
+        }).then((response) => response.json())
+        .then(myJson=> {
+            this.setState(myJson);
+            this.setState({userId : myJson.posts[0].userId})
+            
+        })
+        .then(x=>{
+            url = 'http://localhost/users?id='+this.state.userId;
+            console.log(url);
+            fetch(url,{
+                method: 'GET'
+            })
+            .then((response)=>response.json())
+            .then(myJson=>{
+                this.setState(myJson);
+                
+                console.log(myJson);
+            });
+        });
     }
-
 
     
     componentDidMount(){
         this.prepareInfo();
     }
 
-    textStyle = {
-        color: "#021a40"
-    };
     render() {
+        console.log(this.state);
         return (
-                
                 <div>
-                    <div id="sticky">
-                        <form>                                
-                            <p style={this.textStyle}>{this.state.firstName}</p>
-                            <p style={this.textStyle}>{this.state.lastName}</p>
-                            <p style={this.textStyle}>gender:{this.state.gender}</p>
-                            <p style={this.textStyle}>karma:{this.state.karma}</p>
-                        </form>
-                    </div>
-                    <div id="text">
+                   <div>
                         {this.state.posts
                             .map(post => 
-                                <Link to={{pathname : '/posts', state : {source: `http://localhost/posts?postId=${post.postId}`, } }} 
-                                    style={{ textDecoration: 'none'}}>
+                                <Link to={{pathname : '/Post', state : {source: `http://localhost/posts?id=${post.id}`, } }} 
+                                    style={{ textDecoration: 'none'}} key={post.id}>
                                         <div className="post-item">
                                             <p>{post.contents}</p>
                                         </div>
                                 </Link> 
                             )}
                     </div>
+                    
                </div>
                
         );

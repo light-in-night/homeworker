@@ -18,9 +18,6 @@ class Login extends Component {
             //Change Login header
         } else {
             let request = JSON.stringify(this.state);
-            App.getUserSessionId((sessionId) => {
-                console.log(sessionId);
-            })
             App.getUserSessionId( (sessionId) =>
                 fetch('http://localhost/hasSession/login', {
                     method: 'POST',

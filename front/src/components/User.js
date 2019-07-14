@@ -26,20 +26,19 @@ class User extends Component{
                 headers: { 'sessionId': sessionId }
             }).then((response)=>response.json())
             .then(myJson=>{
+                console.log(myJson);
                 this.setState(myJson);
             })
             .then( x =>{
-                 url = 'http://localhost/posts?userId='+this.state.id;
-                App.getUserSessionId((sessionId) => {
+                url = 'http://localhost/posts?userId='+this.state.id;
                 fetch(url,{
-                        method: 'GET'
-                    }).then((response) => response.json())
-                    .then(myJson=> {
-                        this.setState(myJson);
-                      })
-                    .catch((error) => {
-                        console.log(error);
-                    });
+                    method: 'GET'
+                }).then((response) => response.json())
+                .then(myJson=> {
+                    this.setState(myJson);
+                  })
+                .catch((error) => {
+                    console.log(error);
                 });
             })
         });    
@@ -85,8 +84,8 @@ class User extends Component{
 
                         {this.state.posts
                             .map(post => 
-                                <Link to={{pathname : '/Post', state : {source: `http://localhost/posts?postId=${post.id}`, } }} 
-                                    style={{ textDecoration: 'none'}}>
+                                <Link to={{pathname : '/Post', state : {source: `http://localhost/posts?id=${post.id}`, } }} 
+                                    style={{ textDecoration: 'none'}} key={post.id}>
                                         <div className="post-item">
                                             <p>{post.contents}</p>
                                         </div>

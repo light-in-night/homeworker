@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import '../App.css';
+import { Link } from 'react-router-dom'
 
 /*
 gets postCategory id
@@ -56,11 +57,14 @@ class ExpandingPostWall extends Component{
           <div>
               <div className="category-box" >
                 {this.state.posts
-                    .map(post =>
-                            <div className="category-item">
-                                <p>{post.contents}</p>
-                            </div>)
-                }
+                            .map(post => 
+                                <Link to={{pathname : '/Post', state : {source: `http://localhost/posts?id=${post.id}`, } }} 
+                                    style={{ textDecoration: 'none'}} key={post.id}>
+                                        <div className="post-item">
+                                            <p>{post.contents}</p>
+                                        </div>
+                                </Link> 
+                            )}
             </div>
           </div>  
         );

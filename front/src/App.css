@@ -602,7 +602,6 @@ button {
 
 
 #text{
-  color: #B548CB;
   float: left;
   margin-left: 10%;
 }
@@ -631,7 +630,6 @@ button {
   position: sticky;
   text-decoration: none;
   font-size: 22px;
-  
 }
 
 .filterCategories input[type=text] {
