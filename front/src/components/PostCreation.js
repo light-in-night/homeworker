@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import Form from 'react-bootstrap/Form'
 import '../App.css';
 import App from '../App';
 
@@ -11,7 +9,8 @@ class PostCreation extends Component{
         
         this.state =  {
             userId : 1,         //TODO: change this
-            contents : "",
+            
+            post : {contents : ""},
             categories : [1] , 
             allCategories:[] ,
         };
@@ -34,25 +33,26 @@ class PostCreation extends Component{
     }
 
     makePost = (e) => {
-        e.preventDefault();
         let request = JSON.stringify(this.state);
-        App.getUserSessionId((sessionId) => {
-            console.log(sessionId);
-            fetch('http://localhost:80/hasSession/isLoggedIn/posts', {
+        App.getUserSessionId( (sessionId) =>
+            fetch('http://localhost/hasSession/isLoggedIn/posts', {
                 method: 'POST',
                 headers: { 'sessionId': sessionId },
                 body: request
             }).then((response) => {
-                response.json()
-                .then((data) => {
-                    console.log(data);
+                response.json().then((data) => {
+                    if (data.STATUS === 'OK') {
+                        console.log('post added');
+                    } else {
+                        console.log('you are not logged in ' + data.ERROR_MESSAGE);
+                        window.location.replace("/login");
+                    }
                 })
-            })
-        })
+            }))
     };
 
     handleContentChange = (e) => {
-        this.setState({contents: e.target.value});
+        this.setState({post:{contents: e.target.value}});
     };
     oncl = (e) => {
         console.log("aa");
@@ -65,7 +65,7 @@ class PostCreation extends Component{
             <div>
             
             <form onSubmit={this.makePost.bind(this)}>
-                <label>write post</label>
+                <b><label>write post</label></b><br></br>
                 <textarea rows="10" cols="50" onChange={this.handleContentChange.bind(this)} required /><br/>
                 <label>select categories :</label>
                 <select name="cars" onChange={this.oncl.bind(this)}>

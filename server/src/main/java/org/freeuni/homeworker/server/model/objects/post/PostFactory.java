@@ -19,6 +19,7 @@ public class PostFactory {
 
     /**
      * Makes a single object from resultSet.
+     * ** Result Set Should Be At Row And Should Not Need .next()
      * @param resultSet resultSet of the object
      * @return object on successful conversion, null otherwise
      */
@@ -28,10 +29,6 @@ public class PostFactory {
         post.setUserId(resultSet.getLong("userId"));
         post.setContents(resultSet.getString("contents"));
         post.setCreationTimestamp(resultSet.getTimestamp("creationTimestamp"));
-//        post.setId(resultSet.getLong(1));
-//        post.setUserId(resultSet.getLong(2));
-//        post.setContents(resultSet.getString(3));
-//        post.setCreationTimestamp(resultSet.getTimestamp(4));
         return post;
     }
     /**

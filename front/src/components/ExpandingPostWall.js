@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import PostBox from './PostBox';
+import React, {Component} from 'react';
 import '../App.css';
+
 /*
 gets postCategory id
 

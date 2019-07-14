@@ -3,7 +3,6 @@ package org.freeuni.homeworker.server.model.managers.posts;
 import org.freeuni.homeworker.server.model.managers.GeneralManagerSQL;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 import org.freeuni.homeworker.server.model.objects.post.PostFactory;
-import org.freeuni.homeworker.server.model.objects.user.User;
 import org.freeuni.homeworker.server.model.source.ConnectionPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +39,7 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
                     "SET posts.contents = ? \n" +
                     "WHERE posts.id = ?;";
 
-//    private static Logger log = LoggerFactory.getLogger(UserRegistrationServlet.class);
+    private static Logger log = LoggerFactory.getLogger(PostManager.class);
 
     public PostManagerSQL(ConnectionPool connectionPool) {
         super(connectionPool);
@@ -90,11 +89,6 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID);
             preparedStatement.setLong(1, postId);
             ResultSet resultSet = preparedStatement.executeQuery();
-//            ResultSetMetaData rsmd= resultSet.getMetaData();
-//            String[] arr = new String[5];
-//            for (int i = 1; i < 4; i++) {
-//                arr[i] = rsmd.getColumnName(i);
-//            }
             return PostFactory.fromResultSet(resultSet);
         }  finally {
             if (connection != null) {
@@ -143,10 +137,6 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
-            if (connection == null) {
-//                log.info("Server is stopped can't persist more data.");
-                return null;
-            }
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BETWEEN_TIMES);
             preparedStatement.setTimestamp(1, start);
             preparedStatement.setTimestamp(2, end);
@@ -184,26 +174,23 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
 
     @Override
     public List<Post> getAllPosts() throws SQLException, InterruptedException {
-        Connection connection = null;
-        try {
-            connection = connectionPool.acquireConnection();
-            if (connection == null) {
-//                log.info("Server is stopped can't persist more data.");
-                return null;
-            }
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            return PostFactory.listFromResultSet(resultSet);
-        } finally {
-            if (connection != null) {
-                connectionPool.putBackConnection(connection);
-            }
-        }
+        return getPosts(SELECT_ALL);
     }
 
     @Override
-    public List<Post> getPosts(Long id, Long userId) throws InterruptedException, SQLException {
-        String sql = generateSQLStringForSelect(id, userId);
+    public List<Post> getPosts(Long id, Long userId, Long categoryId) throws InterruptedException, SQLException {
+        String sql = generateSQLStringForSelect(id, userId, categoryId);
+        return getPosts(sql);
+    }
+
+    /**
+     * Takes Posts From Database Given Statement String
+     * @param sql SQL Statements String
+     * @return List Of Posts
+     * @throws InterruptedException ex
+     * @throws SQLException ex
+     */
+    private List<Post> getPosts(String sql) throws InterruptedException, SQLException {
         Connection connection = null;
         try {
             connection = connectionPool.acquireConnection();
@@ -217,16 +204,36 @@ public class PostManagerSQL extends GeneralManagerSQL implements PostManager {
         }
     }
 
-
-    private static String generateSQLStringForSelect(Long id, Long userId) {
-        StringBuilder getUsers = new StringBuilder("SELECT * FROM posts WHERE 1 = 1 ");
+    /**
+     * Generates SQL String
+     * If Any Parameter Is Not, It Will Be Excluded
+     * From SQL Statement
+     * @param id post Id
+     * @param userId user Id
+     * @param categoryId Category Id
+     * @return SQL Statement String
+     */
+    private String generateSQLStringForSelect(Long id, Long userId, Long categoryId) {
+        StringBuilder getUsers = new StringBuilder("SELECT * FROM posts p ");
         Map<String, Long> properties = new HashMap<>();
 
-        if(id != null){
-            properties.put("id", id);
+        if(categoryId == null){
+            getUsers.append("WHERE 1 = 1 ");
+        } else {
+            getUsers.append("LEFT JOIN postcategory c ON p.id = c.postId ");
+            getUsers.append("WHERE 1 = 1 ");
         }
+
+        if(categoryId != null){
+            properties.put("c.categoryId", categoryId);
+        }
+
+        if(id != null){
+            properties.put("p.id", id);
+        }
+
         if(userId != null){
-            properties.put("userId", userId);
+            properties.put("p.userId", userId);
         }
 
         for(String elem : properties.keySet()){

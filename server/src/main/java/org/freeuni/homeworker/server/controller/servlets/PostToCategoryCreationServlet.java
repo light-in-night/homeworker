@@ -78,7 +78,7 @@ public class PostToCategoryCreationServlet extends HttpServlet {
                 for (int i = 0; i < requestNode.get("categories").size(); i++) {
                     categoryIds.add(requestNode.get("categories").get(i).asLong());
                 }
-                postCategoryManager.removeByPostId(postId);
+                //postCategoryManager.removeByPostId(postId);
                 for(Long categoryId : categoryIds) {
                     postCategoryManager.add(PostCategoryFactory.createNew(postId,categoryId));
                 }

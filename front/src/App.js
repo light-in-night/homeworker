@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { BrowserRouter, Route} from 'react-router-dom'
+import {BrowserRouter, Route} from 'react-router-dom'
 import './App.css'
 import Home from './components/Home'
 import Header from './components/Header'
@@ -12,9 +12,9 @@ import ExpandingPostWall from './components/ExpandingPostWall'
 import ChooseCategories from './components/ChooseCategories'
 import CB from './components/CB'
 import User from './components/User'
+import Messenger from './components/Messenger'
 import cookies from 'react-cookies'
-
-
+import Post from './components/Post'
 
 
 class App extends Component {
@@ -51,18 +51,22 @@ class App extends Component {
             cookies.save('userSessionId', newSessionId, { path: '/' });
         });
     }
+    static logout(){
+        
+        App.getUserSessionId( (sessionId) =>
+            fetch('http://localhost/hasSession/isLoggedIn/logout', {
+                method: 'POST',
+                headers: { 'sessionId': sessionId },
+            }).then((response) => {
+                console.log(response);
+            }))
+    }
 
     static getNewUserSessionId(callback) {
         fetch('http://localhost/sessions', {method: 'POST'})
             .then((result) => result.json()
                 .then((data) => callback(data.sessionId)))
     }
-
-    componentDidMount() {
-        App.getUserSessionId((id) => console.log(id));
-    }
-
-    n = 3;
 
     render() {
         
@@ -78,9 +82,12 @@ class App extends Component {
                     <Route path='/createPost' component={PostCreation}/>
                     <Route path='/login' component={Login}/>
                     <Route path='/posts' component={ExpandingPostWall}/>
+                    <Route path='/messenger' component={Messenger}/>
                     <Route path='/chooseCategories' component={ChooseCategories}/>
                     <Route path='/chatBot' component ={CB}/>
                     <Route path='/User' component = {User}/>
+                    <Route path='/Post' component = {Post}/>
+                    
                 </div>
             </BrowserRouter>
            

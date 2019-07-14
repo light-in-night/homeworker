@@ -26,6 +26,7 @@ public class PostCategoryFactory {
      */
     public static PostCategory postCategoryFromResultSet(ResultSet resultSet)  {
         try {
+            resultSet.next();
             PostCategory postCategory = new PostCategory();
             postCategory.setId(resultSet.getLong("id"));
             postCategory.setPostId(resultSet.getLong("postId"));
