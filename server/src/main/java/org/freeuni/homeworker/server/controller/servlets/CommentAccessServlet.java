@@ -10,6 +10,8 @@ import org.freeuni.homeworker.server.model.objects.comment.Comment;
 import org.freeuni.homeworker.server.model.objects.comment.CommentFactory;
 import org.freeuni.homeworker.server.utils.JacksonUtils;
 import org.freeuni.homeworker.server.utils.ServletUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,8 +22,10 @@ import java.io.IOException;
 import java.util.List;
 
 
-@WebServlet(name = "CommentAccessServlet")
+@WebServlet(name = "CommentAccessServlet", urlPatterns = "/getComments")
 public class CommentAccessServlet extends HttpServlet {
+
+    private static final Logger log = LoggerFactory.getLogger(CommentAccessServlet.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletUtils.setCORSHeaders(response);
@@ -42,6 +46,7 @@ public class CommentAccessServlet extends HttpServlet {
             JacksonUtils.addStatusOk(responseNode);
         } catch (Exception e) {
             JacksonUtils.addStatusError(responseNode, e.getMessage());
+            log.error("Error occurred during retrieval of the comments.", e);
         }
 
         response.getWriter().write(responseNode.toString());
