@@ -53,23 +53,18 @@ public class CommentCreateServlet extends HttpServlet {
         CommentManager commentManager = (CommentManager) request.getServletContext().getAttribute(ContextKeys.COMMENT_MANAGER);
 
         String jsonStr = ServletUtils.readFromRequest(request);
-        JsonNode rootNode = objectMapper.readTree(jsonStr);
-        ObjectNode returnObjectNode = objectMapper.createObjectNode();
+        Comment comment = objectMapper.readValue(jsonStr, Comment.class);
 
-        Comment comment = objectMapper.readValue(rootNode.get("comment").toString(),Comment.class);
         Session userSession = sessionManager.getSession(request.getHeader("sessionId"));
 
         try
         {
-            comment.setUserId(userSession.getUserId());
             long postId = commentManager.add(comment);
-            returnObjectNode.put("id", postId);
-            JacksonUtils.addStatusOk(returnObjectNode);
+            comment.setId(postId);
         } catch (Exception e) {
-            JacksonUtils.addStatusError(returnObjectNode, e.toString());
             log.error("Error occurred in comment create servlet.", e);
         }
-        response.getWriter().write(returnObjectNode.toString());
+        response.getWriter().write(objectMapper.writeValueAsString(comment));
 
     }
 
