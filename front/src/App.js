@@ -15,7 +15,7 @@ import User from './components/User'
 import Messenger from './components/Messenger'
 import cookies from 'react-cookies'
 import Post from './components/Post'
-
+import visitUser from './components/visitUser'
 
 class App extends Component {
 

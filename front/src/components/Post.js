@@ -13,13 +13,15 @@ class Post extends Component{
             gender : "",
             email : "",
             karma : "",
+            numLikes : "",
             posts: [],
             userId: null,
             postId: null,
             comments: [],
             source: props.location.state.source,
             CommentNumber : 1,
-            text : ""
+            text : "",
+            likeNum: ""
         }
     }
     
@@ -32,10 +34,10 @@ class Post extends Component{
             this.setState(myJson);
             this.setState({userId : myJson.posts[0].userId})
             this.setState({postId : myJson.posts[0].id})
-            
+            this.setState({numLikes : myJson.posts[0].numLikes})
         })
         .then(x=>{
-            url = 'http://localhost/users/abla?id='+this.state.userId;
+            url = 'http://localhost/users/userAccess?id='+this.state.userId;
             fetch(url,{
                 method: 'GET'
             })
@@ -103,7 +105,7 @@ class Post extends Component{
         return (
                 <div>
                     <li>
-                        <p style={this.textStyle}>name: {this.state.firstName}</p>
+                        <p style={this.textStyle}>name: {this.state.numLikes}</p>
                     </li>
                     <div>
                         <li>
