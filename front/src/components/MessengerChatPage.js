@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import App from "../App";
+import {array} from "prop-types";
+import CategoryItem from "./CategoryItem";
 
 class MessengerChatPage extends Component {
 
@@ -9,7 +11,8 @@ class MessengerChatPage extends Component {
         this.state = {
             socket: null,
             hostUser: null,
-            targetUser: null
+            targetUser: null,
+            messages: null
         };
         App.getUserSessionId((id) => {
             sessionId = id;
@@ -24,6 +27,9 @@ class MessengerChatPage extends Component {
                 }));
         });
         this.updateState = this.updateState.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
+        this.receiveMessage = this.receiveMessage.bind(this);
+        this.getMessages = this.getMessages.bind(this);
     }
 
     updateState(hostUser, sessionId) {
@@ -34,33 +40,97 @@ class MessengerChatPage extends Component {
         this.setState({
             hostUser: targetUser,
             targetUser: hostUser,
-            socket: new WebSocket('ws://localhost/chat/'+hostUser.id+'!'+targetUser.id+'!'+sessionId)
-        });
+            socket: new WebSocket('ws://localhost/chat/'+hostUser.id+'!'+targetUser.id+'!'+sessionId),
+            messages: []
+        }, () => this.state.socket.addEventListener('message', this.receiveMessage));
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        console.log(nextState);
-        return true;
-    }
-
-    static updateMessages(event) {
-        console.log(event);
+    receiveMessage(event) {
+        let incomingMessage = JSON.parse(event.data);
+        let messagesSet = this.state.messages;
+        if (incomingMessage.constructor === [].constructor) {
+            incomingMessage.forEach((message) => {
+                this.setState(() => messagesSet.push(message));
+            })
+        } else {
+            this.setState(() => messagesSet.push(incomingMessage));
+        }
+        console.log(this.state.messages);
     }
 
     sendMessage(event) {
-        // event.preventDefault();
-        // this.state.socket.send('hello');
+        event.preventDefault();
+        let message = {
+            senderId: this.state.hostUser.id,
+            receiverId: this.state.targetUser.id,
+            message: document.getElementById('message').value,
+            sendTime: new Date()
+        };
+        message = JSON.stringify(message);
+        this.state.socket.send(message);
+    }
+
+    getMessages() {
+        return this.state.messages;
+    }
+
+    formStyle = {
+      padding: '25px',
+      margin: '0 auto'
+    };
+
+    containerStyle = {
+        display: 'flex',
+        flexDirection: 'column'
+    };
+
+    senderStyle = {
+        color: 'white',
+        marginLeft: 'auto',
+        padding: '10px',
+        backgroundColor: 'blue',
+        borderRadius: '25px',
+        marginBottom: '5px'
+    };
+
+    receiverStyle =  {
+        color: 'white',
+        marginRight: 'auto',
+        padding: '10px',
+        backgroundColor: 'green',
+        borderRadius: '25px',
+        marginBottom: '5px'
+    };
+
+    headerStyle = {
+        position: 'fixed',
+        zIndex: '100',
+        textAlign: 'center',
+        width: '100%'
+    };
+
+    headerTextStyle = {
+        color: 'blue',
+        fontWeight: 'bold',
+        fontSize: '1.4em'
+    };
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        window.scrollTo(0,document.body.scrollHeight);
     }
 
     render() {
+        let messages = this.state.messages;
+        let hostUser = this.state.hostUser;
         return (
-            <div>
-                <p>Hello world!</p>
-                <form onSubmit={this.sendMessage}>
-                    <input id='message' type='text' name='message'/>
-                    <input type='submit'/>
-                </form>
-            </div>
+        <div style={this.containerStyle}>
+            <div style={this.headerStyle}><p style={this.headerTextStyle}>{hostUser != null ? hostUser.firstName + ' ' + hostUser.lastName : 'Hello'}</p></div>
+            {messages != null ? messages.map((elem) => <div style={elem.senderId == this.state.hostUser.id ? this.senderStyle : this.receiverStyle}>{elem.message}</div>) : 'wait'}
+            <form method='POST' onSubmit={this.sendMessage} style={this.formStyle}>
+                <input type='text' name='Message' id='message'/>
+                <input type='submit' name='Send'/>
+            </form>
+        </div>
         );
     }
 }
