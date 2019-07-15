@@ -97,14 +97,19 @@ class Post extends Component{
                 this.setState(myJson);
             });
     }
+    like = (e) =>{
+
+    }
     textStyle = {
         color: "#021a40"
     };
     render() {
         return (
+                
                 <div className="postDiv">
                          <div className="postUserDiv">
-
+                         <Link to={{pathname : '/visitUser', state : {source: `http://localhost/users/userAccess?id==${this.state.id}`, } }} 
+                                    style={{ textDecoration: 'none'}} key={this.state.id}>
                         <p className="postUserName" style={this.textStyle}>name: {this.state.firstName}</p>
 
 
@@ -113,7 +118,7 @@ class Post extends Component{
                             <p  className="postUserLastName" style={this.textStyle}>lastName: {this.state.lastName}</p>
 
 
-
+                    </Link>
                     </div>
                    <div  className="postUserPost" >
                         {this.state.posts
@@ -125,6 +130,9 @@ class Post extends Component{
                                         </div>
                                 </Link> 
                             )}
+                    </div>
+                    <div>
+                        <button type="like" onClick={this.like}>like</button>
                     </div>
                     <div  className="postUserMesseges">
                         {this.state.comments
