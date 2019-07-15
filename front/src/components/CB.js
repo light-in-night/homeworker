@@ -8,9 +8,8 @@ import React, { Component } from 'react';
     password: "",
     repeatPassword: ""
   };
-  register = (e) => {
-    e.preventDefault();
-    e.target.disabled = true;
+  register = () => {
+  
     let request = JSON.stringify(this.state);
     fetch('http://localhost/users', {
         method: 'POST',
