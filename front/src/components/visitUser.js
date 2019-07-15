@@ -80,7 +80,7 @@ class visitUser extends Component{
                                 <li>
                                 <div>
                       <Link to={{pathname : '/asd/'+this.state.id }} 
-                                   >{this.state.firstName} {this.state.lastName}</Link>
+                                   >send message</Link>
                            </div>  
                                 </li>
                             </ul>

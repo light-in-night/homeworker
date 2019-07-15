@@ -19,7 +19,7 @@ class Post extends Component{
             postId: null,
             comments: [],
             source: props.location.state.source,
-            CommentNumber : 1,
+            CommentNumber : 30,
             text : ""
         }
     }
@@ -78,8 +78,8 @@ class Post extends Component{
                 body: json,
                 headers: { 'sessionId': sessionId }
             })
-        });   
-        this.setState(); 
+        });  
+        this.load();  
     }
     changeComment = (e) => {
         this.setState({text: e.target.value})
@@ -88,6 +88,17 @@ class Post extends Component{
         let x = this.state.CommentNumber;
         x+=10;
         this.setState({CommentNumber : x});
+
+        var url = 'http://localhost/getComments?postId='+this.state.postId+'&numComments='+this.state.CommentNumber;
+        fetch(url,{
+                method: 'GET'
+            })
+            .then((response)=>response.json())
+            .then(myJson=>{
+                this.setState(myJson);
+            });
+    }
+    load = () =>{
 
         var url = 'http://localhost/getComments?postId='+this.state.postId+'&numComments='+this.state.CommentNumber;
         fetch(url,{
@@ -122,6 +133,7 @@ class Post extends Component{
                     </Link>
                     </div>
                    <div  className="postUserPost" >
+                       <p className="postt">Post</p>
                         {this.state.posts
                             .map(post => 
                                 <Link to={{pathname : '/Post', state : {source: `http://localhost/posts?id=${post.id}`, } }} 
@@ -132,24 +144,25 @@ class Post extends Component{
                                 </Link> 
                             )}
                     </div>
-                
+                    <p className="commi">Comments</p>
                     <div  className="postUserMesseges">
                         {this.state.comments
                             .map(Comment => 
                                 <div className="post-msg">
+                                    
                                     <p>
                                     {Comment.contents}</p>
                                 </div>
                             )}
 
-                            <button  className="postUserbtn" type="loadMore" onClick={this.loadMore}>loadMore</button>
+                            <button  className="postUserbtn btnftr" type="loadMore" onClick={this.loadMore}>loadMore</button>
 
                     </div>  
                     <div className="davigale">
-
-                            <textarea rows="4" cols="30" className="msgInput" type="text" id="contents" placeholder="Enter your opinion" onChange={this.changeComment} required />
-
-                            <button className="postUserbtn" type="add" onClick={this.addComment}>addComment</button>
+                                
+                            <textarea rows="4" cols="60" className="msgInput" type="text" id="contents" placeholder="Enter your opinion" onChange={this.changeComment} required />
+                                    <br></br>
+                            <button className="killme" type="add" onClick={this.addComment}>addComment</button>
 
                     </div>
                </div>

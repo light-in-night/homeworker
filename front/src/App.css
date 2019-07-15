@@ -698,6 +698,19 @@ button {
   text-decoration: none;
   font-size: 22px;
 }
+#sticky2{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  text-align: center;
+  font-family: arial;
+  margin-top: 4%;
+  margin-left: 10%;
+  float: left;
+  position: sticky;
+  text-decoration: none;
+  font-size: 22px;
+  background: #111;
+}
 
 .filterCategories input[type=text] {
   padding: 10px;
@@ -799,12 +812,31 @@ text-align: left;
 .davigale{
  
   padding: 40px 20px;
+  margin-left:25%;
 }
+
 .msgInput{
   background-color: white;
   margin-right:20px;
  
 }
+.postUserPost{
+text-align: center;
+margin-left: 16.8%;
+}
+.postt{
+  margin-left:-20%;
+  font-weight: 800px;
+  font-size: 30px;
+  color:rgb(51, 51, 85);  
+}
+.commi{
+  margin-left:45%;
+  font-weight: 800px;
+  font-size: 30px;
+  color:rgb(51, 51, 85);  
+}
+
 .postUserbtn{
  
   background:#3498db;
@@ -819,6 +851,12 @@ text-align: left;
   font-weight:800;
   font-size:0.8em;
 }
+.btnftr{
+  margin-left:40%;
+  width:20%;
+  height:40px;
+
+}
 .postUserDiv{
   padding: 10px;
   margin-left:4%;
@@ -832,10 +870,11 @@ text-align: left;
   border-radius:10px;
   background: #0d8080;
   padding:10px;margin-bottom: 10px;
-  margin-left:20px;
+  margin:auto;
   width:50%;
   word-wrap:break-word;
   text-align: center;
+  margin-bottom: 10px;
 }
 .drop-shadow {
   margin-bottom:40px;
@@ -863,4 +902,18 @@ text-align: left;
 
 .drop-shadow.left {
   box-shadow: -4px 0 2px -2px rgba(0,0,0,0.4)
+}
+.killme{
+  background:#3498db;
+  width:125px;  padding-top:5px;
+  padding-bottom:5px;
+  color:white;
+  border-radius:4px;
+  border: #2980b9 1px solid; 
+  margin-top:20px;
+  margin-bottom:20px;
+  margin-left:25%;
+  font-weight:800;
+  font-size:0.8em;
+  height: 33px;
 }
