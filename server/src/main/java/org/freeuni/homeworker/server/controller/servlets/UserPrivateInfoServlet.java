@@ -1,11 +1,13 @@
 package org.freeuni.homeworker.server.controller.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.session.SessionManager;
 import org.freeuni.homeworker.server.model.managers.users.UserManager;
 import org.freeuni.homeworker.server.model.objects.session.Session;
 import org.freeuni.homeworker.server.model.objects.user.User;
+import org.freeuni.homeworker.server.utils.JacksonUtils;
 import org.freeuni.homeworker.server.utils.ServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,8 +46,14 @@ public class UserPrivateInfoServlet extends HttpServlet {
 
 		Session session = sessionManager.getSession(sessionId);
 		try {
-			User user = userManager.getUserById(session.getUserId());
-			resp.getWriter().write(objectMapper.writeValueAsString(user));
+			if (session == null || session.getUserId() == null) {
+				ObjectNode node = objectMapper.createObjectNode();
+				JacksonUtils.addStatusError(node, "Error");
+				resp.getWriter().write(objectMapper.writeValueAsString(node));
+			} else {
+				User user = userManager.getUserById(session.getUserId());
+				resp.getWriter().write(objectMapper.writeValueAsString(user));
+			}
 		} catch (Exception e) {
 			log.error("Error occurred during retrieval of private user data.", e);
 		}

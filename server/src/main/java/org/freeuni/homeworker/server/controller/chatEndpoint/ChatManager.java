@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import javax.websocket.Session;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -48,7 +49,7 @@ public class ChatManager {
 
 	private ChatManager() {
 		userSessions = new ConcurrentHashMap<>();
-		messageQueue = new LinkedBlockingQueue<>();
+		messageQueue = new ArrayBlockingQueue<>(300);
 		objectMapper = new ObjectMapper();
 		messageManager = new MessageManagerSQL(ConnectionPoolFactory.buildConnectionPool(5));
 		runWorker();
@@ -135,7 +136,7 @@ public class ChatManager {
 					} else {
 						log.info("Sender with id of:" + currMessage.getSenderId() +" is logged out.");
 					}
-					if (receiverSession != null) {
+					if (receiverSession != null && senderId != receiverId) {
 						receiverSession.getBasicRemote().sendText(objectMapper.writeValueAsString(currMessage));
 					} else {
 						log.info("Receiver with id of:" + currMessage.getReceiverId() +" is logged out.");
