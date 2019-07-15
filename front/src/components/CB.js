@@ -21,9 +21,10 @@ import React, { Component } from 'react';
         } else {
             this.routeChange();
         }
+    }).catch((error) => {
+        console.log(error)
     })
 };
-
   steps = [
     {
       id: '0',

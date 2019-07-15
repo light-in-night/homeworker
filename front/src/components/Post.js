@@ -13,15 +13,14 @@ class Post extends Component{
             gender : "",
             email : "",
             karma : "",
-            numLikes : "",
+            numLikes:"",
             posts: [],
             userId: null,
             postId: null,
             comments: [],
             source: props.location.state.source,
             CommentNumber : 1,
-            text : "",
-            likeNum: ""
+            text : ""
         }
     }
     
@@ -98,58 +97,61 @@ class Post extends Component{
                 this.setState(myJson);
             });
     }
+    like = (e) =>{
+
+    }
     textStyle = {
         color: "#021a40"
     };
     render() {
         return (
-                <div>
-                    <li>
-                        <p style={this.textStyle}>name: {this.state.numLikes}</p>
-                    </li>
-                    <div>
-                        <li>
-                            <p style={this.textStyle}>name: {this.state.firstName}</p>
-                        </li>
-                        <li>
-                            <p style={this.textStyle}>lastName: {this.state.lastName}</p>
-                        </li>
-                        <li>
-                            <p style={this.textStyle}>lastName: {this.state.lastName}</p>
-                        </li>
-                        <li>
-                            <p style={this.textStyle}>lastName: {this.state.lastName}</p>
-                        </li>
+                
+                <div className="postDiv">
+                         <div className="postUserDiv">
+                         <Link to={{pathname : '/visitUser', state : {source: `http://localhost/users/userAccess?id==${this.state.id}`, } }} 
+                                    style={{ textDecoration: 'none'}} key={this.state.id}>
+                        <p className="postUserName" style={this.textStyle}>name: {this.state.firstName}</p>
+
+
+
+
+                            <p  className="postUserLastName" style={this.textStyle}>lastName: {this.state.lastName}</p>
+
+
+                    </Link>
                     </div>
-                   <div>
+                   <div  className="postUserPost" >
                         {this.state.posts
                             .map(post => 
                                 <Link to={{pathname : '/Post', state : {source: `http://localhost/posts?id=${post.id}`, } }} 
                                     style={{ textDecoration: 'none'}} key={post.id}>
-                                        <div className="post-item">
+                                        <div className="drop-shadow ">
                                             <p>{post.contents}</p>
                                         </div>
                                 </Link> 
                             )}
                     </div>
                     <div>
+                        <button type="like" onClick={this.like}>like</button>
+                    </div>
+                    <div  className="postUserMesseges">
                         {this.state.comments
                             .map(Comment => 
-                                <div className="post-item">
-                                    <p>{Comment.contents}</p>
+                                <div className="post-msg">
+                                    <p>
+                                    {Comment.contents}</p>
                                 </div>
                             )}
-                        <li>
-                            <button type="loadMore" onClick={this.loadMore}>loadMore</button>
-                        </li>
+
+                            <button  className="postUserbtn" type="loadMore" onClick={this.loadMore}>loadMore</button>
+
                     </div>  
-                    <div>
-                        <li>
-                            <input type="text" id="contents" placeholder="Enter your opinion" onChange={this.changeComment} required />
-                        </li>
-                        <li>
-                            <button type="add" onClick={this.addComment}>addComment</button>
-                        </li>
+                    <div className="davigale">
+
+                            <textarea rows="4" cols="30" className="msgInput" type="text" id="contents" placeholder="Enter your opinion" onChange={this.changeComment} required />
+
+                            <button className="postUserbtn" type="add" onClick={this.addComment}>addComment</button>
+
                     </div>
                </div>
                
