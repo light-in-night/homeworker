@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import '../App.css';
 import { Link } from 'react-router-dom'
 import MessengerChatPage from './MessengerChatPage'
+
+import { IoIosMail } from 'react-icons/io';
+
 class StartConvo extends Component {
     constructor(props) {
         super(props);
@@ -23,11 +26,29 @@ class StartConvo extends Component {
     render() {
         return (
             <div>
-                {this.state.users.map(user =>
-                      <div>
-                      <Link to={{pathname : '/asd/'+user.id }} 
-                                   >{user.firstName} {user.lastName}</Link>
-                           </div>        
+                {this.state.users.map(user => 
+                            <div id="sticky2">
+                            <form className={"userInfo"}>
+                                <ul className={"userInfoList"}>
+                                    <li>
+                                        <p style={this.textStyle}>Name: {user.firstName}</p>
+                                    </li>
+                                    <li>
+                                        <p style={this.textStyle}>LastName: {user.lastName}</p>
+                                    </li>
+                                    <li>
+                                        <p style={this.textStyle}><IoIosMail />Mail: {user.email}</p>
+                                    </li>
+                                    <li>
+                                    <div>
+                          <Link to={{pathname : '/asd/'+this.state.id }} 
+                                       >send message</Link>
+                               </div>  
+                                    </li>
+                                </ul>
+    
+                            </form>
+                        </div>     
                     )
                 }
             </div>

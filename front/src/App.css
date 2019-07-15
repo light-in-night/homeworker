@@ -698,6 +698,19 @@ button {
   text-decoration: none;
   font-size: 22px;
 }
+#sticky2{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  text-align: center;
+  font-family: arial;
+  margin-top: 4%;
+  margin-left: 10%;
+  float: left;
+  position: sticky;
+  text-decoration: none;
+  font-size: 22px;
+  background: #111;
+}
 
 .filterCategories input[type=text] {
   padding: 10px;
