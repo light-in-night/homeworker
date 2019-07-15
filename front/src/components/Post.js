@@ -108,7 +108,7 @@ class Post extends Component{
                 
                 <div className="postDiv">
                          <div className="postUserDiv">
-                         <Link to={{pathname : '/visitUser', state : {source: `http://localhost/users/userAccess?id==${this.state.id}`, } }} 
+                         <Link to={{pathname : '/visitUser', state : {source: `http://localhost/users/userAccess?id=${this.state.id}`, } }} 
                                     style={{ textDecoration: 'none'}} key={this.state.id}>
                         <p className="postUserName" style={this.textStyle}>name: {this.state.firstName}</p>
 

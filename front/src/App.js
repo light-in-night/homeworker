@@ -87,7 +87,7 @@ class App extends Component {
                     <Route path='/chatBot' component ={CB}/>
                     <Route path='/User' component = {User}/>
                     <Route path='/Post' component = {Post}/>
-                    
+                    <Route path ='/visitUser' component = {visitUser}/>
                 </div>
             </BrowserRouter>
            

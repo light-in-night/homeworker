@@ -1,13 +1,13 @@
 <!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
 <web-app>
-<!--    <filter>-->
-<!--        <filter-name>login-filter</filter-name>-->
-<!--        <filter-class>org.freeuni.homeworker.server.controller.filter.LoginFilter</filter-class>-->
-<!--    </filter>-->
-<!--    <filter-mapping>-->
-<!--        <filter-name>login-filter</filter-name>-->
-<!--        <url-pattern>/secure/*</url-pattern>-->
-<!--    </filter-mapping>-->
+    <!--    <filter>-->
+    <!--        <filter-name>login-filter</filter-name>-->
+    <!--        <filter-class>org.freeuni.homeworker.server.controller.filter.LoginFilter</filter-class>-->
+    <!--    </filter>-->
+    <!--    <filter-mapping>-->
+    <!--        <filter-name>login-filter</filter-name>-->
+    <!--        <url-pattern>/secure/*</url-pattern>-->
+    <!--    </filter-mapping>-->
 </web-app>
