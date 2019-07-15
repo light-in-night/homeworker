@@ -18,7 +18,6 @@ import java.io.IOException;
  * Author : Tornike Onoprishvili
  * Tested via : SoapUI
  */
-@WebFilter(filterName = "AdminFilter", urlPatterns = "/admin/*")
 public class AdminFilter extends HttpFilter {
 
 

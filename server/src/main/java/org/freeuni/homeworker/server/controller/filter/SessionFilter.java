@@ -18,7 +18,6 @@ import java.io.IOException;
  * Author : Guram Tkesheladze, Tornike Onoprishvili
  * Tested via : SoapUI
  */
-@WebFilter(urlPatterns = "/hasSession/*")
 public class SessionFilter  extends HttpFilter {
 
 

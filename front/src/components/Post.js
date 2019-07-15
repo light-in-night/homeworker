@@ -15,9 +15,11 @@ class Post extends Component{
             karma : "",
             posts: [],
             userId: null,
+            postId: null,
             comments: [],
-            text : "",
-            source: props.location.state.source
+            source: props.location.state.source,
+            CommentNumber : 1,
+            text : ""
         }
     }
     
@@ -29,32 +31,94 @@ class Post extends Component{
         .then(myJson=> {
             this.setState(myJson);
             this.setState({userId : myJson.posts[0].userId})
+            this.setState({postId : myJson.posts[0].id})
             
         })
         .then(x=>{
             url = 'http://localhost/users/abla?id='+this.state.userId;
-            console.log('http://localhost/?id=1');
             fetch(url,{
                 method: 'GET'
             })
             .then((response)=>response.json())
             .then(myJson=>{
-                this.setState(myJson);
-                
+                this.setState(myJson.users[0]);
+            });
+        })
+        .then(y=>{
+            url = 'http://localhost/getComments?postId='+this.state.postId+'&numComments='+this.state.CommentNumber;
+            fetch(url,{
+                method: 'GET'
+            })
+            .then((response)=>response.json())
+            .then(myJson=>{
+                console.log(url);
+                console.log(this.state);
                 console.log(myJson);
+                this.setState(myJson);
             });
         });
-    }
-
-    
+    }  
     componentDidMount(){
-        this.prepareInfo();
+       this.prepareInfo();
     }
+    addComment = (e) =>{
+       let request = {
+           postId: this.state.postId,
+           userId: this.state.userId,
+           contents: this.state.text 
+        
+        }
+        let json = JSON.stringify(request);
+        
+        App.getUserSessionId((sessionId)=>{
+            var url = 'http://localhost/hasSession/isLoggedIn/createComment';
+            fetch(url,{
+                method: 'POST',
+                body: json,
+                headers: { 'sessionId': sessionId }
+            })
+        });    
+    }
+    changeComment = (e) => {
+        this.setState({text: e.target.value})
+    }
+    loadMore = (e) =>{
+        let x = this.state.CommentNumber;
+        x+=10;
+        this.setState({CommentNumber : x});
 
+        var url = 'http://localhost/getComments?postId='+this.state.postId+'&numComments='+this.state.CommentNumber;
+        fetch(url,{
+                method: 'GET'
+            })
+            .then((response)=>response.json())
+            .then(myJson=>{
+                this.setState(myJson);
+            });
+    }
+    textStyle = {
+        color: "#021a40"
+    };
     render() {
-        console.log(this.state);
         return (
                 <div>
+                    <li>
+                        <p style={this.textStyle}>name: {this.state.firstName}</p>
+                    </li>
+                    <div>
+                        <li>
+                            <p style={this.textStyle}>name: {this.state.firstName}</p>
+                        </li>
+                        <li>
+                            <p style={this.textStyle}>lastName: {this.state.lastName}</p>
+                        </li>
+                        <li>
+                            <p style={this.textStyle}>lastName: {this.state.lastName}</p>
+                        </li>
+                        <li>
+                            <p style={this.textStyle}>lastName: {this.state.lastName}</p>
+                        </li>
+                    </div>
                    <div>
                         {this.state.posts
                             .map(post => 
@@ -66,7 +130,25 @@ class Post extends Component{
                                 </Link> 
                             )}
                     </div>
-                    
+                    <div>
+                        {this.state.comments
+                            .map(Comment => 
+                                <div className="post-item">
+                                    <p>{Comment.contents}</p>
+                                </div>
+                            )}
+                        <li>
+                            <button type="loadMore" onClick={this.loadMore}>loadMore</button>
+                        </li>
+                    </div>  
+                    <div>
+                        <li>
+                            <input type="text" id="contents" placeholder="Enter your opinion" onChange={this.changeComment} required />
+                        </li>
+                        <li>
+                            <button type="add" onClick={this.addComment}>addComment</button>
+                        </li>
+                    </div>
                </div>
                
         );

@@ -20,13 +20,13 @@ class User extends Component{
     
     prepareInfo(){
         App.getUserSessionId((sessionId)=>{
-            var url = 'http://localhost//hasSession/isLoggedIn/privateUserInfo';
+            var url = 'http://localhost/hasSession/isLoggedIn/privateUserInfo';
             fetch(url,{
                 method: 'GET',
                 headers: { 'sessionId': sessionId }
+            
             }).then((response)=>response.json())
             .then(myJson=>{
-                console.log(myJson);
                 this.setState(myJson);
             })
             .then( x =>{
