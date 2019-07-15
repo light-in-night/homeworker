@@ -19,6 +19,7 @@ public class PostLikeManagerSQL extends GeneralManagerSQL implements PostLikeMan
     private static final String MODIFY_QUERY = "UPDATE postLike SET liked=? WHERE postId=?;";
     private static final String COUNT_POST_LIKE = "SELECT COUNT(*) FROM postLike WHERE postId = ? AND liked = 1";
     private static final String COUNT_POST_UNLIKE = "SELECT COUNT(*) FROM postLike WHERE postId = ? AND liked = 0";
+    private static final String DELETE_QUERY = "DELETE FROM postLike WHERE userID = ? AND postID = ?";
 
     public PostLikeManagerSQL(ConnectionPool connectionsPool){
         super(connectionsPool);
@@ -127,6 +128,102 @@ public class PostLikeManagerSQL extends GeneralManagerSQL implements PostLikeMan
         }
     }
 
+    public boolean hasLiked(long userId, long postID){
+        String sql = "SELECT COUNT(*) FROM postLike WHERE userID = ? AND postID = ?";
+        Connection connection = null;
+        try{
+            connection = connectionPool.acquireConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, userId);
+            preparedStatement.setLong(2, postID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getLong(1) != 0;
+        } catch (InterruptedException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(connection != null) {
+                connectionPool.putBackConnection(connection);
+            }
+        }
+        return false;
+    }
+
+
+
+
+    /**
+     * Adds Like Information In DataBase
+     * @param postLikeObject Like Information(userID, postID)
+     * @return true If Added Successfully
+     */
+    public boolean like(PostLike postLikeObject) {
+        boolean queryExecuted;
+        Connection connection = null;
+        try {
+            connection = connectionPool.acquireConnection();
+            executeAddSQLQuery(postLikeObject, ADD_QUERY, connection);
+            queryExecuted = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            queryExecuted = false;
+        } finally {
+            if (connection != null) {
+                connectionPool.putBackConnection(connection);
+            }
+        }
+        return queryExecuted;
+    }
+
+    /**
+     * Executes Given Query
+     * @param postLikeObject Information To Based On To Execute(postId, UserID)
+     * @param addQuery query
+     */
+    private void executeAddSQLQuery(PostLike postLikeObject, String addQuery, Connection connection) throws Exception {
+        PreparedStatement preparedStatement = connection.prepareStatement(addQuery);
+        preparedStatement.setLong(1, postLikeObject.getUserID());
+        preparedStatement.setLong(2, postLikeObject.getPostID());
+        preparedStatement.setBoolean(3,postLikeObject.isLiked());
+        preparedStatement.execute();
+    }
+
+    /**
+     * Removes Post Like Information From DataBase
+     * @param postLikeObject UnLike Information(userID, postID)
+     * @return true If Query Executed Successfully
+     */
+    public boolean unLike(PostLike postLikeObject) {
+        boolean queryExecuted;
+        Connection connection = null;
+        try {
+            connection = connectionPool.acquireConnection();
+            executeDeleteSQLQuery(postLikeObject, DELETE_QUERY, connection);
+            queryExecuted = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            queryExecuted = false;
+        } finally {
+            if (connection != null) {
+                connectionPool.putBackConnection(connection);
+            }
+        }
+        return queryExecuted;
+    }
+
+    /**
+     * Executes Delete Query
+     * @param postLikeObject
+     * @param delete_query
+     * @param connection
+     * @throws SQLException
+     */
+    private void executeDeleteSQLQuery(PostLike postLikeObject, String delete_query, Connection connection) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(delete_query);
+        preparedStatement.setLong(1,postLikeObject.getUserID());
+        preparedStatement.setLong(2, postLikeObject.getPostID());
+        preparedStatement.execute();
+    }
 
 
 }

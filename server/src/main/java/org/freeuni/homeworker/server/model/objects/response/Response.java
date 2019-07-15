@@ -18,6 +18,9 @@ public class Response {
 	@JsonProperty("message")
 	private String message;
 
+	@JsonProperty("liked")
+	private Boolean liked;
+
 	public String getStatus() {
 		return status;
 	}
@@ -32,5 +35,13 @@ public class Response {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public Boolean isLiked() {
+		return liked;
+	}
+
+	public void setLiked(Boolean liked) {
+		this.liked = liked;
 	}
 }

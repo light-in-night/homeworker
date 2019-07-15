@@ -35,4 +35,14 @@ public interface PostLikeManager {
      */
 
     long numberOfPostUnLikes(long id) throws InterruptedException, SQLException;
+
+
+    boolean like(PostLike postLikeObject); // User Like Method
+
+    boolean unLike(PostLike postLikeObject); // User Unlike Method
+
+
+    boolean hasLiked(long userId, long postID);
+
+
 }
