@@ -55,6 +55,8 @@ public class PostFactory {
         node.put("id", post.getId());
         node.put("userId", post.getUserId());
         node.put("contents", post.getContents());
+        node.put("numLikes", post.getNumLikes());
+        node.put("numComments", post.getNumComments());
         node.put("creationTimestamp", post.getCreationTimestamp().getTime());
         return node;
     }

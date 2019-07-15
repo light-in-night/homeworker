@@ -64,8 +64,8 @@ class Login extends Component {
 <form onSubmit={this.login.bind(this)} class="formaa">
 <div class="box">
 <h1 class="log">Login</h1>
-<input type="email" name="email"   class="email"  onChange={this.handleEmailChange.bind(this)} required /> <br></br>
-<input type="password" name="password"   onChange={this.handlePasswordChange.bind(this)}  class="password"  required />
+<input type="email" name="email"   class="email"  onChange={this.handleEmailChange.bind(this)} placeholder="email..." required /> <br></br>
+<input type="password" name="password"  placeholder="password..." onChange={this.handlePasswordChange.bind(this)}  class="password"  required />
   
 <button type="submit"  class="btn">Login</button>
    
