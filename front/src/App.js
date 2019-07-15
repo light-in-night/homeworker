@@ -12,9 +12,9 @@ import ExpandingPostWall from './components/ExpandingPostWall'
 import ChooseCategories from './components/ChooseCategories'
 import CB from './components/CB'
 import User from './components/User'
-import Messenger from './components/Messenger'
 import cookies from 'react-cookies'
 import Post from './components/Post'
+import MessengerChatPage from "./components/MessengerChatPage";
 
 class App extends Component {
 
@@ -31,7 +31,6 @@ class App extends Component {
             fetch('http://localhost/sessions?sessionId=' + userSessionId, {method: 'GET'})
                 .then((response) => response.json()
                     .then((data) => {
-                        console.log(data);
                         App.removeSession(data.isValid)
                     }))
         }
@@ -51,7 +50,7 @@ class App extends Component {
         });
     }
     static logout(){
-        
+
         App.getUserSessionId( (sessionId) =>
             fetch('http://localhost/hasSession/isLoggedIn/logout', {
                 method: 'POST',
@@ -67,8 +66,15 @@ class App extends Component {
                 .then((data) => callback(data.sessionId)))
     }
 
+    user = {
+        id: '2',
+        firstName: 'guga',
+        lastName: 'gugashvili',
+        gender: 'male'
+    };
+
     render() {
-        
+        let user = this.user;
         return (
               <BrowserRouter logInfo={this.state}>
                 <div className="App">
@@ -81,7 +87,8 @@ class App extends Component {
                     <Route path='/createPost' component={PostCreation}/>
                     <Route path='/login' component={Login}/>
                     <Route path='/posts' component={ExpandingPostWall}/>
-                    <Route path='/messenger' component={Messenger}/>
+                    {/*<Route path='/messenger' component={Messenger}/> TODO immplement this*/}
+                    <Route path='/messenger' render={() => <MessengerChatPage user={user} />} />
                     <Route path='/chooseCategories' component={ChooseCategories}/>
                     <Route path='/chatBot' component ={CB}/>
                     <Route path='/User' component = {User}/>

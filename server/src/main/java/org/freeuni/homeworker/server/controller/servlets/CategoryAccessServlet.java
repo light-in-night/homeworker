@@ -13,6 +13,7 @@ import org.freeuni.homeworker.server.utils.ServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -88,5 +89,11 @@ public class CategoryAccessServlet extends HttpServlet {
         response.getWriter().write(objectNode.toString());
     }
 
+
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ServletUtils.setCORSHeaders(resp);
+        resp.setStatus(200);
+    }
 
 }

@@ -66,7 +66,7 @@ public class SessionCreationServletTest {
     PostManager postManager;
 
     private ObjectMapper objectMapper;
-    private SessionCreationServlet sessionCreationServlet;
+    private SessionServlet sessionCreationServlet;
     private String resultingJSON;
     private Category addedCategory;
     private String inputString;
@@ -107,7 +107,7 @@ public class SessionCreationServletTest {
 
     @Before
     public void setUp() throws SQLException, InterruptedException, IOException {
-        sessionCreationServlet = new SessionCreationServlet();
+        sessionCreationServlet = new SessionServlet();
         objectMapper = new ObjectMapper();
 
         initContextAttributes();

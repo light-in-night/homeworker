@@ -1,10 +1,11 @@
-package org.freeuni.homeworker.server.model.objects.chat;
+package org.freeuni.homeworker.server.model.objects.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.util.Date;
 
+@SuppressWarnings("WeakerAccess")
 public class Message implements Serializable {
 
 	@JsonProperty("id")

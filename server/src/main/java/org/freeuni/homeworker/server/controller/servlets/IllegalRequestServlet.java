@@ -38,4 +38,10 @@ public class IllegalRequestServlet extends HttpServlet {
 		JacksonUtils.addStatusError(returnNode, "That request is illegal.");
 		response.getWriter().write(returnNode.toString());
 	}
+
+	@Override
+	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ServletUtils.setCORSHeaders(resp);
+		resp.setStatus(200);
+	}
 }

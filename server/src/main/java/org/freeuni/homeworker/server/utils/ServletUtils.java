@@ -11,9 +11,19 @@ public class ServletUtils {
 
     private static final Logger log = LoggerFactory.getLogger(ServletUtils.class);
 
-    public static void setCORSHeaders(HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
+    public static void setCORSHeaders(HttpServletResponse resp) {
+        if (resp.getHeader("Access-Control-Allow-Headers") == null) {
+            resp.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, x-requested-with, sessionId");
+        }
+        if (resp.getHeader("Access-Control-Max-Age") == null) {
+            resp.addHeader("Access-Control-Max-Age", "60");
+        }
+        if (resp.getHeader("Access-Control-Allow-Methods") == null) {
+            resp.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        }
+        if (resp.getHeader("Access-Control-Allow-Origin") == null) {
+            resp.addHeader("Access-Control-Allow-Origin", "*");
+        }
     }
 
     public static void setJSONContentType(HttpServletResponse response) {

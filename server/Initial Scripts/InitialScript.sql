@@ -62,6 +62,17 @@ CREATE TABLE postCategory(
     constraint fkCategoryId foreign key (categoryId) references categories(id)
 );
 
+CREATE TABLE messages (
+    id BIGINT AUTO_INCREMENT,
+    senderId BIGINT,
+    receiverId BIGINT,
+    message VARCHAR(2000),
+    sendTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT pkId PRIMARY KEY (id),
+    CONSTRAINT fkSenderId FOREIGN KEY (senderId) REFERENCES users(id),
+    CONSTRAINT fkReceiverId FOREIGN KEY (receiverId) REFERENCES users(id)
+);
+
 
 #####################################POPULATE DB####################################
 

@@ -50,4 +50,10 @@ public class UserPrivateInfoServlet extends HttpServlet {
 			log.error("Error occurred during retrieval of private user data.", e);
 		}
 	}
+
+	@Override
+	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ServletUtils.setCORSHeaders(resp);
+		resp.setStatus(200);
+	}
 }

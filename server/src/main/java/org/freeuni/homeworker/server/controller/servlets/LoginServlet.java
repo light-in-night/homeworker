@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 
 /**
  * Author : Tornike kechakhmadze, Tornike onoprishvili
@@ -44,7 +43,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServletUtils.setCORSHeaders(response);
+//		ServletUtils.setCORSHeaders(response);
 		ServletUtils.setJSONContentType(response);
 
 		SessionManager sessionManager =(SessionManager)request.getServletContext().getAttribute(ContextKeys.SESSION_MANAGER);
@@ -73,7 +72,7 @@ public class LoginServlet extends HttpServlet {
 	 * 	<b>To use this servlet, user must add a single header</b>
 	 * 	That header is "sessionId"
 	 * 	It must contain a string that represents a session id of the given user.
-	 * 	the session Id is generated in SessionCreationServlet
+	 * 	the session Id is generated in SessionServlet
 	 *
 	 *	Reads :
 	 *	{
@@ -87,7 +86,7 @@ public class LoginServlet extends HttpServlet {
 	 * 	    ERROR_MESSAGE : ""
 	 * 	}
 	 *
-	 * @see SessionCreationServlet SessionCreationServlet.
+	 * @see SessionServlet SessionServlet.
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -123,6 +122,12 @@ public class LoginServlet extends HttpServlet {
 			log.error("Error occurred.", e);
 		}
 		response.getWriter().write(responseRoot.toString());
+	}
+
+	@Override
+	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ServletUtils.setCORSHeaders(resp);
+		resp.setStatus(200);
 	}
 
 }

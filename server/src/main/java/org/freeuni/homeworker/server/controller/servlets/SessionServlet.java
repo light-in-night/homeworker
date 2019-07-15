@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
 import org.freeuni.homeworker.server.model.managers.session.SessionManager;
+import org.freeuni.homeworker.server.model.objects.session.Session;
 import org.freeuni.homeworker.server.utils.JacksonUtils;
 import org.freeuni.homeworker.server.utils.ServletUtils;
 import org.freeuni.homeworker.server.utils.StringUtils;
@@ -20,8 +21,8 @@ import java.io.IOException;
  * Author : Guram Tkesheladze, Tornike Onoprishvili
  * Tested via : SoapUI
  */
-@WebServlet(name = "SessionCreationServlet", urlPatterns = {"/sessions"})
-public class SessionCreationServlet extends HttpServlet {
+@WebServlet(name = "SessionServlet", urlPatterns = {"/sessions"})
+public class SessionServlet extends HttpServlet {
 
 	/**
 	 * This method returns if the session id is active in the server
@@ -50,7 +51,9 @@ public class SessionCreationServlet extends HttpServlet {
 				|| !sessionManager.hasSession(sessionId)) {
 			node.put("isValid", false);
 		} else {
+			Session session = sessionManager.getSession(sessionId);
 			node.put("isValid", true);
+			node.put("userId", session.getUserId());
 		}
 		resp.getWriter().write(node.toString());
 	}
@@ -85,5 +88,11 @@ public class SessionCreationServlet extends HttpServlet {
 		JacksonUtils.addStatusOk(objectNode);
 
 		resp.getWriter().write(objectNode.toString());
+	}
+
+	@Override
+	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ServletUtils.setCORSHeaders(resp);
+		resp.setStatus(200);
 	}
 }
