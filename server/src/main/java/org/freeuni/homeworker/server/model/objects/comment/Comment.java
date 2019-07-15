@@ -2,9 +2,10 @@ package org.freeuni.homeworker.server.model.objects.comment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Comment {
+public class Comment implements Serializable {
     @JsonProperty("id")
     private long id;
 
