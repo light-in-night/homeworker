@@ -29,7 +29,6 @@ import java.util.List;
 public class PostLikeServlet extends HttpServlet {
 
     /**
-     * TODO : DOES NOT WORK because PostLikeManager uses PostManager that does not work.
      * Reads :
      * /hasSession/isLoggedIn/likeThePost
      * ? postId=123 (REQUIRED)

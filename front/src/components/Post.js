@@ -13,6 +13,7 @@ class Post extends Component{
             gender : "",
             email : "",
             karma : "",
+            numLikes:"",
             posts: [],
             userId: null,
             postId: null,
@@ -32,10 +33,10 @@ class Post extends Component{
             this.setState(myJson);
             this.setState({userId : myJson.posts[0].userId})
             this.setState({postId : myJson.posts[0].id})
-            
+            this.setState({numLikes : myJson.posts[0].numLikes})
         })
         .then(x=>{
-            url = 'http://localhost/users/abla?id='+this.state.userId;
+            url = 'http://localhost/users/userAccess?id='+this.state.userId;
             fetch(url,{
                 method: 'GET'
             })
@@ -101,18 +102,18 @@ class Post extends Component{
     };
     render() {
         return (
-                <div className="postDiv"> 
-                         <div className="postUserDiv">   
-                 
+                <div className="postDiv">
+                         <div className="postUserDiv">
+
                         <p className="postUserName" style={this.textStyle}>name: {this.state.firstName}</p>
-                 
-                 
-                 
-                   
+
+
+
+
                             <p  className="postUserLastName" style={this.textStyle}>lastName: {this.state.lastName}</p>
-                    
-                        
-                    
+
+
+
                     </div>
                    <div  className="postUserPost" >
                         {this.state.posts
@@ -133,16 +134,16 @@ class Post extends Component{
                                     {Comment.contents}</p>
                                 </div>
                             )}
-                 
+
                             <button  className="postUserbtn" type="loadMore" onClick={this.loadMore}>loadMore</button>
-                    
+
                     </div>  
                     <div className="davigale">
-                      
+
                             <textarea rows="4" cols="30" className="msgInput" type="text" id="contents" placeholder="Enter your opinion" onChange={this.changeComment} required />
-                      
+
                             <button className="postUserbtn" type="add" onClick={this.addComment}>addComment</button>
-                     
+
                     </div>
                </div>
                
