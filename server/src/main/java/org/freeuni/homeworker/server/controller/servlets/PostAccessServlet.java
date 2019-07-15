@@ -95,7 +95,6 @@ public class PostAccessServlet extends HttpServlet {
             List<Post> postList = getPostsList(request, postManager);
             ArrayNode postArrayNode = objectMapper.createArrayNode();
             for(Post post : postList) {
-                post.setNumLikes(postLikeManager.numberOfPostLikes(post.getId()));
                 post.setNumComments(commentManager.numberOfPostComments(post.getId()));
                 postArrayNode.add(PostFactory.toObjectNode(post, objectMapper.createObjectNode()));
             }

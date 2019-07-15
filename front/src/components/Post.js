@@ -78,7 +78,8 @@ class Post extends Component{
                 body: json,
                 headers: { 'sessionId': sessionId }
             })
-        });    
+        });   
+        this.setState(); 
     }
     changeComment = (e) => {
         this.setState({text: e.target.value})
@@ -131,9 +132,7 @@ class Post extends Component{
                                 </Link> 
                             )}
                     </div>
-                    <div>
-                        <button type="like" onClick={this.like}>like</button>
-                    </div>
+                
                     <div  className="postUserMesseges">
                         {this.state.comments
                             .map(Comment => 

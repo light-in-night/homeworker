@@ -18,10 +18,10 @@ public class PostLike implements Serializable {
     @JsonProperty("id")
     private long id;
 
-    @JsonProperty("userID")
+    @JsonProperty("userId")
     private Long userID;
 
-    @JsonProperty("postID")
+    @JsonProperty("postId")
     private Long postID;
 
     @JsonProperty("liked")
