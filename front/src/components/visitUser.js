@@ -77,6 +77,12 @@ class visitUser extends Component{
                                 <li>
                                     <p style={this.textStyle}>karma: {this.state.karma}</p>
                                 </li>
+                                <li>
+                                <div>
+                      <Link to={{pathname : '/asd/'+this.state.id }} 
+                                   >{this.state.firstName} {this.state.lastName}</Link>
+                           </div>  
+                                </li>
                             </ul>
 
                         </form>

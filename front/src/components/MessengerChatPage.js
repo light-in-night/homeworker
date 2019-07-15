@@ -36,13 +36,25 @@ class MessengerChatPage extends Component {
     if (hostUser === null || hostUser === undefined || hostUser.id === null || hostUser.id === undefined) {
             window.location.replace('/login');
         }
-        const targetUser = this.props.user;
+        let targetUser = null;
+       console.log(this.props.match.params.id);
+       fetch('http://localhost/users/userAccess?id='+this.props.match.params.id , {method:'GET'})
+        .then( (response) => {
+            response.json().then((data)=>{ 
+            console.log(data);
+            targetUser=data.users[0];
+            console.log(this.state) ;
+            console.log(hostUser);
+        console.log(targetUser);
         this.setState({
             hostUser: targetUser,
             targetUser: hostUser,
             socket: new WebSocket('ws://localhost/chat/'+hostUser.id+'!'+targetUser.id+'!'+sessionId),
             messages: []
-        }, () => this.state.socket.addEventListener('message', this.receiveMessage));
+        }, () => this.state.socket.addEventListener('message', this.receiveMessage)); 
+            })
+        })
+        
     }
 
     receiveMessage(event) {
@@ -68,6 +80,7 @@ class MessengerChatPage extends Component {
         };
         message = JSON.stringify(message);
         this.state.socket.send(message);
+        document.getElementById('message').value = '';
     }
 
     getMessages() {
@@ -75,7 +88,7 @@ class MessengerChatPage extends Component {
     }
 
     formStyle = {
-      padding: '25px',
+      padding: '70px',
       margin: '0 auto'
     };
 
@@ -127,8 +140,8 @@ class MessengerChatPage extends Component {
             <div style={this.headerStyle}><p style={this.headerTextStyle}>{hostUser != null ? hostUser.firstName + ' ' + hostUser.lastName : 'Hello'}</p></div>
             {messages != null ? messages.map((elem) => <div style={elem.senderId == this.state.hostUser.id ? this.senderStyle : this.receiverStyle}>{elem.message}</div>) : 'wait'}
             <form method='POST' onSubmit={this.sendMessage} style={this.formStyle}>
-                <input type='text' name='Message' id='message'/>
-                <input type='submit' name='Send'/>
+                <input type='text' name='Message' id='message'/> <br></br>
+                <input type='submit' className='createPostButton' name='Send' value='send'/>
             </form>
         </div>
         );
