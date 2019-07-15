@@ -862,12 +862,12 @@ margin-left: 16.8%;
   margin-left:4%;
   background-color: #88c7a2;
   width:30%;
-  border-radius: 10px;
+  border-radius: 30px;
   margin-bottom: 100px;
 }
 
 .post-msg{
-  border-radius:10px;
+  border-radius:25px;
   background: #0d8080;
   padding:10px;margin-bottom: 10px;
   margin:auto;
@@ -878,7 +878,7 @@ margin-left: 16.8%;
 }
 .drop-shadow {
   margin-bottom:40px;
-  border-radius:10px;
+  border-radius:45px;
   padding: 10px;
   word-wrap:break-word;
   background: #9479fa;
