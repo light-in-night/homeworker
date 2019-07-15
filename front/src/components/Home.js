@@ -63,7 +63,7 @@ class Home extends Component{
                         )}
                 </div>)
         } else if(status === "ERROR") {
-            return <b><label>Server-side error has occured. Please retry again later.</label></b>
+            return <b><label>Server-side error has occurred. Please retry again later.</label></b>
         } else if(status === "loading") {
             return <b><label>Still loading, please wait</label></b>
         }

@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * Author : Tornike Kechakmadze, Tornike Onoprishvili,  (add here)
  * Tested via : SoapUI (EVERY METHOD)
  */
-@WebServlet(name = "UserAccessServlet", urlPatterns = {"/users/abla"})
+@WebServlet(name = "UserAccessServlet", urlPatterns = {"/users/userAccess"})
 public class UserAccessServlet extends HttpServlet {
 
     /**

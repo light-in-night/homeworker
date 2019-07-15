@@ -7,7 +7,6 @@ import org.freeuni.homeworker.server.model.managers.comments.CommentManagerSQL;
 import org.freeuni.homeworker.server.model.managers.postCategory.PostCategoryManagerSQL;
 import org.freeuni.homeworker.server.model.managers.postLikes.PostLikeManagerSQL;
 import org.freeuni.homeworker.server.model.managers.posts.PostManagerSQL;
-import org.freeuni.homeworker.server.model.managers.session.SessionManager;
 import org.freeuni.homeworker.server.model.managers.session.SessionManagerImpl;
 import org.freeuni.homeworker.server.model.managers.users.UserManagerSQL;
 import org.freeuni.homeworker.server.model.source.ConnectionPoolFactory;

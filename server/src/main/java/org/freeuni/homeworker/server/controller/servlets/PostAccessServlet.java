@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.freeuni.homeworker.server.controller.listeners.ContextKeys;
-import org.freeuni.homeworker.server.model.managers.postCategory.PostCategoryManager;
+import org.freeuni.homeworker.server.model.managers.comments.CommentManager;
+import org.freeuni.homeworker.server.model.managers.postLikes.PostLikeManager;
 import org.freeuni.homeworker.server.model.managers.posts.PostManager;
 import org.freeuni.homeworker.server.model.objects.post.Post;
 import org.freeuni.homeworker.server.model.objects.post.PostFactory;
@@ -85,13 +86,16 @@ public class PostAccessServlet extends HttpServlet {
         PostManager postManager = (PostManager) request.getServletContext().getAttribute(ContextKeys.POST_MANAGER);
         ObjectMapper objectMapper = (ObjectMapper) request.getServletContext().getAttribute(ContextKeys.OBJECT_MAPPER);
         ObjectNode objectNode = objectMapper.createObjectNode();
-        PostCategoryManager postCategoryManager = (PostCategoryManager) request.getServletContext().getAttribute(ContextKeys.POST_CATEGORY_MANAGER);
+        PostLikeManager postLikeManager = (PostLikeManager) request.getServletContext().getAttribute(ContextKeys.POST_LIKE_MANAGER);
+        CommentManager commentManager = (CommentManager) request.getServletContext().getAttribute(ContextKeys.COMMENT_MANAGER);
 
         try {
 
             List<Post> postList = getPostsList(request, postManager);
             ArrayNode postArrayNode = objectMapper.createArrayNode();
             for(Post post : postList) {
+                post.setNumLikes(postLikeManager.numberOfPostLikes(post.getId()));
+                post.setNumComments(commentManager.numberOfPostComments(post.getId()));
                 postArrayNode.add(PostFactory.toObjectNode(post, objectMapper.createObjectNode()));
             }
             objectNode.set("posts", postArrayNode);

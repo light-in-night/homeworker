@@ -22,14 +22,14 @@ class Post extends Component{
     }
     
     prepareInfo(){
-        var url = this.state.source;
+        let url = this.state.source;
+        console.log(url)
         fetch(url,{
             method: 'GET'
         }).then((response) => response.json())
         .then(myJson=> {
             this.setState(myJson);
             this.setState({userId : myJson.posts[0].userId})
-            
         })
         .then(x=>{
             url = 'http://localhost/users/abla?id='+this.state.userId;
@@ -37,18 +37,32 @@ class Post extends Component{
             fetch(url,{
                 method: 'GET'
             })
-            .then((response)=>response.json())
-            .then(myJson=>{
-                this.setState(myJson);
-                
-                console.log(myJson);
-            });
+            .then((response) => {
+                console.log(response)
+
+            })
         });
     }
 
-    
+    do(){
+        App.getUserSessionId((sessionId) => {
+            var url ='http://localhost/users?id='+1;
+            console.log(url)
+            fetch(url, {
+                method : 'GET',
+                headers: {
+                    'sessionId' : sessionId
+                }
+            }).then((response) => {
+                console.log(response)
+                response.json().then((parsed) => {
+                    console.log(parsed)
+                })
+            })
+        })
+    }
     componentDidMount(){
-        this.prepareInfo();
+        this.do();
     }
 
     render() {
